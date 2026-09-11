@@ -19,11 +19,11 @@
 ## Constraints
 
 - **Patchy Wi-Fi**: Field devices and guest gates cannot assume continuous internet or even continuous estate WLAN. Architecture must be edge-first for access, prices, and keeper data entry.
-- **Estate-to-cloud is mandatory if cloud is used**: Using cloud services implies designing gateways, buffers, retries, MQTT QoS, and dead-letter/replay — not “the device will just call the API”.
+- **Estate-to-cloud is mandatory if cloud is used**: Using cloud services implies designing gateways, buffers, retries, MQTT QoS, and dead-letter/replay - not “the device will just call the API”.
 - **MQTT-capable hardware is the field bus we should assume**, not a proprietary always-on IoT suite with guaranteed bandwidth.
 - **Growth bound**: Capacity, data volume, and ops UX must be credible at 15,000 visitors/day, 40 rides, and 55 displays.
 - **Hazardous operations**: Poisonous/exotic animals and historic rides constrain experiments. We never A/B-test safety closures, welfare thresholds, evacuation copy, or accessibility of exits.
-- **AI must match the existing characteristics**: Offline story, event backbone, and identity of AI features must match ticketing and telemetry — not a separate cloud-only AI product (kata judging criterion).
+- **AI must match the existing characteristics**: Offline story, event backbone, and identity of AI features must match ticketing and telemetry - not a separate cloud-only AI product (kata judging criterion).
 - **AI results must be verifiable**: Golden cases, metrics, drift detection, and human fallback are constraints on going live, not optional polish (kata judging criterion).
 - **Budget reality**: There is MQTT hardware budget; there is not a stated unlimited cloud/AI budget. Inference and vision cost must stay visible and killable.
 - **Core access is deterministic**: A paid, unexpired entitlement must admit the guest at the gate without a model vote.

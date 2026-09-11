@@ -51,7 +51,7 @@
 **NFR_14. Uncertainty & portability:** Model and provider are behind an interface. Assume today’s best model/vendor may be worse, more expensive, or gone. Migration target: swap a provider for a given capability in ≤2 weeks without changing ticketing or MQTT contracts. Budget alerts on inference. Pin versions; do not auto-upgrade models on safety-adjacent paths.
 **Risk:** Vendor shutdown, price shock, breaking API changes.
 
-**NFR_15. Human-in-the-loop & characteristic fit:** AI additions use the same identity, event backbone, and offline story as the rest of the architecture — not a sidecar product. Confidence scores and evidence on alerts. Animal and ride decisions: human confirm. Pricing: human-approved bands; automation only inside them after shadow.
+**NFR_15. Human-in-the-loop & characteristic fit:** AI additions use the same identity, event backbone, and offline story as the rest of the architecture - not a sidecar product. Confidence scores and evidence on alerts. Animal and ride decisions: human confirm. Pricing: human-approved bands; automation only inside them after shadow.
 **Risk:** A separate “AI app” that does not work when Wi-Fi is patchy, violating the existing architectural characteristics.
 
 ## 6. Usability Requirements

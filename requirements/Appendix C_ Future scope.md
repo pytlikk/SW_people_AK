@@ -30,7 +30,7 @@ To avoid a shopping list , the architecture narrative should deep-dive:
 2. **Estate popularity / flow from MQTT + staffing** (the “where to invest & deploy” challenge).
 3. **Animal health + piranha population** (welfare and cost).
 
-Ticketing, intranet, and maintenance are the **platform** those three sit on — specified in [Appendix A](Appendix%20A_%20Core%20functionality.md), not deferred.
+Ticketing, intranet, and maintenance are the **platform** those three sit on - specified in [Appendix A](Appendix%20A_%20Core%20functionality.md), not deferred.
 
 ## Implementation sketch 
 

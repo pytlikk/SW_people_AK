@@ -2,7 +2,7 @@
 
 Goals: [1_0_Business goals & drivers.md](1_0_Business%20goals%20%26%20drivers.md).  
 Challenges: [1_1_Business challenges.md](1_1_Business%20challenges.md).  
-What the platform must do: [2_FRs.md](2_FRs.md) — do not duplicate that table here.
+What the platform must do: [2_FRs.md](2_FRs.md) - do not duplicate that table here.
 
 | Actor | Actions from the brief |
 |:--|:--|

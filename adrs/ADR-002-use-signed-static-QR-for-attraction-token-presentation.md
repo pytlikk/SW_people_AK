@@ -1,4 +1,4 @@
-# ADR-002 — Use signed static QR for attraction-token presentation
+# ADR-002 - Use signed static QR for attraction-token presentation
 
 ## Date
 
@@ -25,18 +25,18 @@ This record answers **only** how the visitor presents an already-issued signed t
 
 ## Evaluation criteria
 
-- **Offline at the checkpoint (driving)** — 0 refusals caused by network error for a valid issued token (ride or enclosure).
-- **Operability (driving)** — three-person team; no Apple/Google Wallet certification; no 5000-band/day pool in v1.
-- **Integrity** — forged tokens rejected; wrong `attractionId` rejected; same-checkpoint replay bounded (window TBD).
-- **Throughput** — scan-to-decision is local verify, not a live API (p99 TBD).
-- **One app** — rides and displays share wallet, QR, and kiosk reprint.
+- **Offline at the checkpoint (driving)** - 0 refusals caused by network error for a valid issued token (ride or enclosure).
+- **Operability (driving)** - three-person team; no Apple/Google Wallet certification; no 5000-band/day pool in v1.
+- **Integrity** - forged tokens rejected; wrong `attractionId` rejected; same-checkpoint replay bounded (window TBD).
+- **Throughput** - scan-to-decision is local verify, not a live API (p99 TBD).
+- **One app** - rides and displays share wallet, QR, and kiosk reprint.
 
 ## Options
 
-- **Option A — Signed static QR (chosen)**: phone or kiosk printout shows a signed payload; checkpoint camera scans; device verifies locally with no network.
-- **Option B — Rotating barcode (SafeTix-style)**: payload redraws each interval so screenshots cannot replay; needs a refresh signal to reach the phone.
-- **Option C — Phone NFC (Apple VAS / Google Smart Tap)**: tap a certified reader; no screenshot risk; QR still needed as fallback.
-- **Option D — RFID/NFC wristband issued at kiosk**: home purchase bound to a wristband at kiosk check-in; tap at checkpoint; best zoo-scale UX.
+- **Option A - Signed static QR (chosen)**: phone or kiosk printout shows a signed payload; checkpoint camera scans; device verifies locally with no network.
+- **Option B - Rotating barcode (SafeTix-style)**: payload redraws each interval so screenshots cannot replay; needs a refresh signal to reach the phone.
+- **Option C - Phone NFC (Apple VAS / Google Smart Tap)**: tap a certified reader; no screenshot risk; QR still needed as fallback.
+- **Option D - RFID/NFC wristband issued at kiosk**: home purchase bound to a wristband at kiosk check-in; tap at checkpoint; best zoo-scale UX.
 
 Not options: BLE/UWB/face are excluded as the admit radio (no reliable identity binding at throughput scale, legal risk); a wristband roll-out later reuses the same signed claims (follow-on ADR, not a competing choice today); MQTT is the audit channel, not the wallet path.
 
@@ -54,7 +54,7 @@ Not options: BLE/UWB/face are excluded as the admit radio (no reliable identity 
 Offline and operability decide it. Rotating barcodes fight patchy Wi-Fi. NFC is viable but fails operability (certified readers at up to ~95 points). Wristbands are the best zoo/kids UX but need a band logistics shop we do not have.
 
 - Token is attraction-scoped (`attractionId` = a ride **or** a display/enclosure) and single-use at that checkpoint.
-- Local seen-token cache is the admit/reject record. MQTT `validated` / `revoked` is for popularity, audit, and extra lanes — not for admit, not for the app wallet.
+- Local seen-token cache is the admit/reject record. MQTT `validated` / `revoked` is for popularity, audit, and extra lanes - not for admit, not for the app wallet.
 - Burn on QR-reveal is the wallet write (no gate network). A post-admit display QR is repair only. Pending→used age-out and kiosk dispute: TBD.
 - Same token claims must fit a wristband or phone-NFC reader in a later roll-out (follow-on ADR, same economy).
 - Animal-health telemetry is a separate system; enclosure scans may feed popularity counts but do not open checkpoints.
@@ -62,7 +62,7 @@ Offline and operability decide it. Rotating barcodes fight patchy Wi-Fi. NFC is 
 ## Key differentiators
 
 - Works with no phone uplink and no estate Wi-Fi at the queue (rides and outdoor enclosures).
-- Commodity camera at each checkpoint — no wallet-cert programme, no band inventory.
+- Commodity camera at each checkpoint - no wallet-cert programme, no band inventory.
 - One payload type for 40 rides and 55 displays; a ride token does not open an enclosure.
 - Phone wallet updates on QR-reveal, so MQTT is not the wallet path.
 
@@ -77,9 +77,9 @@ Offline and operability decide it. Rotating barcodes fight patchy Wi-Fi. NFC is 
 
 ### Negative
 
-- Scan-to-decision throughput at outdoor enclosures is lower than a tap; p99 scan time TBD — glare and dirty cameras are the likely failure mode, not software.
+- Scan-to-decision throughput at outdoor enclosures is lower than a tap; p99 scan time TBD - glare and dirty cameras are the likely failure mode, not software.
 - The fraud window is the interval between QR-reveal (wallet debit) and the checkpoint cache write; length of that window is TBD and is the primary integrity risk.
-- Failed gate read after QR-reveal leaves the app in *pending*; the visitor must reach a kiosk to correct it — no self-service path.
+- Failed gate read after QR-reveal leaves the app in *pending*; the visitor must reach a kiosk to correct it - no self-service path.
 - Up to 95 cameras if every ride and display is gated; outdoor mounting and maintenance at that scale must be planned before installation.
 
 ## Risks & trade-offs
@@ -107,11 +107,11 @@ Offline and operability decide it. Rotating barcodes fight patchy Wi-Fi. NFC is 
 
 **Open questions**
 
-- Fraud window between QR-reveal and checkpoint cache write — before launch.
-- Pending→used age-out duration — before beta.
-- Kiosk output: screen-only or paper reprint — before installation.
-- Which of 55 displays are paid — before gate installation.
-- Fail-scan rate threshold that triggers NFC/wristband review — agreed before first weekend.
+- Fraud window between QR-reveal and checkpoint cache write - before launch.
+- Pending→used age-out duration - before beta.
+- Kiosk output: screen-only or paper reprint - before installation.
+- Which of 55 displays are paid - before gate installation.
+- Fail-scan rate threshold that triggers NFC/wristband review - agreed before first weekend.
 
 **Revisit triggers**
 
@@ -120,6 +120,6 @@ Offline and operability decide it. Rotating barcodes fight patchy Wi-Fi. NFC is 
 
 ## Conclusion
 
-Signed static QR, checkpoint scans the phone, local verify — the same for 40 rides and 55 animal displays/enclosures. Offline and team size beat NFC and wristbands for v1. MQTT does not update the wallet. Animal health stays a different system.
+Signed static QR, checkpoint scans the phone, local verify - the same for 40 rides and 55 animal displays/enclosures. Offline and team size beat NFC and wristbands for v1. MQTT does not update the wallet. Animal health stays a different system.
 
 Related: [ADR-001](ADR-001-use-home-bought-token-pool.md) (why a pool, not home-booked attraction tickets); MQTT broker; pricing / AI; enclosure paid-vs-free; wristband ADR if funded.

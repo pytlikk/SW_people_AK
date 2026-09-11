@@ -1,6 +1,6 @@
-# ADR-00XX — {decision in present tense}
+# ADR-00XX - {decision in present tense}
 
-One decision per file. Filename: `ADR-NNN-short-kebab-title.md` (template is `ADR-000-template.md`). Proposed records may be reordered so the index matches dependency order. Do not rewrite or renumber an Accepted record — supersede it.
+One decision per file. Filename: `ADR-NNN-short-kebab-title.md` (template is `ADR-000-template.md`). Proposed records may be reordered so the index matches dependency order. Do not rewrite or renumber an Accepted record - supersede it.
 
 Copied from [The Kata Log](https://github.com/TheKataLog) templates (Five Nines, Pragmatic, BluzBrothers, CELUS Ceals) and trimmed to what this team will actually fill.
 
@@ -14,13 +14,13 @@ Proposed | Accepted | Superseded by ADR-NNNN | Deprecated | Rejected
 
 ## Context
 
-Why a decision is needed now. Assumptions, volumes, and constraints. Mark unknowns as TBD — do not invent numbers. Say what this record does **not** decide.
+Why a decision is needed now. Assumptions, volumes, and constraints. Mark unknowns as TBD - do not invent numbers. Say what this record does **not** decide.
 
 ## Evaluation criteria
 
 What we will score the options against (architecture characteristics or hard constraints). Mark the driving ones.
 
-- **{criterion}** — {measurable target or TBD}
+- **{criterion}** - {measurable target or TBD}
 
 ## Options
 
@@ -45,7 +45,7 @@ Why this option fits the criteria (Five Nines). Bullet the few things that are n
 
 ### Negative
 
-- {what gets worse, harder, or more expensive — never leave this empty}
+- {what gets worse, harder, or more expensive - never leave this empty}
 
 ## Risks & trade-offs
 

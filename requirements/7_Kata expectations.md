@@ -4,8 +4,8 @@ From the Architectural Katas 2026 briefing (AI-Assisted Software Architecture). 
 
 ## Deliverables
 
-- **Overview** — short narrative of how the team used AI on the Countess’s problems.
-- **Diagrams** — targeted views **for each use of AI** (simple; key if shapes mean different things).
+- **Overview** - short narrative of how the team used AI on the Countess’s problems.
+- **Diagrams** - targeted views **for each use of AI** (simple; key if shapes mean different things).
 - **ADRs** for AI-related implementations, including trade-offs.
 - Optional implementation detail.
 - Semi-finalists: five-minute video.
@@ -23,14 +23,14 @@ All of that lives in this GitHub repo with a simple README.
 
 ## Uncertainty questions (from the briefing)
 
-- The best models or providers today may not be the best tomorrow — how do you deal with that?
+- The best models or providers today may not be the best tomorrow - how do you deal with that?
 - What if the model provider changes prices?
 - What if the provider shuts down?
 
 ## Does it work? (from the briefing)
 
 - How will you confirm AI is actually working?
-- GenAI is non-deterministic — how will you know if it starts misbehaving in production?
+- GenAI is non-deterministic - how will you know if it starts misbehaving in production?
 
 ## Schedule (briefing)
 

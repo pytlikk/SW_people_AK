@@ -1,6 +1,6 @@
 # Core Guest, Operations (Intranet) & Commercial Features
 
-> Note: Guest surfaces stay small and reliable (especially at the gate). Operations is the estate operating system — not a document portal. Commercial features exist to grow visitation and profit without putting models on the access path.
+> Note: Guest surfaces stay small and reliable (especially at the gate). Operations is the estate operating system - not a document portal. Commercial features exist to grow visitation and profit without putting models on the access path.
 
 ## 1. Core Guest Features
 

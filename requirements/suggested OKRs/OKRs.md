@@ -1,6 +1,6 @@
 # Suggested OKRs
 
-> Note: Approximate current vs suggested OKRs for planning and for showing the business impact of the architecture. Several “current” values are **unmeasured** — that *is* the kata (no popularity signal, no loyalty loop). Prioritizing these OKRs should help phase the work.
+> Note: Approximate current vs suggested OKRs for planning and for showing the business impact of the architecture. Several “current” values are **unmeasured** - that *is* the kata (no popularity signal, no loyalty loop). Prioritizing these OKRs should help phase the work.
 
 | OKR objective | OKR key result | Current value | Planned value (within 3 years unless noted) |
 |--|--|--|--|

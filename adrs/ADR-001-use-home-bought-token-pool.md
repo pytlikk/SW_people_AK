@@ -1,4 +1,4 @@
-# ADR-001 — Use a home-bought token pool, spend at live park prices
+# ADR-001 - Use a home-bought token pool, spend at live park prices
 
 ## Date
 
@@ -10,16 +10,16 @@ Proposed
 
 ## Context
 
-Von Digitalis has 40 amusement rides and 55 animal displays/enclosures — up to 95 paid checkpoints if every display is gated — serving 5000 visitors/day (locked board). Estate Wi-Fi is patchy; MQTT on the intranet with a few Wi-Fi-gateway patches is the assumed backbone until its own ADR exists. Kiosks handle top-up and dead-phone rescue.
+Von Digitalis has 40 amusement rides and 55 animal displays/enclosures - up to 95 paid checkpoints if every display is gated - serving 5000 visitors/day (locked board). Estate Wi-Fi is patchy; MQTT on the intranet with a few Wi-Fi-gateway patches is the assumed backbone until its own ADR exists. Kiosks handle top-up and dead-phone rescue.
 
 The board wants dynamic pricing later (popular attractions cost more) to spread usage and raise profit, a return-visit incentive (leftover value should bring people back), and membership products (annual, daily, path-based daytime). Those products sit **on** a spend mechanism; they are not a second admit model.
 
-This record answers the economy question: what is sold **from home** — a fungible token pool, or a catalogue of ride/display tickets? How a spend is presented at the checkpoint is ADR-002.
+This record answers the economy question: what is sold **from home** - a fungible token pool, or a catalogue of ride/display tickets? How a spend is presented at the checkpoint is ADR-002.
 
 Two units must stay distinct:
 
-- **Pool** — fungible tokens in the wallet, bought at home (or topped up at a kiosk). Not bound to an attraction.
-- **Claim** — the signed QR in ADR-002. Minted when the visitor spends from the pool at an attraction, at that moment’s token price.
+- **Pool** - fungible tokens in the wallet, bought at home (or topped up at a kiosk). Not bound to an attraction.
+- **Claim** - the signed QR in ADR-002. Minted when the visitor spends from the pool at an attraction, at that moment’s token price.
 
 The checkpoint never reads the pool. Shop, wallet, and pricing table change together; the gate only verifies a claim. That is the contract with ADR-002.
 
@@ -29,25 +29,25 @@ This record does **not** decide: token pack sizes or prices (TBD); which of the 
 
 ## Evaluation criteria
 
-- **Repricing agility (driving)** — changing an attraction’s token price mutates 0 already-sold wallets and 0 already-minted claims (CI).
-- **Operability / SKU footprint (driving)** — home catalogue has no `attractionId`; adding or dropping a paid checkpoint is a pricing-table row, not a shop redeploy (CI). Three-person team.
-- **Guest flexibility** — no home pre-binding of tokens to attractions; spending happens at or after entry. Flexibility UX specifics TBD.
-- **Leftover-value path** — token balance persists after the visit; expiry policy, no-refund or credit-only terms TBD, required before launch.
-- **Product extensibility** — membership, daily, and path-based daytime products must not fork checkout or the admit path; the checkpoint still consumes an ADR-002 claim for every spend.
+- **Repricing agility (driving)** - changing an attraction’s token price mutates 0 already-sold wallets and 0 already-minted claims (CI).
+- **Operability / SKU footprint (driving)** - home catalogue has no `attractionId`; adding or dropping a paid checkpoint is a pricing-table row, not a shop redeploy (CI). Three-person team.
+- **Guest flexibility** - no home pre-binding of tokens to attractions; spending happens at or after entry. Flexibility UX specifics TBD.
+- **Leftover-value path** - token balance persists after the visit; expiry policy, no-refund or credit-only terms TBD, required before launch.
+- **Product extensibility** - membership, daily, and path-based daytime products must not fork checkout or the admit path; the checkpoint still consumes an ADR-002 claim for every spend.
 
 ## Options
 
-- **Option A — Per-attraction tickets from home:** visitor buys one ticket per attraction (anytime-today or timed slot) before arriving. Catalogue size scales with chargeable checkpoints.
-- **Option B — Token pool from home, spend at live prices (chosen):** visitor buys a pool of tokens before visiting. Each attraction has a token price in a server-side table; the app mints an ADR-002 claim when the visitor spends, at the live price.
-- **Option C — Hybrid: pool + optional attraction lock-in:** visitor buys a pool and may optionally pre-bind a few must-do attractions at a locked price or slot.
-- **Option D — Unlimited day pass:** one flat-price product admits the visitor to all attractions for the day. No per-attraction cost lever.
+- **Option A - Per-attraction tickets from home:** visitor buys one ticket per attraction (anytime-today or timed slot) before arriving. Catalogue size scales with chargeable checkpoints.
+- **Option B - Token pool from home, spend at live prices (chosen):** visitor buys a pool of tokens before visiting. Each attraction has a token price in a server-side table; the app mints an ADR-002 claim when the visitor spends, at the live price.
+- **Option C - Hybrid: pool + optional attraction lock-in:** visitor buys a pool and may optionally pre-bind a few must-do attractions at a locked price or slot.
+- **Option D - Unlimited day pass:** one flat-price product admits the visitor to all attractions for the day. No per-attraction cost lever.
 
 | | Repricing agility (driving) | SKU operability (driving) | Guest flexibility | Leftover-value path |
 |---|---|---|---|---|
-| A tickets from home | Fail — price and attraction lock at sale | Fail — catalogue grows with checkpoints | Fail — allocation is on the booking screen | Weak — unused tickets want refunds, not a return visit |
-| B token pool | Pass — table update, issued pool unchanged | Pass — one currency; pack sizes are product SKUs of that currency | Pass — spend after arrival | Pass — leftover pool stays in the wallet |
-| C hybrid | Partial — locked slice cannot reprice | Worse than B — lock-in SKUs and refunds | Better certainty for must-dos | Same as B for the unlocked remainder |
-| D unlimited day | Fail — no per-attraction lever | Pass — one product | Pass — go anywhere | Fail — no leftover unit to bring people back |
+| A tickets from home | Fail - price and attraction lock at sale | Fail - catalogue grows with checkpoints | Fail - allocation is on the booking screen | Weak - unused tickets want refunds, not a return visit |
+| B token pool | Pass - table update, issued pool unchanged | Pass - one currency; pack sizes are product SKUs of that currency | Pass - spend after arrival | Pass - leftover pool stays in the wallet |
+| C hybrid | Partial - locked slice cannot reprice | Worse than B - lock-in SKUs and refunds | Better certainty for must-dos | Same as B for the unlocked remainder |
+| D unlimited day | Fail - no per-attraction lever | Pass - one product | Pass - go anywhere | Fail - no leftover unit to bring people back |
 
 Product extensibility (not a table column): B and C keep one admit path; A grows a ticket catalogue; D *is* the day product and removes the per-attraction lever.
 
@@ -59,10 +59,10 @@ Repricing agility and SKU operability decide it. The shop sells a currency (and 
 
 ## Key differentiators
 
-- **One currency covers every paid checkpoint.** Adding or dropping a paid attraction is a pricing-table row, not a new ticket product. Pack sizes (if any) are SKUs of the same currency — TBD, not 40+55 ride tickets.
+- **One currency covers every paid checkpoint.** Adding or dropping a paid attraction is a pricing-table row, not a new ticket product. Pack sizes (if any) are SKUs of the same currency - TBD, not 40+55 ride tickets.
 - **Repricing does not touch wallets already sold.** Pool balance is tokens, not attraction rights. The next spend reads the live table; claims already minted (ADR-002) keep the price they were minted at.
 - **Leftover tokens survive the visit.** A later return-incentive ADR can credit the same wallet without a new ticket type.
-- **Membership and path-based daytime options layer on the pool.** They pre-load or discount tokens; the checkpoint still consumes an ADR-002 claim. A membership that sets token cost to 0 still mints and burns a signed QR — it does not bypass the gate.
+- **Membership and path-based daytime options layer on the pool.** They pre-load or discount tokens; the checkpoint still consumes an ADR-002 claim. A membership that sets token cost to 0 still mints and burns a signed QR - it does not bypass the gate.
 - **Dynamic pricing is a table writer, not a second economy.** When the pricing ADR lands, it writes the same table the shop, app, and kiosks already read.
 
 ## Consequences
@@ -97,8 +97,8 @@ Repricing agility and SKU operability decide it. The shop sells a currency (and 
 
 These tests guard the economy; they do not replace ADR-002’s offline gate tests.
 
-- **Shop does not sell attraction tickets (CI):** catalogue has pool / pack SKUs only — no `attractionId` on a home purchase.
-- **QR-reveal deducts live or cached price (CI):** deduction applies the pricing-table amount at QR-reveal time; if the table is unreachable, the last-cached amount applies. Both paths are tested. Gate does not re-check price — it verifies only the signed claim.
+- **Shop does not sell attraction tickets (CI):** catalogue has pool / pack SKUs only - no `attractionId` on a home purchase.
+- **QR-reveal deducts live or cached price (CI):** deduction applies the pricing-table amount at QR-reveal time; if the table is unreachable, the last-cached amount applies. Both paths are tested. Gate does not re-check price - it verifies only the signed claim.
 - **Wallet immutability on reprice (CI):** changing an attraction’s token price does not alter existing pool balances or already-minted ADR-002 payloads.
 - **Leftover persists (CI):** unspent pool remains after a simulated visit; no automatic zero-out unless a later product ADR sets expiry.
 - **Table down does not close the gate (CI):** app may show a stale price; checkpoint still verifies the signed claim locally (ADR-002).
@@ -106,10 +106,10 @@ These tests guard the economy; they do not replace ADR-002’s offline gate test
 
 **Open questions**
 
-- Token expiry, no-refund, credit-only policy — before launch.
-- Pack sizes and home-purchase prices — before shop build.
-- Pricing-table max cache age — before beta.
-- Which of 55 displays are paid — before gate installation.
+- Token expiry, no-refund, credit-only policy - before launch.
+- Pack sizes and home-purchase prices - before shop build.
+- Pricing-table max cache age - before beta.
+- Which of 55 displays are paid - before gate installation.
 
 **Revisit triggers**
 
