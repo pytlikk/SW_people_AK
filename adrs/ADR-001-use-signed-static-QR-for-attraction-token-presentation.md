@@ -6,7 +6,7 @@
 
 ## Status
 
-Accepted
+Proposed
 
 ## Context
 
@@ -19,7 +19,7 @@ Same app, same wallet, same presentation:
 | Amusement rides | 40 | ride gate |
 | Animal displays / enclosures | 55 | enclosure / display entrance |
 
-5000 visitors/day (locked board). Whether every enclosure is a paid checkpoint, and MQTT placement for up to 40 + 55 devices, are TBD (ops / pytlikk / mroj4n).
+5000 visitors/day (locked board). Kiosks, MQTT-on-intranet, and “few Wi-Fi patches as gateways” are **working assumptions** until their own ADRs exist. Whether every enclosure is a paid checkpoint, and MQTT placement for up to 40 + 55 devices, are TBD (ops / pytlikk / mroj4n).
 
 This record answers **only** how the visitor presents an already-issued signed token at a checkpoint. It does not decide token pricing, AI popularity, MQTT broker, or animal health telemetry. The phone must not call the internet database at the checkpoint.
 
