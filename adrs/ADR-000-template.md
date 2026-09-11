@@ -1,6 +1,6 @@
 # ADR-00XX — {decision in present tense}
 
-One decision per file. Filename: `ADR-NNN-short-kebab-title.md` (template is `ADR-000-template.md`). Never renumber. Do not rewrite an Accepted record — supersede it.
+One decision per file. Filename: `ADR-NNN-short-kebab-title.md` (template is `ADR-000-template.md`). Proposed records may be reordered so the index matches dependency order. Do not rewrite or renumber an Accepted record — supersede it.
 
 Copied from [The Kata Log](https://github.com/TheKataLog) templates (Five Nines, Pragmatic, BluzBrothers, CELUS Ceals) and trimmed to what this team will actually fill.
 
@@ -14,13 +14,13 @@ Proposed | Accepted | Superseded by ADR-NNNN | Deprecated | Rejected
 
 ## Context
 
-Why a decision is needed now. Assumptions, volumes, and constraints. Mark unknowns as TBD with an owner — do not invent numbers. Say what this record does **not** decide.
+Why a decision is needed now. Assumptions, volumes, and constraints. Mark unknowns as TBD — do not invent numbers. Say what this record does **not** decide.
 
 ## Evaluation criteria
 
 What we will score the options against (architecture characteristics or hard constraints). Mark the driving ones.
 
-- **{criterion}** — {measurable target or TBD owner}
+- **{criterion}** — {measurable target or TBD}
 
 ## Options
 
@@ -55,7 +55,7 @@ Why this option fits the criteria (Five Nines). Bullet the few things that are n
 
 ## Verification
 
-How we will know the decision is holding (fitness function, CI test, ops checklist). Owner. Omit only if the risk table already names the check.
+How we will know the decision is holding (fitness function, CI test, ops checklist). Omit only if the risk table already names the check.
 
 ## Conclusion
 
