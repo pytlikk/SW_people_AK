@@ -1,6 +1,6 @@
 # Von Digitalis Estates | Architectural Katas 2026
 
-This repository is **SW people**’s working submission to O’Reilly’s [Architectural Katas 2026: AI-Assisted Software Architecture](https://www.oreilly.com/live-events/architectural-katas-2026-ai-assisted-software-architecture/0642572412906/). It is a derivation chain from the Von Digitalis Estates brief — not a finished architecture dump, and not an index of empty folders.
+This repository is **SW people**’s working submission to O’Reilly’s [Architectural Katas 2026: AI-Assisted Software Architecture](https://www.oreilly.com/live-events/architectural-katas-2026-ai-assisted-software-architecture/0642572412906/). It is a derivation chain from the Von Digitalis Estates brief - not a finished architecture dump, and not an index of empty folders.
 
 ## Table of contents
 
@@ -25,21 +25,21 @@ This repository is **SW people**’s working submission to O’Reilly’s [Archi
 
 ## Team
 
-- Krzysztof Pytlik — [GitHub](https://github.com/pytlikk)
-- Mohammed — [GitHub](https://github.com/mroj4n)
-- Krzysiek Kopacz — [GitHub](https://github.com/Crafterro)
+- Krzysztof Pytlik - [GitHub](https://github.com/pytlikk)
+- Mohammed - [GitHub](https://github.com/mroj4n)
+- Krzysiek Kopacz - [GitHub](https://github.com/Crafterro)
 
 ## Introduction
 
-The Countess has forty inspected eighteenth-century rides and a newly public collection of 200+ animals across 55 displays. She needs today’s 5,000 visitors a day to become at least 15,000 within three years, or the family may have to sell the carnivorous plants. Tickets — including family passes — are the obvious first product. They are not the hard problem.
+The Countess has forty inspected eighteenth-century rides and a newly public collection of 200+ animals across 55 displays. She needs today’s 5,000 visitors a day to become at least 15,000 within three years, or the family may have to sell the carnivorous plants. Tickets - including family passes - are the obvious first product. They are not the hard problem.
 
-The risk this architecture is being built around is **patchy connectivity on a sprawling estate**, combined with the later need for measured popularity and AI. The three challenges the brief asks us to put AI on — where to invest and staff, whether the animals are actually well, and why anyone would come back — all starve if the grounds cannot produce trustworthy events on a normal park day. If a gate has to reach a cloud database to admit a guest, access fails where Wi-Fi is thin, and every later model is guessing.
+The risk this architecture is being built around is **patchy connectivity on a sprawling estate**, combined with the later need for measured popularity and AI. The three challenges the brief asks us to put AI on - where to invest and staff, whether the animals are actually well, and why anyone would come back - all starve if the grounds cannot produce trustworthy events on a normal park day. If a gate has to reach a cloud database to admit a guest, access fails where Wi-Fi is thin, and every later model is guessing.
 
 So we are designing **access that still works offline at 40 rides and 55 enclosures**. A visitor buys a fungible **token pool** at home and spends it at live attraction prices; the checkpoint camera scans a **signed static QR** and verifies it locally. That pair is the substrate: checkpoint events can later feed a popularity meter; leftover pool can later feed a return incentive. We have not yet designed the AI that sits on top.
 
 **Depth allocation (deliberate, not a delay):** go deep on ticketing and access first, then the popularity meter, then dynamic-pricing AI, then the return incentive / AI Guide. Animal tracking is a parallel workstream. It is specified in requirements; it is not in ADRs yet.
 
-MQTT-capable hardware is in the brief’s budget. Broker topology, kiosks, and gateway placement are **working assumptions** until their own ADRs exist — they are not decisions in this repository.
+MQTT-capable hardware is in the brief’s budget. Broker topology, kiosks, and gateway placement are **working assumptions** until their own ADRs exist - they are not decisions in this repository.
 
 ## Key objectives
 
@@ -49,9 +49,9 @@ Taken from the brief. Each item says what is actually in the repo. Where there i
 
 Our main contributions for this objective are:
 
-- The guest access story in [Appendix A — Core functionality](./requirements/Appendix%20A_%20Core%20functionality.md) (1-1 discover and buy, 1-2 entitlements and family passes, 1-3 gate access). Family-pass SKUs are specified there; they do not yet have their own ADR.
-- [ADR-001 — home-bought token pool, spend at live park prices](./adrs/ADR-001-use-home-bought-token-pool.md) *(Proposed)*: what is sold from home is a currency, not a catalogue of per-attraction tickets.
-- [ADR-002 — signed static QR for attraction-token presentation](./adrs/ADR-002-use-signed-static-QR-for-attraction-token-presentation.md) *(Proposed)*: the checkpoint camera scans the visitor, verifies locally, and burns the claim on reveal. No phone-to-database round-trip at the gate. Same payload type for 40 rides and 55 enclosures.
+- The guest access story in [Appendix A - Core functionality](./requirements/Appendix%20A_%20Core%20functionality.md) (1-1 discover and buy, 1-2 entitlements and family passes, 1-3 gate access). Family-pass SKUs are specified there; they do not yet have their own ADR.
+- [ADR-001 - home-bought token pool, spend at live park prices](./adrs/ADR-001-use-home-bought-token-pool.md) *(Proposed)*: what is sold from home is a currency, not a catalogue of per-attraction tickets.
+- [ADR-002 - signed static QR for attraction-token presentation](./adrs/ADR-002-use-signed-static-QR-for-attraction-token-presentation.md) *(Proposed)*: the checkpoint camera scans the visitor, verifies locally, and burns the claim on reveal. No phone-to-database round-trip at the gate. Same payload type for 40 rides and 55 enclosures.
 - Offline and estate-to-cloud constraints in [3_NFRs.md](./requirements/3_NFRs.md) and [4_Assumptions and constraints.md](./requirements/4_Assumptions%20and%20constraints.md). The estate→cloud path is required if we use the cloud; it is not designed yet.
 
 ### 2. Know which parts of the estates are popular, so investment and staffing are not guesswork
@@ -59,7 +59,7 @@ Our main contributions for this objective are:
 Our main contributions for this objective are:
 
 - The challenge stated in [1_1_Business challenges.md](./requirements/1_1_Business%20challenges.md) and the measurement FRs **FR#2D**, **FR#2E**, **FR#2F** in [2_FRs.md](./requirements/2_FRs.md) (identifiers are in that file; Markdown cannot deep-link to a table row).
-- Scenario notes in [Appendix B — AI scenarios](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md) (popularity and dwell, flow forecast, staffing and investment advice).
+- Scenario notes in [Appendix B - AI scenarios](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md) (popularity and dwell, flow forecast, staffing and investment advice).
 - A planned next decision, not a design: [adrs/README.md](./adrs/README.md) puts a **popularity-meter ADR** after ADR-002, because that record’s `validated` events are the intended counts. There is no popularity ADR in the repository yet.
 
 ### 3. Monitor animal health, feeding quality, and jumping-piranha population
@@ -78,7 +78,7 @@ Our main contributions for this objective are:
 - [ADR-001](./adrs/ADR-001-use-home-bought-token-pool.md): leftover pool survives the visit, so a later return incentive can credit the same wallet; membership and path products are meant to layer on the pool rather than fork checkout. Token expiry and refunds are still open.
 - Dynamic-pricing AI and the return incentive / AI Guide are **planned** in [adrs/README.md](./adrs/README.md). They are not designed yet. Pricing is a table writer on the ADR-001 economy, not a second ticketing model.
 
-### 5. Use AI on those three challenges — and be able to tell if it is working
+### 5. Use AI on those three challenges - and be able to tell if it is working
 
 Our main contributions for this objective are the **specification**, not the design:
 
@@ -100,7 +100,7 @@ This stage is in the repo. Start at [1_0_Business goals & drivers.md](./requirem
 
 ### Architecture characteristics
 
-**No funnel in the repository yet** — no candidate list, no cut to a top seven, no driving top three, no downplayed-characteristic ADRs.
+**No funnel in the repository yet** - no candidate list, no cut to a top seven, no driving top three, no downplayed-characteristic ADRs.
 
 [3_NFRs.md](./requirements/3_NFRs.md) is a requirements list, not that funnel. The two ADRs we do have name *local* evaluation criteria: ADR-001 is driven by repricing agility and SKU operability; ADR-002 by offline admission at the checkpoint and operability (commodity cameras, no wallet-cert programme). Those are not a system-wide characteristics decision.
 
@@ -114,7 +114,7 @@ This is where the work currently is. Index and next-up plan: [adrs/README.md](./
 
 | Record | Decision (one line) | Status |
 |---|---|---|
-| [ADR-001](./adrs/ADR-001-use-home-bought-token-pool.md) | Home-bought **token pool**, spent at live attraction prices — not per-attraction tickets from home. | Proposed |
+| [ADR-001](./adrs/ADR-001-use-home-bought-token-pool.md) | Home-bought **token pool**, spent at live attraction prices - not per-attraction tickets from home. | Proposed |
 | [ADR-002](./adrs/ADR-002-use-signed-static-QR-for-attraction-token-presentation.md) | **Signed static QR**; checkpoint camera scans the visitor; local verify; burn-on-reveal; 40 rides + 55 enclosures; no phone→DB at the gate. | Proposed |
 
 Both records are **Proposed**, not Accepted. MQTT broker, kiosks, and gateway placement wait for their own ADRs ([plan](./adrs/README.md)).
@@ -168,11 +168,11 @@ Honesty for the next iteration, not a list of regrets.
 
 Existing top-level folders only:
 
-- [`requirements/`](./requirements/) — problem background: goals, challenges, FRs, NFRs, assumptions, risks, glossary, kata extract, appendices, suggested OKRs.
-- [`adrs/`](./adrs/) — ADR template, two Proposed records, and the next-ADR plan.
-- [`docs/`](./docs/TEMPLATE.md) — placeholder for a later architecture narrative.
-- [`diagrams/`](./diagrams/TEMPLATE.md) — placeholder; no architecture diagrams yet.
-- [`evals/`](./evals/TEMPLATE.md) — placeholder; no live eval harness yet.
+- [`requirements/`](./requirements/) - problem background: goals, challenges, FRs, NFRs, assumptions, risks, glossary, kata extract, appendices, suggested OKRs.
+- [`adrs/`](./adrs/) - ADR template, two Proposed records, and the next-ADR plan.
+- [`docs/`](./docs/TEMPLATE.md) - placeholder for a later architecture narrative.
+- [`diagrams/`](./diagrams/TEMPLATE.md) - placeholder; no architecture diagrams yet.
+- [`evals/`](./evals/TEMPLATE.md) - placeholder; no live eval harness yet.
 
 Requirement files (every link is a file in the repo):
 
@@ -186,15 +186,15 @@ Requirement files (every link is a file in the repo):
 - [5_Risks and mitigation](./requirements/5_Risks%20and%20mitigation.md)
 - [6_Glossary](./requirements/6_Glossary.md)
 - [7_Kata expectations](./requirements/7_Kata%20expectations.md)
-- [Appendix A — Core functionality](./requirements/Appendix%20A_%20Core%20functionality.md)
-- [Appendix B — AI scenarios](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md)
-- [Appendix C — Future scope](./requirements/Appendix%20C_%20Future%20scope.md)
+- [Appendix A - Core functionality](./requirements/Appendix%20A_%20Core%20functionality.md)
+- [Appendix B - AI scenarios](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md)
+- [Appendix C - Future scope](./requirements/Appendix%20C_%20Future%20scope.md)
 - [Suggested OKRs](./requirements/suggested%20OKRs/OKRs.md)
 
 ## Resources
 
 - [Kata expectations (briefing extract)](./requirements/7_Kata%20expectations.md)
-- [O’Reilly live event — Architectural Katas 2026: AI-Assisted Software Architecture](https://www.oreilly.com/live-events/architectural-katas-2026-ai-assisted-software-architecture/0642572412906/)
+- [O’Reilly live event - Architectural Katas 2026: AI-Assisted Software Architecture](https://www.oreilly.com/live-events/architectural-katas-2026-ai-assisted-software-architecture/0642572412906/)
 - [The Kata Log](https://github.com/TheKataLog)
 
 ## AI assistance
