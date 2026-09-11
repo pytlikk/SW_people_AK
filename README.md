@@ -1,15 +1,10 @@
 # SW_people_AK
-SW people team for Architectural Katas 2026
-
-Template-only repository for Architecture Kata entries.
-
-No solution content is stored here.
+SW people team for Architectural Katas 2026: Von Digitalis Estates
 
 ## Folders
 
-- `docs/`
-- `diagrams/`
-- `adrs/`
-- `evals/`
-
-Each folder contains starter placeholders only.
+- `requirements/` — business and technical requirements
+- `docs/` — architecture narrative (placeholders)
+- `diagrams/` — C4 and AI-scenario views (placeholders)
+- `adrs/` — architecture decision records (placeholders)
+- `evals/` — golden cases for AI verification (placeholders)
