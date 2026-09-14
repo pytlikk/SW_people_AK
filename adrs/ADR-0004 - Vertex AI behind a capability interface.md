@@ -129,7 +129,7 @@ The swap target and the fallback requirement decided it. Direct SDK calls (A) fa
 | Silent model change | Provider updates behaviour under us | Pinned versions; version recorded per output; drift alarms on golden cases (NFR_13) |
 | Cost shock | Repricing or a runaway job | Per-capability budget and kill switch to fallback; alerting before the ceiling |
 | Over-abstraction | The layer costs more than the lock-in it prevents | Interface is per capability, not a framework; no routing, caching, or policy engine until a second provider actually exists |
-| Provider shutdown | The default adapter disappears | Two-week swap drill per year on a designated capability; at least one alternative adapter kept compilable |
+| Provider shutdown | The default adapter disappears | Two-week swap drill per year on a designated capability; at least one alternative adapter kept compilable. Named: **Anthropic Claude via Vertex AI Model Garden** if the model goes, **Mistral Small self-hosted on Cloud Run with an L4 GPU** if the provider goes. Six of seven capabilities are BigQuery ML and survive either without change. See [uncertainty](../hld/mlops/uncertainty.md#what-might-happen-if-the-provider-you-used-suddenly-shut-down). |
 | Uniformity pressure | Forcing a copilot and a time-series forecast into one shape | Contract is per capability; only confidence, evidence, and freshness are universal |
 
 ## Verification

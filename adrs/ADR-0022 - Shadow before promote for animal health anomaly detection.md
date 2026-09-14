@@ -50,20 +50,32 @@ Not options: autonomous intervention of any kind (no auto-medicate, no auto-cull
 
 **Deterministic rules alert from day one. The model scores in shadow beside them and is promoted only for subject types where it beats the rules while staying inside the keeper attention budget.**
 
-```
-feed events (offered, leftover, refusal, aggression)
-environment readings (water quality, temperature)
-keeper observations (structured flags)
-        |
-        +--> RULES (keeper-authored thresholds per subject)  --> alert inbox  [live day one]
-        |
-        +--> model scoring (same inputs)                      --> shadow log  [no alert]
-                                                                    |
-                                        promotion per subject type, gated on:
-                                        - recall >= rules on keeper-labelled events
-                                        - alert volume within attention budget
-                                        - minimum shadow duration
-                                        - golden cases passing
+```mermaid
+flowchart LR
+  subgraph inputs [Inputs - already collected, no new sensing]
+    feed["Feed events<br/>offered, leftover, refusal, aggression"]
+    env["Environment readings<br/>water quality, temperature"]
+    obs["Keeper observations<br/>structured flags"]
+  end
+  subgraph live [Live from day one]
+    rules["RULES<br/>keeper-authored thresholds per subject"]
+    inbox["Alert inbox<br/>max 4 per shift, estate-wide"]
+  end
+  subgraph shadow [Shadow - no keeper-visible output]
+    model["Model scoring<br/>same inputs"]
+    log["Shadow log"]
+    gate["Promotion gate, per subject type<br/>recall >= rules on labelled events<br/>volume within the attention budget<br/>>= 6 months and >= 30 labels<br/>golden cases passing"]
+  end
+  feed --> rules
+  env --> rules
+  obs --> rules
+  feed --> model
+  env --> model
+  obs --> model
+  rules --> inbox
+  model --> log
+  log --> gate
+  gate -.->|"no alert until promoted"| inbox
 ```
 
 Four rules follow.
@@ -79,6 +91,86 @@ Four rules follow.
 Authority is **L2 Advise, capped permanently** ([ADR-0005](ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md)). Keepers confirm or reject with a reason code; escalation to the vet is a keeper decision; no amount of accuracy promotes this past L2.
 
 Day-one usefulness and trust preservation decided it. Model-from-start (B) fails both: there is nothing to train on, and an unvalidated alert stream destroys the inbox in its first week - after which no later improvement recovers the keepers' attention. Rules-only (A) is genuinely defensible and is what phase 1 ships; it loses as a destination because it cannot combine weak multi-signal evidence, which is exactly where early illness hides. Vision (D) needs labels it cannot have and money that is better spent elsewhere.
+
+## The cost asymmetry, and the attention budget it sets
+
+A missed sick animal and a vet called out for nothing are not the same size of mistake, and until that difference has a number the operating threshold is a matter of taste. This section gives it one.
+
+Every figure is an assumption to be replaced by the vet's and the keepers' real numbers. They are stated so that replacing them is a matter of editing a row rather than redoing the reasoning.
+
+| # | Assumption | Value |
+|:--|:--|:--|
+| W1 | Vet call-out, exotic specialist, in hours | £250 |
+| W2 | Vet call-out, out of hours | £600 |
+| W3 | Keeper time, loaded | £22/hour, so £0.37/minute |
+| W4 | Triage at the screen, with evidence shown | 3 minutes |
+| W5 | Triage requiring a physical check of the animal | 12 minutes |
+| W6 | Share of alerts needing a physical check | 40% |
+| W7 | Share of false alarms that survive triage and pull in a vet | 1% |
+| W8 | Treatment cost, illness caught early | £150 |
+| W9 | Treatment cost, same illness caught late | £900 |
+| W10 | Mean replacement value across the collection | £3,000 |
+| W11 | Probability a missed early signal escalates to late-caught | 60% |
+| W12 | Probability a missed early signal ends in death | 15% |
+| W13 | Genuine actionable welfare events per subject per year | 6, so 330/year across 55 subjects |
+| W14 | Keepers on shift, and minutes each can give the inbox without displacing animal care | 6 keepers, 20 minutes each |
+
+### The two costs
+
+```
+mean triage        = 0.6 x 3 min (W4, W6) + 0.4 x 12 min (W5, W6)   = 6.6 minutes
+
+FALSE POSITIVE     = 6.6 min x £0.37 (W3)                           =  £2.44
+                   + 1% (W7) x £250 (W1)                            =  £2.50
+                                                                      -------
+                                                                       £4.94
+
+FALSE NEGATIVE     = 60% (W11) x (£900 - £150) (W8, W9)             = £450.00
+                   + 15% (W12) x £3,000 (W10)                       = £450.00
+                                                                      -------
+                                                                      £900.00
+```
+
+**A miss costs 182 times a false alarm.** That single ratio does most of the work in this record.
+
+Taken literally it says: alert whenever the probability of illness exceeds **£4.94 / £900 = 0.55%**. That is what "high recall first" in `FR#2I` means once it is priced, and it is a far lower bar than intuition suggests.
+
+### Why the economically optimal threshold is not 0.55%
+
+Because that calculation assumes every alert gets a keeper's full attention, and attention is not free of volume. A keeper who finds the inbox useless stops reading it, and **a dead inbox converts true positives into false negatives.** So recall has to be multiplied by the probability the alert is actually acted on.
+
+Assuming an attention curve to be calibrated with keepers during shadow - this is the softest input here, and it is the one that decides the answer:
+
+| Alerts/shift | Alerts/year | Model recall | Keeper attention | Genuine events caught | Missed | Cost of misses | Cost of false alarms | **Total** | Precision |
+|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| 1 | 730 | 0.45 | 0.97 | 144 | 186 | £167,360 | £2,874 | £170,233 | 20.3% |
+| 2 | 1,460 | 0.55 | 0.95 | 172 | 158 | £141,818 | £6,318 | £148,136 | 12.4% |
+| 3 | 2,190 | 0.62 | 0.92 | 188 | 142 | £127,591 | £9,812 | £137,403 | 9.3% |
+| **4** | **2,920** | **0.68** | **0.88** | **197** | **133** | **£119,275** | **£13,322** | **£132,597** | **7.7%** |
+| 6 | 4,380 | 0.75 | 0.80 | 198 | 132 | £118,800 | £20,423 | £139,223 | 5.7% |
+| 12 | 8,760 | 0.85 | 0.55 | 154 | 176 | £158,153 | £41,906 | £200,058 | 3.2% |
+| 24 | 17,520 | 0.92 | 0.25 | 76 | 254 | £228,690 | £85,083 | £313,773 | 1.7% |
+
+**The attention budget is 4 alerts per shift, estate-wide.** Hard cap 6; above that the capability raises its threshold and records that it did.
+
+Three things in that table are worth reading twice.
+
+- **Pushing recall past the optimum makes welfare worse, not just noisier.** At 24 alerts a shift the model finds 92% of genuine events and the collection catches 76 of them, against 197 at the budget. The firehose is not a trade of money for welfare. It is a loss of both.
+- **The binding constraint is not keeper time.** Four alerts costs 26 of the 120 keeper-minutes available (W14). There is room for eighteen. The inbox is small because illness is rare, not because keepers are busy - which is the opposite of how alert budgets are usually set.
+- **Precision at the budget is 7.7%, or one genuine case in thirteen.** That looks like a broken system and it is the correct operating point, because a miss costs 182 times a wasted triage. Keepers must be told this number during setup, because a keeper who expects the inbox to be usually right will lose faith in a system that is working exactly as designed.
+
+### What the budget is worth
+
+Rules alone, at roughly 2 alerts a shift and 0.55 recall, cost £148,136 a year in misses and wasted triage. At the budget the same collection costs £132,597. **The model is worth about £15,500 a year**, against the £5 a month of cloud it consumes ([cost-analysis](../cost-analysis/README.md#3-model-training-and-scoring)). That ratio is the argument for building it at all, and it is also why this record can afford to be so conservative about promoting it.
+
+### What this unblocks
+
+| Open question | Answer it forces |
+|:--|:--|
+| Attention budget per keeper per shift | **4 per shift estate-wide**, hard cap 6. Averaged over 6 keepers that is one alert each, every other shift. |
+| Minimum shadow duration and label count | A subject type covering 10 subjects generates 60 genuine events a year (W13). Estimating recall to a useful confidence needs about 30 labelled events, so **6 months and 30 labels minimum** before any subject type can be promoted. |
+| Overnight escalation path | Waking a vet costs £600 (W2); the miss it prevents costs £900. So escalate out of hours only above **67% confidence**, and let everything below that wait for the morning round. A policy, not a preference. |
+| Starter thresholds per subject type | Each subject type's threshold is set so the **aggregate** stays under 4 a shift, allocated by risk rather than evenly - a high-risk subject may consume a quarter of the budget alone, and a robust one may be allowed none. |
 
 ## Key differentiators
 
@@ -163,11 +255,12 @@ Day-one usefulness and trust preservation decided it. Model-from-start (B) fails
 
 **Open questions**
 
-- Attention budget per keeper per shift - with keepers, before anything leaves shadow. This is the number the whole record depends on.
-- Starter thresholds per subject type - with keepers and the vet, before the collection opens.
-- Minimum shadow duration and label count for promotion - before the first promotion.
-- Overnight escalation path for high-risk subjects - with the Countess, before the collection opens.
-- Reject reason taxonomy - with keepers ([ADR-0005](ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md) open question).
+- ~~Attention budget per keeper per shift - with keepers, before anything leaves shadow. This is the number the whole record depends on.~~ **Answered above: 4 alerts per shift estate-wide, hard cap 6.** Derived from a 182:1 miss-to-false-alarm cost ratio against an assumed attention curve. Still to be confirmed with keepers, but the number to argue with now exists.
+- ~~Starter thresholds per subject type - with keepers and the vet, before the collection opens.~~ **Constrained above:** thresholds are set so the aggregate stays under 4 a shift, allocated by risk rather than evenly. The per-subject values remain a keeper-and-vet exercise; the budget they must fit inside no longer is.
+- ~~Minimum shadow duration and label count for promotion - before the first promotion.~~ **Answered above: 6 months and 30 labelled events per subject type**, from a base rate of 6 genuine events per subject per year.
+- ~~Overnight escalation path for high-risk subjects - with the Countess, before the collection opens.~~ **Answered above: escalate out of hours above 67% confidence**, because an out-of-hours call-out costs £600 against a £900 miss. The staffing arrangement behind it is still the Countess's decision; the trigger is not.
+- Reject reason taxonomy - with keepers ([ADR-0005](ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md) open question). The minimum set is whatever lets precision be computed per subject type, since that is the input the budget above is most sensitive to.
+- The attention curve itself - the softest input in the cost model, and the one that moves the budget. Calibrated during shadow by measuring accept rate against delivered volume, which the capability already records.
 
 **Revisit triggers**
 

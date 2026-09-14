@@ -2,6 +2,8 @@
 
 The judges ask for "validation and verification of AI results" and for "dealing with uncertainty in the world of AI technology". This folder is the answer to both, and it is deliberately unglamorous.
 
+The briefing's three uncertainty questions - what if the best model today is not the best tomorrow, what if the provider changes prices, what if the provider shuts down - are answered directly in **[uncertainty.md](uncertainty.md)**. This page covers the other half: how a capability earns the right to be believed in the first place.
+
 The bar from NFR_13: every production AI capability has golden cases in [`evals/`](../../evals/), a documented metric, shadow mode before it can act, and a fallback. *We can show the AI is working and detect when it starts misbehaving.*
 
 ## The promotion pipeline

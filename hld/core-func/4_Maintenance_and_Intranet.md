@@ -74,7 +74,7 @@ sequenceDiagram
     participant GW as Zone gateway
     participant BQ as BigQuery
     participant C as Maintenance capability
-    participant E as Ride engineer
+    actor E as Ride engineer
     participant A as Asset service
 
     R->>GW: heartbeat (vibration, motor current, cycles)
