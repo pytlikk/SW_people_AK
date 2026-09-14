@@ -47,6 +47,14 @@ Why this option fits the criteria (Five Nines). Bullet the few things that are n
 
 - {what gets worse, harder, or more expensive - never leave this empty}
 
+### Strengthened characteristics
+
+- {characteristic name from the funnel} ({brief reason tied to the option chosen})
+
+### Weakened characteristics
+
+- {characteristic name from the funnel} ({what the decision costs in that dimension - never leave empty})
+
 ## Risks & trade-offs
 
 | Risk area | Description | Mitigation |
