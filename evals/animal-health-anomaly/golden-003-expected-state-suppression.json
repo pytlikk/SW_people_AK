@@ -1,0 +1,68 @@
+{
+  "id": "golden-003-expected-state-suppression",
+  "capability": "animal-health-anomaly",
+  "tier": 1,
+  "adr": "ADR-022",
+  "asserts": "A keeper-declared seasonal state suppresses scoring and writes an audit record. Without this, brumation and moulting generate a predictable false-alarm wave every autumn and the inbox stops being read.",
+  "input": {
+    "subject": {
+      "subject_id": "SUBJ-0142",
+      "subject_type": "individual",
+      "collection": "venomous-lizards",
+      "placement": { "enclosure_id": "ENC-018", "placed_on": "2026-03-02" },
+      "expected_state": {
+        "state": "brumation",
+        "declared_by": "keeper:KPR-004",
+        "declared_at": "2026-09-05T16:20:00Z",
+        "expected_until": "2026-11-30",
+        "note": "Seasonal slowdown, consistent with previous year."
+      }
+    },
+    "baseline": {
+      "window_days": 30,
+      "observations_in_window": 13,
+      "median_intake_g": 180,
+      "refusals_in_window": 0,
+      "feed_interval_days_median": 2.3,
+      "last_observation_at": "2026-09-13T08:10:00Z",
+      "status": "established"
+    },
+    "recent_feed_events": [
+      { "at": "2026-09-08T08:05:00Z", "offered_g": 180, "consumed_g": 95, "refused": false, "leftover_g": 85 },
+      { "at": "2026-09-10T08:00:00Z", "offered_g": 180, "consumed_g": 60, "refused": false, "leftover_g": 120 },
+      { "at": "2026-09-13T08:10:00Z", "offered_g": 180, "consumed_g": 50, "refused": false, "leftover_g": 130 }
+    ],
+    "environment_at_placement": {
+      "enclosure_id": "ENC-018",
+      "basking_temp_c": 34.1,
+      "ambient_temp_c": 26.4,
+      "within_species_range": true,
+      "reading_age_minutes": 12
+    },
+    "keeper_notes": []
+  },
+  "expected": {
+    "alert_raised": false,
+    "suppressed_by": "expected_state:brumation",
+    "audit_record_written": true,
+    "audit_record_must_include": [
+      "subject_id",
+      "signal_that_would_have_fired",
+      "declared_by",
+      "declared_at",
+      "expected_until"
+    ],
+    "counts_toward_suppression_metric": true,
+    "tier0_rules_unaffected": true,
+    "deterministic": true,
+    "notes_on_expectation": "Input is identical to golden-001 apart from the declared state. The pair exists so a reviewer can see that the declaration, and nothing else, changed the outcome."
+  },
+  "must_not": [
+    "suppress silently, with no audit record",
+    "suppress tier 0 environment safety rules",
+    "extend suppression past expected_until without a fresh declaration",
+    "discard the underlying feed observations, which remain the record of what happened",
+    "allow suppression to be set by anything other than an identified human"
+  ],
+  "notes": "Deliberately the same fixture as golden-001. Suppression is a human assertion with a name and an expiry attached to it, not a system inference. The expected-state vocabulary is an open question in ADR-022 and must be settled before the data contract."
+}

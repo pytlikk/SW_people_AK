@@ -37,6 +37,18 @@ Why this option fits the criteria (Five Nines). Bullet the few things that are n
 
 - **{point}**
 
+## Architecture characteristics
+
+Which named characteristics this decision moves, in both directions. A decision that improves everything and weakens nothing has not been analysed. Mark the driving ones.
+
+| Characteristic | Effect | Why |
+|---|---|---|
+| {e.g. availability, testability, data integrity, simplicity, performance, portability, operability} | Improved (driving) / Improved / **Weakened** | {one line} |
+
+**Deliberately downplayed: {characteristic}.** Why it is acceptable to lose it here, and where the opposite call would be correct.
+
+**Fit with the existing architecture.** How this sits with decisions already in the repository - same offline story, same event backbone, same human-in-the-loop posture - rather than introducing a second philosophy. This is a kata judging criterion.
+
 ## Consequences
 
 ### Positive
