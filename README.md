@@ -121,22 +121,24 @@ component candidates, depth allocation, and open questions.
 - **Board G - Return Incentive / AI Guide** (shallow): leftover pool hook (ADR-001), opt-in
   trail (FR#2G), win-back trigger (FR#2H). Stays shallow until PM ADR exists.
   Component candidates AG-01..AG-03.
-- **Board A - Animal Care** (parallel, shallower than V): keeper health and feeding
-  observations, enclosure environment, MQTT feeder events, anomaly alerts (FR#2I), piranha
-  population estimates (FR#2J), keeper copilot (FR#2L). Component candidates AC-01..AC-05.
-  Promoted from ops-backup/ and adjusted to consume ADR-001 and ADR-002 as upstream
-  constraints. No dedicated ADR for Animal Care; no ADR invented here.
+- **Board A - Animal Care** (parallel, deeper than pre-ADR-020): keeper health and
+  feeding observations (device-local log per ADR-021, off MQTT), enclosure environment
+  (joined to care subject through placement-at-time per ADR-020), MQTT feeder events
+  (sensor telemetry only), four-tier anomaly detector (FR#2I; ADR-022), piranha
+  population as census-anchored interval (FR#2J; ADR-023), keeper copilot (FR#2L).
+  Component candidates AC-01..AC-05. Promoted from ops-backup/ and aligned to
+  ADR-001 / ADR-002 as upstream constraints and ADR-020..023 as animal-care
+  load-bearing decisions. AC-01 keys on care subject, not on display id.
 - **Board B - Intranet / Estate OS** (parallel, shallower than V): estate heat map, ride
   status, asset maintenance, staffing and task assignment, incident management, congestion
   forecasting, ops copilot. Component candidates IO-01..IO-08. Promoted from ops-backup/
   and adjusted to consume ADR-001 and ADR-002 as upstream constraints. No dedicated ADR
   for the intranet; no ADR invented here.
 
-Boards A and B have no dedicated ADRs. They now **consume** ADR-001 and ADR-002: the
-token pool economy and signed QR decisions are upstream constraints, not designs these
-boards re-litigate. The ops-backup/ folder now holds only a one-paragraph pointer.
-Component candidates CC-01..CC-14 from the ops-backup era are mapped to their live
-AC- / IO- / PM-01 IDs in the main index.
+Board A now consumes ADR-020..023 in addition to ADR-001 and ADR-002. Board B has no
+dedicated ADRs and consumes ADR-001 and ADR-002 only. The ops-backup/ folder now
+holds only a one-paragraph pointer. Component candidates CC-01..CC-14 from the
+ops-backup era are mapped to their live AC- / IO- / PM-01 IDs in the main index.
 
 There was no physical sticky-note workshop; all iterations are reconstructed from the
 committed requirements documents and ADRs. Honesty note in each index file.

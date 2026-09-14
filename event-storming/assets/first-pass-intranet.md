@@ -121,6 +121,17 @@ these reach the intranet integration bus when the keeper is in a low-signal area
 NFR_4 says "field writes are append-only events; the cloud is the reconciler."
 The intranet consumes these; the offline sync mechanism is TBD.
 
+[ADR-021 INTERFACE NOTE] The sync mechanism is now decided for keeper
+OBSERVATIONS: device-local append-only log, idempotent batch sync to any
+reachable estate endpoint (ADR-021). IO-07 (Integration Bus) must accept
+at-least-once idempotent batches from keeper devices and deduplicate on ingest.
+MQTT carries sensor telemetry only; keeper observation batches are a separate
+path. Board B does not own that path but must accept its output. Also: an alert
+(AC-02) can fire before the keeper's photo attachment has synced; IO-01 or
+whatever intranet component renders alerts must support an "evidence pending"
+state. Board B must not assume photo and alert arrive together.
+See [ADR-021](../../adrs/ADR-021-keep-keeper-observations-off-the-telemetry-path.md).
+
 ---
 
 ## Domain events - ops state (phase 2)
@@ -274,6 +285,23 @@ parent index.
 10. Membership / path products that set token cost to zero still consume an
     ADR-002 signed QR at the checkpoint. Board B must not invent a "free admit"
     path that bypasses the claim.
+
+**Post-merge interface constraints from animal ADRs (added 2026-09-14):**
+
+11. [ADR-021 INTERFACE] IO-07 (Integration Bus) must accept at-least-once
+    idempotent keeper observation batches (NOT raw MQTT observation events). The
+    path is: device -> batch sync -> IO-07 deduplicates on client-generated
+    idempotent id. Board B does not own the capture path; it accepts its output.
+12. [ADR-021 INTERFACE] An animal-care alert (from AC-02) can arrive before the
+    keeper's photo attachment has synced. IO-01 or whichever intranet component
+    renders animal alerts must support an "evidence pending" state and must not
+    infer "no photo = no evidence". See ADR-021 "negative consequences" section.
+13. [ADR-023 INTERFACE] Any intranet view that renders the piranha population
+    (IO-01 estate heatmap or a dedicated care view) must display the full
+    INTERVAL with its confidence band. A bare count is not a valid output of
+    AC-04 and the data contract explicitly carries the interval. Board B must
+    not strip the interval before presenting to the duty manager or Countess.
+    See [ADR-023](../../adrs/ADR-023-anchor-piranha-population-on-human-census.md).
 
 ---
 

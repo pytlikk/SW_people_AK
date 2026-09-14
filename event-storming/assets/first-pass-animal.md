@@ -10,6 +10,13 @@
 > against the committed requirements. Unordered dump; duplicates expected;
 > corrections and questions written in-line as they arose.
 >
+> **ADR alignment note (added 2026-09-14 post-merge):** ADR-020..023 landed in
+> the repo after this first pass was written against requirements alone. Sticky
+> entries below that contradict those ADRs are annotated inline with
+> [ADR-020], [ADR-021], [ADR-022], or [ADR-023] markers and a correction.
+> Component IDs AC-01..AC-05 are NOT renumbered; only their descriptions are
+> updated. See also the Board A section of the parent index.
+>
 > Scope: **ops domain only.** Ticketing (ADR-001, ADR-002) appears as an external
 > upstream system whose decisions are now Proposed and load-bearing. Board A must
 > not contradict them. The visit-access storm is Board V.
@@ -73,6 +80,14 @@ recommends; it does not replace veterinary or safety authority." Label as
 leftover, aggression" - these are the "how much / how well" signals from the
 brief
 
+[ADR-021 PATH] These keeper commands do NOT travel on the MQTT telemetry path.
+Each observation is a human-authored record captured in a device-local
+append-only log on the keeper's device and synced as an idempotent batch to any
+reachable estate endpoint. A lost sensor reading is a gap flag; a lost keeper
+note is unrecoverable and a missing FR#2I training label. See
+[ADR-021](../../adrs/ADR-021-keep-keeper-observations-off-the-telemetry-path.md).
+MQTT carries sensor telemetry only (see [EXTERNAL] MQTT feeder device below).
+
 [EVENT] Health observation recorded
 [EVENT] Feeding observation recorded
 
@@ -93,8 +108,19 @@ id) - same hardware budget as the rest of the estate; placement is TBD per ADR
 jumping-piranha population
 [EVENT] Piranha population counted (keeper census is the ground truth - FR#2J)
 
+[ADR-023 NOTE] The census is the ANCHOR for the population interval, not a
+standalone count. Between anchors, feed consumption tracks direction and
+magnitude. The interval widens monotonically away from the census; when it
+exceeds a threshold the system requests a new census rather than publishing a
+bare number. A recovered carcass is a deterministic decrement of exactly one and
+is NOT a model input. Vision, if funded, is scoped to surface-feeding frames and
+runs in shadow first - it cannot be the sole basis for any published figure.
+See [ADR-023](../../adrs/ADR-023-anchor-piranha-population-on-human-census.md).
+
 [HOTSPOT] What is the census interval? Brief does not say. Do NOT invent a
-number.
+number. ADR-023 answers: census is scheduled by uncertainty (interval width),
+not by calendar habit. The maximum anchor age before the estimate becomes
+unusable is an open question (to be set before the first season).
 
 [EVENT] Enclosure scan received - STOP. Recheck ADR-002 boundary.
 ADR-002 Conclusion: "Animal-health telemetry is a separate system; enclosure
@@ -117,20 +143,62 @@ but sensor count and type are TBD.
 "Enclosure- or colony-level tracking is sufficient except where individual IDs
 already exist; piranha are colony-level with periodic census."
 
+[ADR-020 CORRECTION] This question is now answered. ADR-020 forecloses
+enclosure as the welfare identity: "A tank cannot be sick." The unit of record
+is the care SUBJECT - individual, group, or colony. The enclosure is a separate,
+dated placement. Three subject types cover all 55 displays: individual (e.g. a
+solitary venomous snake), group (e.g. a troop fed collectively), colony (e.g.
+piranha). Welfare history attaches to the subject; environment readings attach to
+the enclosure and are joined through placement-at-time-of-observation. The
+working assumption from requirements (enclosure-level) is superseded.
+See [ADR-020](../../adrs/ADR-020-use-care-subject-as-unit-of-record.md).
+
 ---
 
 ## AI / ML phase (FR#2I, FR#2J, FR#2L)
 
-[EVENT] Animal health anomaly detected (FR#2I - ML + optional Vision; triggered
-by feed refusal, aggression, env drift, keeper notes)
+[EVENT] Animal health anomaly detected (FR#2I - tiered detector per ADR-022;
+triggered by feed refusal, aggression, env drift, keeper notes)
+
+[ADR-022 CORRECTION] The first-pass label "ML + optional Vision" is superseded.
+ADR-022 defines a four-tier detector:
+- Tier 0: deterministic safety thresholds (water temp, dissolved oxygen,
+  containment failures) - runs at EDGE, never gated by a model, fires during
+  islanding.
+- Tier 1: per-subject baseline scoring (intake rate, refusal rate, feed interval,
+  environment drift, each compared against THAT SUBJECT's own recent history) -
+  the day-one detector; no labels required.
+- Tier 2: supervised model trained on accumulated keeper accept/reject labels -
+  NOT at launch; promoted per collection after shadow beats Tier 1 on held-out
+  confirmed events.
+- Tier 3: GenAI narrative - turns Tier 0-2 evidence into readable explanation;
+  NEVER produces a score or decision.
+Vision is excluded from v1 health detection; any addition requires its own ADR
+with a stated cost ceiling. See
+[ADR-022](../../adrs/ADR-022-detect-welfare-anomalies-against-per-subject-baselines.md).
 [EVENT] Feed refusal spike detected (sub-event of the above)
 [EVENT] Water quality anomaly detected (enclosure environment drift)
 
 [DUPLICATE] Animal health anomaly detected - yes, already listed. Keep both in
 first pass; merge in digitised.
 
-[EVENT] Piranha population estimate generated (FR#2J - Vision / ML; colony-level;
-error band required; NOT a single magic number)
+[EVENT] Piranha population estimate generated (FR#2J - census-anchored interval
+per ADR-023; colony-level; error band required; NOT a single magic number)
+
+[ADR-023 CORRECTION] "Vision / ML" as primary path is superseded. The estimate
+is an INTERVAL anchored on human census:
+- Human census: anchors the absolute value; resets accumulated drift.
+- Feed consumption: tracks direction and rough magnitude of change between
+  anchors. Requires a fixed-offer / measured-leftover feeding protocol; ad-hoc
+  feeding-to-appetite makes per-capita intake unobservable.
+- Keeper observations: deterministic events (recovered carcass = -1 exactly;
+  observed fry = pending confirmation).
+- Vision (optional, one tank): third estimator, shadow first; cannot be the
+  sole basis for any published figure; needs its own ADR with a cost ceiling
+  before any camera is specified.
+The interval widens monotonically with time since the last census. Past the
+maximum anchor age the estimate publishes as UNUSABLE, not as a wide-band
+number. See [ADR-023](../../adrs/ADR-023-anchor-piranha-population-on-human-census.md).
 [EVENT] Population trend flagged (breeding, loss - FR#2J)
 
 [QUESTION] Is there camera or sonar hardware at the piranha enclosure? Optional
@@ -166,8 +234,12 @@ FR#2I)
 
 [HOTSPOT] "High recall first" (FR#2I) - this means we will get false positives.
 The cost of missed sick animal vs. unnecessary check: NOT symmetric (brief +
-brief-specific checks). Need to document this trade-off in a later ADR, not
-here.
+brief-specific checks). Trade-off documented in
+[ADR-022](../../adrs/ADR-022-detect-welfare-anomalies-against-per-subject-baselines.md):
+Tier 1 baseline scoring stays sensitive; keeper attention is protected by a
+ranked, budgeted alert inbox rather than by raising the detection threshold.
+Accept rate is an ops metric; a sustained drop below the ops-agreed floor
+triggers inbox tuning before adding any model.
 
 [CMD] Query keeper copilot (FR#2L)
 
@@ -187,14 +259,16 @@ These are names, not decisions. CC-01..CC-05 are the legacy IDs from the
 ops-backup era; the live IDs below supersede them. See the CC-to-AC mapping
 table in the parent index.
 
-- AC-01 (was CC-01): candidate SoR for health + feeding + environment per display
-  (Animal Care Record Service)
+- AC-01 (was CC-01): System of Record for health + feeding observations, keyed
+  to CARE SUBJECT (individual, group, or colony per ADR-020) - NOT per display.
+  The enclosure is a dated placement joined to the subject. Name: Animal Care
+  Record Service.
 - AC-02 (was CC-02): manages the alert inbox and keeper accept / reject workflow
-  (Alert Inbox)
-- AC-03 (was CC-03): runs the anomaly detection (FR#2I) - not named, not a model
-  choice
-- AC-04 (was CC-04): runs the piranha population estimator (FR#2J) - needs an
-  eval harness
+  (Alert Inbox); accept/reject is the FR#2I training signal for Tier 2 (ADR-022).
+- AC-03 (was CC-03): runs the anomaly detection (FR#2I) - four-tier detector per
+  ADR-022; Tier 0 and 1 are deterministic arithmetic; not a model choice.
+- AC-04 (was CC-04): runs the piranha population estimator (FR#2J) - census-
+  anchored interval per ADR-023; needs an eval harness; vision is optional/shadow.
 - AC-05 (was CC-05): handles keeper copilot RAG (FR#2L) - could be shared with
   IO-08 / Ops Copilot (Board B open question)
 
@@ -215,6 +289,29 @@ table in the parent index.
 6. No remote-refund or gate-correction command on this board. ADR-002: kiosk is
    the dispute desk for gate failures.
 7. No assumption about signing-key custody. ADR-002 open question; owner TBD.
+
+**Post-merge corrections against ADR-020..023 (annotated inline above):**
+
+8. The unit of record is the CARE SUBJECT, not the enclosure. AC-01 is NOT a
+   per-display SoR. Enclosure is a dated placement joined to the subject.
+   ADR-020 forecloses enclosure-as-welfare-identity. The requirements-era
+   working assumption ("enclosure- or colony-level tracking is sufficient") is
+   superseded.
+9. Keeper observation commands ([CMD] Record health / feeding observation) travel
+   via the ADR-021 device-local log, NOT on the MQTT bus. MQTT carries machine-
+   generated sensor telemetry only. The two paths must not be conflated.
+10. Anomaly detection is a four-tier detector (ADR-022): Tier 0 deterministic
+    safety thresholds at edge; Tier 1 per-subject baselines as the day-one
+    detector; Tier 2 supervised model earned from labels; Tier 3 GenAI narrative
+    only. "ML + optional Vision" as the primary detector is superseded.
+11. Piranha population is a census-anchored interval (ADR-023). Vision is
+    optional/shadow-only, NOT the primary estimator. A bare population count is
+    not a valid output. Feed-derived consumption tracks change between anchors
+    but only under a fixed-offer / measured-leftover feeding protocol.
+12. The high-recall trade-off is documented in ADR-022. The alert inbox is the
+    labelling machine; keeper accept/reject is the training signal for Tier 2.
+    Alert budget and ranked inbox protect keeper attention without raising the
+    detection threshold.
 
 ---
 

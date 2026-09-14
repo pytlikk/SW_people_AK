@@ -2,12 +2,13 @@
 
 **This is the current derivation-chain work.** Five boards across two sessions:
 guest-lane (visit access deep, popularity meter next-ADR, AI Guide shallow) and
-ops (Animal Care parallel-shallower, Intranet / Estate OS parallel-shallower).
+ops (Animal Care parallel with ADR-020..023, Intranet / Estate OS parallel-shallower).
 
 Animal Care (Board A) and Intranet / Estate OS (Board B) were parked in
 ops-backup/ and are now promoted to this index. A one-paragraph pointer remains
-at [ops-backup/event_storming.md](ops-backup/event_storming.md). Both ops boards
-are explicitly shallower than Board V; see depth allocation below.
+at [ops-backup/event_storming.md](ops-backup/event_storming.md). Board B is
+explicitly shallower than Board V; Board A is also shallower than Board V but is
+now deeper than the pre-ADR-020 era. See depth allocation below.
 
 **Honesty note:** there was no physical sticky-note workshop. All three passes below are
 reconstructed from the committed ADRs and requirements documents. The first-pass files
@@ -112,16 +113,21 @@ Digitised SVG: [assets/board-guide.svg](assets/board-guide.svg)
 
 ---
 
-### Board A - Animal Care (Keepers) (parallel, shallower than Board V)
+### Board A - Animal Care (Keepers) (parallel, shallower than Board V, deeper than pre-ADR-020)
 
 Promoted from ops-backup/ on 2026-09-14. Shallower than Board V by design - visit
-access is the hard problem; Animal Care is a parallel workstream that must now be
-consistent with the ticketing decisions ADR-001 and ADR-002.
+access is the hard problem; Animal Care is a parallel workstream. ADR-020 to ADR-023
+landed in the repo on the same date; the board now consumes those ADRs in addition to
+ADR-001 and ADR-002. It is no longer "no dedicated ADR" - four animal-care ADRs are
+Proposed. The first-pass and component list have been annotated accordingly.
 
-**Scope:** Keeper health and feeding observations, enclosure environment readings,
-MQTT feeder events, keeper notes, AI-generated anomaly alerts (FR#2I), piranha
-population estimates (FR#2J), keeper copilot RAG (FR#2L). Countess reads aggregate
-health trends; she does not issue field commands. Component candidates use AC- prefix.
+**Scope:** Keeper health and feeding observations (device-local log per ADR-021, NOT
+on the MQTT telemetry path), enclosure environment readings (joined to the care subject
+through placement-at-time per ADR-020), MQTT feeder events (machine telemetry only),
+keeper notes, AI-generated anomaly alerts via four-tier detector (FR#2I; ADR-022),
+piranha population as census-anchored interval (FR#2J; ADR-023), keeper copilot RAG
+(FR#2L). Countess reads aggregate health trends; she does not issue field commands.
+Component candidates use AC- prefix.
 
 **What this board does NOT decide:**
 - Ticketing, wallet balance, QR claims, or gate admission logic - those belong to
@@ -131,24 +137,43 @@ health trends; she does not issue field commands. Component candidates use AC- p
   (Board P / PM-01), not the health record. AC-01 does not receive ADR-002 events.
 - MQTT sensor placement and device count - TBD per separate ADR; budget exists
   (Assumptions).
-- Anomaly alert thresholds and evaluation metrics - TBD; an ADR must specify before
-  go-live (NFR_13).
-- Individual vs. enclosure-level animal ID - enclosure-level is the working assumption
-  except where IDs already exist (Assumptions).
+- Anomaly thresholds and evaluation metrics - Tier 0 safety thresholds need vet
+  sign-off and a named author before installation (ADR-022 open question). Tier 1
+  alert budget per keeper per shift to be agreed with ops before first season.
 - Keeper / Ops Copilot: one service or two - open question; grounding corpora differ.
 - Signing-key architecture for QR claims - open question in ADR-002 (client-side vs.
   server-side; owner TBD). Board A must not assume a resolved key-custody design.
 - Remote-refund or ops-correction commands for gate failures - ADR-002 names kiosk
   as the only correction point; weakened recoverability is a visitor-lane cost.
+- Whether vision at the piranha enclosure is funded - needs its own ADR with a cost
+  ceiling before any camera is specified (ADR-023 open question).
+
+**ADR-020 to ADR-023 as the new load-bearing constraints for this board:**
+- [ADR-020](../adrs/ADR-020-use-care-subject-as-unit-of-record.md): The unit of
+  record is the care subject (individual, group, or colony), NOT the enclosure.
+  Enclosure is a dated placement. Welfare history survives a move. AC-01 keys on
+  care subject, not on display id.
+- [ADR-021](../adrs/ADR-021-keep-keeper-observations-off-the-telemetry-path.md):
+  Keeper observations travel via device-local append-only log, NOT MQTT. At-least-
+  once idempotent batch sync. Attachments deferred. MQTT carries sensor telemetry
+  only.
+- [ADR-022](../adrs/ADR-022-detect-welfare-anomalies-against-per-subject-baselines.md):
+  Four-tier detector. Tier 0 at edge. Tier 1 per-subject baselines (day-one
+  detector). Tier 2 supervised model earned from keeper accept/reject labels.
+  Tier 3 GenAI narrative only. No vision in v1 health detection.
+- [ADR-023](../adrs/ADR-023-anchor-piranha-population-on-human-census.md):
+  Population published as interval anchored on human census. Feed consumption
+  tracks change between anchors (requires fixed-offer feeding protocol). Vision
+  optional, shadow-first, one tank only, separate ADR with cost ceiling required.
+  Past maximum anchor age the estimate publishes as unusable.
 
 **Ticketing decisions as upstream constraints (ADR-001 / ADR-002):**
 Animal Care does not own wallet balance, SKU catalogue, or claim minting. Membership
 or path-based products that set token cost to zero still mint and burn a signed
-ADR-002 QR - no parallel admit path. Why ticketing looks like this: ADR-001
-strengthens evolvability / repricing agility and operability; weakens predictability,
-recoverability, and guest certainty. ADR-002 strengthens reliability (offline admit)
-and operability; weakens throughput / performance, security / integrity, and
-recoverability. Board A inherits these as given, not re-litigated.
+ADR-002 QR - no parallel admit path. ADR-001 strengthens evolvability / repricing
+agility and operability; weakens predictability, recoverability, and guest certainty.
+ADR-002 strengthens reliability (offline admit) and operability; weakens throughput /
+performance, security / integrity, and recoverability. Board A inherits these as given.
 
 First pass: [assets/first-pass-animal.md](assets/first-pass-animal.md)
 Digitised SVG: [assets/board-animal.svg](assets/board-animal.svg)
@@ -288,7 +313,7 @@ candidates below. Numbers are never reused for a different thing.
 | V - Visit Access | Deep | ADR-001 and ADR-002 are already proposed. Board reconstructs decided ADRs, not future ones. This is the hard problem. |
 | P - Popularity Meter | Next-ADR | Third in the ADR plan (adrs/README.md). `validated` events from ADR-002 are the primary input. |
 | G - AI Guide | Shallow | Depends on PM-01 for wait-time data. Stays shallow until PM ADR exists. |
-| A - Animal Care | Parallel, shallower than V | No dedicated ADR. Parallel workstream. Consumes ADR-001 / ADR-002 as upstream constraints; does not decide ticketing. Session reconstructed from requirements/. Next: keeper-records SoR ADR and alert-inbox ADR. |
+| A - Animal Care | Parallel, deeper than pre-ADR-020 | ADR-020..023 are now Proposed. Board reconstructs from requirements and aligns to four animal-care ADRs. Care-subject unit of record, offline keeper log, tiered anomaly detector, census-anchored piranha interval. Still shallower than Board V because the intranet and keeper-app UX details are not yet decided. |
 | B - Intranet / Estate OS | Parallel, shallower than V | No dedicated ADR. Parallel workstream. Consumes ADR-001 / ADR-002 as upstream constraints; popularity data consumed from PM-01, not owned. Session reconstructed from requirements/. Next: same as A, plus MQTT ADR. |
 
 Visit access is the hard problem. Boards A and B are parallel workstreams that
@@ -311,6 +336,10 @@ be as deep as Board V.
 | Opt-in itinerary / next-best-experience; no animal-area shortcuts | [FR#2G](../requirements/2_FRs.md) | Requirements; no ADR yet | G |
 | Win-back / next-best-visit; 90-day return metric; caps + opt-out | [FR#2H](../requirements/2_FRs.md) | Requirements; no ADR yet | G |
 | Dynamic pricing: table writer on ADR-001 economy; NOT on this board | [ADR-001](../adrs/ADR-001-use-home-bought-token-pool.md) (Key differentiators) | Planned; see [adrs/README.md](../adrs/README.md) | - |
+| Care subject (individual / group / colony) is the unit of welfare record; enclosure is a dated placement | [ADR-020](../adrs/ADR-020-use-care-subject-as-unit-of-record.md) | Proposed; replaces enclosure-level working assumption | A |
+| Keeper observations travel via device-local append-only log; NOT on MQTT telemetry path | [ADR-021](../adrs/ADR-021-keep-keeper-observations-off-the-telemetry-path.md) | Proposed | A |
+| Anomaly detection is four-tier; Tier 0 deterministic at edge; Tier 1 per-subject baselines (day-one); Tier 2 earned from labels; Tier 3 GenAI narrative only | [ADR-022](../adrs/ADR-022-detect-welfare-anomalies-against-per-subject-baselines.md) | Proposed | A |
+| Piranha population published as census-anchored interval; vision optional/shadow-only; bare count is not a valid output | [ADR-023](../adrs/ADR-023-anchor-piranha-population-on-human-census.md) | Proposed | A |
 
 ---
 
