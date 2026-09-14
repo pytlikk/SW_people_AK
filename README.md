@@ -96,26 +96,37 @@ This stage is in the repo. Start at [1_0_Business goals & drivers.md](./requirem
 
 ### Event storming
 
-**Current boards (this session): visit access, popularity meter, and AI Guide.** See
+**Five boards across two sessions.** See
 [event-storming/event_storming.md](./event-storming/event_storming.md) for the index,
 component candidates, depth allocation, and open questions.
 
 - **Board V - Visit Access / Ticketing** (deep): pool purchase, QR-reveal, checkpoint verify,
   burn-on-reveal, MQTT audit channel (`validated`/`revoked`), kiosk rescue path. Reconstructs
   ADR-001 and ADR-002 as a domain event board. Component candidates VA-01..VA-04.
+  Visit access is the hard problem; go deep here.
 - **Board P - Popularity Meter** (next-ADR depth): ADR-002 `validated` events + ride cycles +
   optional zone occupancy - ranked counts + gap-flagging (silence = unknown, NOT zero).
   Component candidates PM-01..PM-02. This board owns the popularity feed; the intranet
-  heat map (CC-06) is a consumer.
+  heat map (IO-01) is a consumer.
 - **Board G - Return Incentive / AI Guide** (shallow): leftover pool hook (ADR-001), opt-in
   trail (FR#2G), win-back trigger (FR#2H). Stays shallow until PM ADR exists.
   Component candidates AG-01..AG-03.
+- **Board A - Animal Care** (parallel, shallower than V): keeper health and feeding
+  observations, enclosure environment, MQTT feeder events, anomaly alerts (FR#2I), piranha
+  population estimates (FR#2J), keeper copilot (FR#2L). Component candidates AC-01..AC-05.
+  Promoted from ops-backup/ and adjusted to consume ADR-001 and ADR-002 as upstream
+  constraints. No dedicated ADR for Animal Care; no ADR invented here.
+- **Board B - Intranet / Estate OS** (parallel, shallower than V): estate heat map, ride
+  status, asset maintenance, staffing and task assignment, incident management, congestion
+  forecasting, ops copilot. Component candidates IO-01..IO-08. Promoted from ops-backup/
+  and adjusted to consume ADR-001 and ADR-002 as upstream constraints. No dedicated ADR
+  for the intranet; no ADR invented here.
 
-**Ops boards (backup):** Animal Care and Intranet / Estate OS are in
-[event-storming/ops-backup/](./event-storming/ops-backup/event_storming.md).
-Those two boards are the prior session; they are not the current derivation-chain work.
-Component candidates CC-01 to CC-14 are defined there; CC-12 (Popularity Aggregator) is
-owned by PM-01 on the guest-lane board above.
+Boards A and B have no dedicated ADRs. They now **consume** ADR-001 and ADR-002: the
+token pool economy and signed QR decisions are upstream constraints, not designs these
+boards re-litigate. The ops-backup/ folder now holds only a one-paragraph pointer.
+Component candidates CC-01..CC-14 from the ops-backup era are mapped to their live
+AC- / IO- / PM-01 IDs in the main index.
 
 There was no physical sticky-note workshop; all iterations are reconstructed from the
 committed requirements documents and ADRs. Honesty note in each index file.
@@ -172,9 +183,9 @@ Capability → requirement → what (if anything) realises it today. In [2_FRs.m
 | Popularity, flow, and staffing evidence | FR#2D, FR#2E, FR#2F | Not yet. Intended input: ADR-002 `validated` events ([plan](./adrs/README.md)). |
 | Returning visitors / itinerary / AI Guide | FR#2G, FR#2H | Not yet. Leftover pool in ADR-001 is the hook, not the design. |
 | Yield experiments and cohort analysis | FR#2A, FR#2B, FR#2C | Not yet. |
-| Animal health, feeding, piranha population | FR#2I, FR#2J | Not yet (parallel workstream). |
-| Ride predictive maintenance | FR#2K | Not yet. |
-| Ops copilot | FR#2L | Not yet. |
+| Animal health, feeding, piranha population | FR#2I, FR#2J | Event-storming Board A (AC-01..AC-05). No ADR yet; ADR-001 / ADR-002 consumed as upstream constraints. |
+| Ride predictive maintenance | FR#2K | Event-storming Board B (IO-03). No ADR yet. |
+| Ops copilot | FR#2L | Event-storming Boards A (AC-05) and B (IO-08). No ADR yet; one service or two is an open question. |
 | MLOps / golden-case evaluation | FR#3 | Not yet (`evals/` is a template). |
 
 ## Known limitations
@@ -183,7 +194,7 @@ Honesty for the next iteration, not a list of regrets.
 
 - **Proposed, not Accepted.** ADR-001 and ADR-002 can still be reversed; they should not be read as locked estate policy.
 - **No C4, no style, no characteristics funnel.** Guest-lane event storming is in the repo; the chain stops before characteristics. Architecture style, C4, and fitness functions are not in the repository yet.
-- **No AI ADRs yet.** Popularity meter is the next Proposed ADR (Board P). Dynamic pricing and AI Guide are later. Animal tracker and intranet have an ops-backup storm only; no ADRs.
+- **No AI ADRs yet.** Popularity meter is the next Proposed ADR (Board P). Dynamic pricing and AI Guide are later. Animal Care and Intranet / Estate OS now have live event-storming boards (A and B); they consume ADR-001 / ADR-002 as upstream constraints but have no dedicated ADR of their own, and none is invented here.
 - **No fitness functions, no per-AI diagrams.** `docs/`, `diagrams/`, and `evals/` hold templates. Placeholders are not architecture.
 - **MQTT broker, kiosks, and gateway placement** are assumptions (also stated inside ADR-001/002). Do not treat them as decided.
 - **Open product questions inside the ADRs we do have:** token expiry and refunds; pack sizes; which of the 55 displays are paid; fraud-window length between QR-reveal and cache write; kiosk paper vs screen reprint.
@@ -195,7 +206,7 @@ Existing top-level folders only:
 
 - [`requirements/`](./requirements/) - problem background: goals, challenges, FRs, NFRs, assumptions, risks, glossary, kata extract, appendices, suggested OKRs.
 - [`adrs/`](./adrs/) - ADR template, two Proposed records, and the next-ADR plan.
-- [`event-storming/`](./event-storming/event_storming.md) - **current** guest-lane boards (Visit Access, Popularity Meter, AI Guide); first-pass dumps, digitised SVGs, component candidates VA-01..VA-04 / PM-01..PM-02 / AG-01..AG-03. Ops boards (Animal Care, Intranet) are in the `ops-backup/` subfolder.
+- [`event-storming/`](./event-storming/event_storming.md) - all five boards; first-pass dumps, digitised SVGs under `assets/`. Guest-lane component candidates VA-01..VA-04 / PM-01..PM-02 / AG-01..AG-03. Ops-board component candidates AC-01..AC-05 (Animal Care) and IO-01..IO-08 (Intranet / Estate OS). Legacy CC-01..CC-14 IDs mapped to live IDs in the main index. Ops-backup/ holds a one-paragraph pointer only.
 - [`docs/`](./docs/TEMPLATE.md) - placeholder for a later architecture narrative.
 - [`diagrams/`](./diagrams/TEMPLATE.md) - placeholder; no architecture diagrams yet.
 - [`evals/`](./evals/TEMPLATE.md) - placeholder; no live eval harness yet.
