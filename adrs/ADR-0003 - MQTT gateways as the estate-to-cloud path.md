@@ -138,7 +138,7 @@ Islanding survival and gap semantics decided it. Option A fails both: small devi
 - Hours of islanding survived per zone without loss of a welfare or access event.
 - Gateway lag p95 and buffer depth, against the ≤30 second ingest target under healthy links (NFR_3).
 - Share of ops screens showing data age - target 100% (OKR 8.2).
-- Backfill drain time after a simulated outage, and duplicate rate after replay.
+- Backfill drain time after a simulated outage, and duplicate rate after replay. Modelled at 17 minutes for one zone and 83 minutes estate-wide after a 72-hour island, inside the 4-hour RTO in `NFR_2` ([hld/sizing](../hld/sizing.md#5-backfill-drain)). The "cost spike rather than a data hole" claim above prices out at **$1.41**.
 
 **Tests (CI)**
 
@@ -156,7 +156,7 @@ Islanding survival and gap semantics decided it. Option A fails both: small devi
 
 **Open questions**
 
-- Hours-of-islanding SLO and therefore disk sizing per gateway - before hardware procurement.
+- ~~Hours-of-islanding SLO and therefore disk sizing per gateway - before hardware procurement.~~ **Resolved** in [hld/sizing](../hld/sizing.md#4-gateway-disk-buffer-and-the-islanding-slo): **72-hour SLO, 8 GiB usable buffer per gateway.** The busiest zone fills 7.03 MiB/hour, so 72 hours needs 506 MiB and 8 GiB buys 48 days. The consequence is that class-based shedding will essentially never fire at this sizing - it is insurance against a far denser sensing plan, not a live control.
 - Zone boundaries: how many gateways, and which of the 55 displays share one - before installation, and it depends on the site survey rather than on software.
 - Which zones carry welfare-critical sensing and therefore justify a second gateway - with the vet and ops, before installation.
 - Downsampling ratios for popularity under pressure - before the first peak season.

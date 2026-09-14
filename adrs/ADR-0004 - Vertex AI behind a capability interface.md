@@ -158,8 +158,8 @@ The swap target and the fallback requirement decided it. Direct SDK calls (A) fa
 **Open questions**
 
 - Which capability is the designated swap-drill subject - before the first capability leaves shadow. The flow forecast is the natural candidate, being ours and least safety-adjacent.
-- Per-capability inference budgets - with commercial, before go-live.
-- Whether the ops copilot is funded at all, given it is the only capability whose cost scales with staff curiosity rather than with estate size.
+- ~~Per-capability inference budgets - with commercial, before go-live.~~ **Resolved** in [cost-analysis](../cost-analysis/README.md#7-per-capability-inference-budgets): seven budgets with an alert threshold at ~3x modelled spend and a hard cap at ~10x, each cap naming the fallback the capability serves instead. Total modelled inference is $17.08/month against a $210 combined cap.
+- ~~Whether the ops copilot is funded at all, given it is the only capability whose cost scales with staff curiosity rather than with estate size.~~ **Resolved: yes, with a $30 cap.** At the modelled 1,800 queries/month it costs $2.61, which is 3.6% of the cloud bill. The cap drops it to non-generative SOP retrieval rather than switching it off, because the risk is the usage multiplier and not the rate - at 100x the assumed usage it would cost more than the rest of the platform combined. Arithmetic in [cost-analysis](../cost-analysis/README.md#is-the-ops-copilot-funded).
 - How fallback mode is signalled in the intranet UI - with the intranet workstream, before the first promotion.
 
 **Revisit triggers**

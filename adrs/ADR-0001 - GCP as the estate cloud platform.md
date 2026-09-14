@@ -143,12 +143,12 @@ Burst ingest and operability decided it. AWS IoT Core is the better device-manag
 
 - Region and eventual jurisdiction - before any guest PII is stored beyond a ticket.
 - Whether the ticketing store is Cloud SQL or Firestore - before ticketing implementation; both satisfy this record.
-- Per-pipeline budget ceilings, especially the inference line - before the first AI capability leaves shadow.
+- ~~Per-pipeline budget ceilings, especially the inference line - before the first AI capability leaves shadow.~~ **Resolved** in [cost-analysis](../cost-analysis/README.md#8-per-pipeline-budget-ceilings): five labelled pipelines totalling $72.40/month modelled, $242 alert, $680 ceiling. The inference line is $14.47.
 
 **Revisit triggers**
 
 - Device count grows past a few thousand, or device management (firmware, rotation, provisioning at scale) becomes the dominant operational cost - re-evaluate AWS IoT Core.
-- BigQuery or Pub/Sub cost exceeds the ticketing line - revisit tiering before revisiting the provider.
+- BigQuery or Pub/Sub cost exceeds the ticketing line - revisit tiering before revisiting the provider. Modelled, warehouse is $10.10 against ticketing's $24.55, so this trigger fires at roughly 2.5x today's sensor and dashboard load ([cost-analysis](../cost-analysis/README.md#8-per-pipeline-budget-ceilings)). It is a live trigger, not a theoretical one, and the first mitigation is materialised views rather than anything to do with the provider.
 - A jurisdiction ADR lands that GCP cannot satisfy in-region.
 
 ## Conclusion
