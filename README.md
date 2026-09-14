@@ -19,6 +19,7 @@ Team name: **SW People**
 - [Problem statement](#problem-statement)
 - [Capability map](#capability-map)
 - [Tech stack at a glance](#tech-stack-at-a-glance)
+- [What it is sized for, and what it costs](#what-it-is-sized-for-and-what-it-costs)
 - [Decision index](#decision-index)
 - [How we verify the AI](#how-we-verify-the-ai)
 - [What we deliberately did not do](#what-we-deliberately-did-not-do)
@@ -77,10 +78,13 @@ She asked four things. Each maps to one deep-dive, and each has a deliberate lim
 
 | Folder | Contents |
 |:--|:--|
-[`requirements/`](requirements/) | Business goals, challenges, FRs, NFRs, assumptions, risks, OKRs, appendices
+[`requirements/`](requirements/) | Business goals, challenges, FRs, NFRs, assumptions, risks, OKRs, appendices, [glossary](requirements/6_Glossary.md)
 [`adrs/`](adrs/) | Architecture decision records with trade-off analysis
-[`hld/`](hld/README.md) | High level design - core platform, three AI deep-dives, MLOps, data structures
+[`hld/`](hld/README.md) | High level design - core platform, three AI deep-dives, MLOps, data structures, [sizing](hld/sizing.md), [deployment](hld/deployment.md)
 [`evals/`](evals/README.md) | Golden cases per AI capability (NFR_13)
+[`cost-analysis/`](cost-analysis/README.md) | What the platform costs per month and per visitor, from published GCP prices, with sensitivity at 2x provider price and 3x volume
+[`fitness-functions/`](fitness-functions/README.md) | One measurable threshold per driving characteristic, each with its arithmetic and an honest verdict
+[`diagrams/`](diagrams/legend.md) | The diagram key for all 28 mermaid diagrams in this repository
 
 ## Problem statement
 
@@ -126,7 +130,11 @@ Capability → requirement → decision → design.
 | Health and feeding anomalies | [FR#2I](requirements/2_FRs.md) | [ADR-0022](adrs/ADR-0022%20-%20Shadow%20before%20promote%20for%20animal%20health%20anomaly%20detection.md) | [Animal care](hld/scenarios/animal-care/README.md) |
 | Aquatic population tracking | [FR#2J](requirements/2_FRs.md) | [ADR-0023](adrs/ADR-0023%20-%20Anchor%20aquatic%20population%20on%20human%20census.md) | [Animal care](hld/scenarios/animal-care/README.md) |
 | **AI: ride maintenance** | | | |
-| Predictive ride maintenance | [FR#2K](requirements/2_FRs.md) | [ADR-0005](adrs/ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md) | [Maintenance and intranet](hld/core-func/4_Maintenance_and_Intranet.md) |
+| Predictive ride maintenance | [FR#2K](requirements/2_FRs.md) | [ADR-0014](adrs/ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md) | [Maintenance and intranet](hld/core-func/4_Maintenance_and_Intranet.md) |
+| **Cross-cutting** | | | |
+| Cost control per capability | NFR_12 | [ADR-0004](adrs/ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md) | [Cost analysis](cost-analysis/README.md) |
+| Sizing, deployment, disaster recovery | NFR_1, NFR_2 | [ADR-0003](adrs/ADR-0003%20-%20MQTT%20gateways%20as%20the%20estate-to-cloud%20path.md) | [Sizing](hld/sizing.md), [Deployment](hld/deployment.md) |
+| Provider uncertainty and LLM security | [FR#3](requirements/2_FRs.md), NFR_6, NFR_14 | [ADR-0004](adrs/ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md) | [Uncertainty](hld/mlops/uncertainty.md), [LLM security](hld/mlops/llm-security.md) |
 
 ## Tech stack at a glance
 
@@ -138,9 +146,10 @@ Capability → requirement → decision → design.
 
 **Cloud core (GCP)**
 - Pub/Sub as the event backbone, sized for reconnect backfill rather than steady state
-- Dataflow for validation, dedupe, and **gap detection** - where `unknown` is created
-- Cloud Run for ticketing, entitlement minting, and the intranet BFF
+- Validation, dedupe, and **gap detection** - where `unknown` is created - as scheduled BigQuery queries rather than an always-on streaming job. [Pricing it](cost-analysis/README.md#the-streaming-pipeline-is-the-single-largest-line-and-it-should-not-be) showed a 24/7 Dataflow worker costing more than the rest of the platform combined to handle 17.6 messages a second
+- Cloud Run for ticketing, entitlement minting, and the intranet BFF - two instances kept warm, everything else scaling to zero
 - BigQuery as the warehouse, tiered hot 30d / warm 1y / cold 3y
+- One region, `europe-west2`, because a regional outage is an analytics outage and not an estate outage ([deployment](hld/deployment.md))
 
 **AI**
 - Vertex AI for training, batch scoring, and evaluation
@@ -148,6 +157,24 @@ Capability → requirement → decision → design.
 - Pinned versions, metered cost, and a kill switch per capability
 
 **Deliberately not in the stack:** a managed model control plane (answering vendor risk by adding a vendor), always-on inference serving (all three deep-dives are scheduled jobs), computer vision for people (privacy and cost), and a guest mobile app as a requirement (web and kiosk work when signal does not).
+
+## What it is sized for, and what it costs
+
+Every number below is derived in [sizing](hld/sizing.md) or priced from a published GCP rate card in [cost-analysis](cost-analysis/README.md). A figure that appears anywhere in this repository without one of those two behind it is a figure to challenge.
+
+| | At launch, 5,000/day | At 15,000/day |
+|:--|--:|--:|
+| MQTT devices | 527 | 535 |
+| Messages per second, peak | 17.6 | 17.6 |
+| Gate lanes | 3 | 7 |
+| Cloud cost per month | $67.24 | **$72.40** |
+| Cloud cost per visitor | $0.00045 | **$0.00016** |
+
+Three things fall out of that table, and each one shaped a decision:
+
+- **The estate's telemetry does not scale with visitors.** Forty rides and fifty-five displays produce the same traffic whether 5,000 or 15,000 people walk past them, so tripling visitors adds **eight devices** - four more gate lanes' worth of scanner and controller. Everything else is already installed. That is why 3x growth costs **+7.7%** in cloud spend and a lane-building programme.
+- **Edge aggregation is an 84x cost lever.** Publishing every device at 1 Hz would cost $154.59/month in Pub/Sub alone, against $1.85 aggregated at the gateway. The gateways exist to survive patchy Wi-Fi; paying for themselves several times over in ingest was not the reason to build them.
+- **AI is 24% of the bill and the part everyone worries about.** $17.08 of the $72.40 is model-metered, so a provider doubling every price adds $14.47 and takes the total to $86.87. The estate would notice. It would not have to change the architecture. See [uncertainty](hld/mlops/uncertainty.md).
 
 ## Decision index
 
@@ -163,6 +190,7 @@ Capability → requirement → decision → design.
 [ADR-0011](adrs/ADR-0011%20-%20Sticky%20offline%20experiment%20assignment.md) | Variant assigned at purchase and carried in the entitlement
 [ADR-0012](adrs/ADR-0012%20-%20Cohort%20analysis%20on%20declared%20attributes%20only.md) | Cohorts from declared and consented attributes; inferred never becomes a record
 [ADR-0013](adrs/ADR-0013%20-%20Popularity%20and%20flow%20as%20advisory%20signals%20that%20degrade%20to%20unknown.md) | Popularity reported with coverage; the forecast stops when coverage drops
+[ADR-0014](adrs/ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md) | Ride maintenance may pull an inspection forward and never push one back
 [ADR-0020](adrs/ADR-0020%20-%20Enclosure%20and%20colony%20as%20the%20care%20subject.md) | The care subject is the enclosure or colony; cardinality carries its certainty
 [ADR-0021](adrs/ADR-0021%20-%20Keeper%20field%20events%20are%20append-only%20and%20offline-first.md) | Keeper entries are append-only; a confirmed fact is never revised by a model
 [ADR-0022](adrs/ADR-0022%20-%20Shadow%20before%20promote%20for%20animal%20health%20anomaly%20detection.md) | Rules first, model in shadow, promotion earned per subject type
@@ -178,7 +206,9 @@ Judges asked for validation and verification, and for dealing with uncertainty. 
 
 An accuracy number is a claim that degrades quietly. A refusal case fails loudly the moment someone removes the guard.
 
-On uncertainty: versions are pinned, model version is recorded on every output, fallbacks are exercised rather than documented, and an annual **swap drill** proves the two-week provider migration in NFR_14 by doing it.
+Above the capabilities, [`fitness-functions/`](fitness-functions/README.md) holds ten measurable thresholds - one per driving characteristic - each with its arithmetic and a verdict. Five pass on the arithmetic today, three are specified and waiting on a system to run against, and **two are honestly unproven**: the two-week provider swap, which is untested until the first drill, and whether three people can actually operate this. Publishing the two that fail is the point; a fitness function that only ever reports success is a dashboard.
+
+On uncertainty: versions are pinned, model version is recorded on every output, fallbacks are exercised rather than documented, and an annual **swap drill** proves the two-week provider migration in NFR_14 by doing it. The briefing's three provider questions - better models, price rises, and a provider disappearing - are answered directly in [uncertainty](hld/mlops/uncertainty.md), and the two capabilities that put text through a language model are assessed against the OWASP LLM Top 10 in [llm-security](hld/mlops/llm-security.md).
 
 ## What we deliberately did not do
 
@@ -198,7 +228,7 @@ Deferred ideas are listed in [Appendix C](requirements/Appendix%20C_%20Future%20
 
 ## Phasing
 
-Four of six AI capabilities launch with **no history at all** - no conversion data, no occupancy history, no animal health labels, no fish counts. So each ships its pipeline with a human or a rule where the model will later sit, and phase 1 manufactures the training data phase 2 needs.
+Four of the [seven AI capabilities](adrs/ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md#the-canonical-inventory) launch with **no history at all** - no conversion data, no occupancy history, no animal health labels, no fish counts. So each ships its pipeline with a human or a rule where the model will later sit, and phase 1 manufactures the training data phase 2 needs.
 
 | Phase | Emphasis |
 |:--|:--|

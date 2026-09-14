@@ -50,15 +50,19 @@ Not options: a third-party experimentation SaaS (another vendor, another offline
 
 **The variant is assigned once, at order creation, and carried in the signed entitlement and the ticket record. Nothing downstream ever looks it up.**
 
-```
-purchase (web or kiosk)
-   |
-   +-- assignment service: hash(assignment key) against the active experiment snapshot
-   |      |
-   |      +-- DENYLIST CHECK: factor must not be safety / welfare / accessibility / legal
-   |
-   +-- variant written to: ticket record  (analysis)
-                           signed claim   (offline surfaces, ADR-0002)
+```mermaid
+flowchart TB
+  buy["Purchase, web or kiosk"]
+  assign["Assignment service<br/>hash(assignment key) against the<br/>active experiment snapshot"]
+  deny["DENYLIST CHECK<br/>the factor must not be safety, welfare,<br/>accessibility or legal"]
+  subgraph written [Written in two places, and that is the point]
+    ticket["Ticket record<br/>for analysis"]
+    claim["Signed claim<br/>so offline surfaces agree (ADR-0002)"]
+  end
+  buy --> assign
+  assign --> deny
+  deny --> ticket
+  deny --> claim
 ```
 
 Four rules follow.

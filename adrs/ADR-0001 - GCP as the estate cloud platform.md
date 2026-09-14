@@ -17,7 +17,7 @@ That condition inverts the usual cloud decision. The estate's hot paths - gate a
 What the cloud is actually being bought for:
 
 - **Ingest** of MQTT telemetry from ~500-1000 devices across 40 rides and 55 displays, including multi-hour backfill spikes after a Wi-Fi island reconnects (NFR_1).
-- **Three async AI workloads**: overnight pricing proposals, 30-90 minute flow forecasts, animal health anomaly scoring. None of them sit on a request path.
+- **Seven async AI capabilities** ([ADR-0004](ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md) holds the canonical inventory): pricing proposals, cohort analysis, flow forecasts, animal health anomaly scoring, the piranha population estimate, ride maintenance, and an optional ops copilot. **Not one of them sits on a request path**, which is why the count does not change this record: the platform is being bought to train and score in batch, so a seventh capability is another set of scheduled queries rather than another platform. Six train in BigQuery ML on our own warehouse; only the copilot needs an always-available foundation model, and it is the one capability the estate can switch off.
 - **Warehouse and reporting**: popularity, yield per visitor, 90-day return, inspection compliance.
 - **Eval and drift infrastructure** to satisfy NFR_13.
 

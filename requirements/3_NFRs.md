@@ -21,8 +21,8 @@
 
 ## 3. Security, Safety & Compliance
 
-**NFR_6. Security:** TLS in transit where the radio allows; secrets not in MQTT payloads; least-privilege staff roles on the intranet; MFA for destructive ops (ride evacuation command, mass refund, model promotion). Payment via a PCI-scoped provider (tokenization); the estate platform does not store raw card data.
-**Risk:** Physical access to MQTT hardware, rogue devices, kiosk tampering.
+**NFR_6. Security:** TLS in transit where the radio allows; secrets not in MQTT payloads; least-privilege staff roles on the intranet; MFA for destructive ops (ride evacuation command, mass refund, model promotion). Payment via a PCI-scoped provider (tokenization); the estate platform does not store raw card data. The two capabilities that put text through a language model are assessed against the OWASP LLM Top 10 in [llm-security](../hld/mlops/llm-security.md).
+**Risk:** Physical access to MQTT hardware, rogue devices, kiosk tampering. Indirect prompt injection through keeper free-text reaching the ops copilot.
 
 **NFR_7. Safety integrity:** Ride-open/closed, emergency stop, animal-escape, and evacuation flows are deterministic and human-authored. AI may draft work orders or suggest closures; it may not open a ride or silence a welfare alarm. All safety actions are audited.
 **Risk:** “Helpful” copilot or experiment framework accidentally gating a safety message.

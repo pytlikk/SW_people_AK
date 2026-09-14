@@ -1,6 +1,6 @@
 # Diagram key
 
-Nineteen mermaid diagrams across this repository. They use a small, deliberately restricted vocabulary, and this page is the whole of it.
+Twenty-eight mermaid diagrams across this repository. They use a small, deliberately restricted vocabulary, and this page is the whole of it.
 
 The governing rule is at the top because it is the one that matters:
 
@@ -14,28 +14,18 @@ That is a choice, not an omission. A diagram that uses a cylinder for a datastor
 
 ```mermaid
 flowchart TB
-  subgraph tiers ["1. Subgraphs group by one of three things - the label always says which"]
-    direction LR
-    t1["Trust tier<br/><i>Hot path - deterministic, works offline</i>"]
-    t2["Deployment location<br/><i>On estate - must work offline</i>"]
-    t3["Physical place<br/><i>In the animal house - no signal</i>"]
+  subgraph tiers ["A subgraph groups by one of three things, and its label says which"]
+    t1["Trust tier - 'Hot path, deterministic, works offline'"]
+    t2["Deployment location - 'On estate, must work offline'"]
+    t3["Physical place - 'In the animal house, no signal'"]
   end
-
-  subgraph arrows ["2. Arrow styles"]
-    direction LR
-    a1["A"] --> a2["B"]
-    a3["C"] -.->|"when online"| a4["D"]
+  subgraph arrows ["Arrows: solid is unconditional, dashed is always labelled"]
+    a1["Source"] --> a2["Solid: always present, expected to work"]
+    a1 -.->|"when online"| a3["Dashed: the label says the condition"]
   end
-
-  subgraph seq ["3. In sequence diagrams"]
-    direction LR
-    s1["actor = a person"]
-    s2["participant = a system"]
-    s3["--x = the message does not arrive"]
-  end
-
-  tiers ~~~ arrows ~~~ seq
 ```
+
+Sequence diagrams add two declarations and one arrow: `actor` for a person, `participant` for a system, and `--x` for a message that does not arrive. Sections 1 to 3 below are the whole of it.
 
 ## 1. Subgraphs
 
@@ -55,9 +45,10 @@ The three-way overlap is deliberate rather than sloppy. **The trust tier and the
 
 | Style | Meaning | Count |
 |:--|:--|--:|
-| `-->` | A solid dependency or data flow. Always present, always expected to work. | 131 |
-| `-.->` | **A qualified edge. Always labelled.** The label says which of the three qualifications applies - see below. | 6 |
+| `-->` | A solid dependency or data flow. Always present, always expected to work. | 179 |
+| `-.->` | **A qualified edge. Always labelled.** The label says which of the three qualifications applies - see below. | 14 |
 | `->>` | A message in a sequence diagram. Same weight as `-->`; the different glyph is mermaid's, not ours. | 75 |
+| `-->>` | A reply in a sequence diagram. Mermaid draws it dotted; **that dotting means "this is a response", not "this is conditional"** - the flowchart meaning of dashed does not carry over. | 15 |
 | `--x` | In a sequence diagram: **the message is sent and does not arrive.** Used once, for a gateway bridging to a cloud that is not there. | 1 |
 
 ### The three things a dashed arrow can mean
@@ -72,7 +63,7 @@ Every dashed arrow in this repository carries a label, and the label disambiguat
 
 All three are forms of "this edge is not unconditional", which is why they share a glyph. They differ in who decides: the network decides the first, a promotion gate decides the second, a monitor decides the third.
 
-**If you add a dashed arrow, label it.** An unlabelled `-.->` is a diagram bug, and it is the only rule here that a reviewer should reject a change for.
+**If you add a dashed arrow, label it.** An unlabelled `-.->` is a diagram bug, and it is the only rule here that a reviewer should reject a change for. It is also the one rule on this page that is mechanically checkable, and at the time of writing all 14 dashed arrows in the repository carry a label.
 
 ## 3. Sequence diagrams
 
@@ -89,7 +80,7 @@ The split matters more than it looks. Half the point of these diagrams is that *
 
 | Type | Used for | Count |
 |:--|:--|--:|
-| `flowchart` | Structure: what talks to what, and which tier it sits in. | 12 |
+| `flowchart` | Structure: what talks to what, and which tier it sits in. | 21 |
 | `sequenceDiagram` | Behaviour over time, especially the offline and degraded cases. | 7 |
 
 There is no C4 notation, no UML, and no deployment-diagram symbology. [hld/core-func/1_Context](../hld/core-func/1_Context.md) is a context diagram in spirit - one bolded box for the system under design, everything else an external - but it is drawn as a flowchart like the rest, so a reader never has to switch alphabets.
@@ -101,6 +92,6 @@ There is no C4 notation, no UML, and no deployment-diagram symbology. [hld/core-
 - **No shape vocabulary.** See the rule at the top.
 - **No icons.**
 
-The whole notation is three subgraph meanings, four arrow styles, and one shape. A reader who has read this page has read everything the diagrams can say.
+The whole notation is three subgraph meanings, five arrow styles, and one shape. A reader who has read this page has read everything the diagrams can say.
 
 Related: [README](../README.md), [hld/README](../hld/README.md) (diagram conventions in context), [requirements/6_Glossary](../requirements/6_Glossary.md) (what the words in the boxes mean).

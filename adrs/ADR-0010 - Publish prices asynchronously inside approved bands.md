@@ -52,14 +52,23 @@ Not options: surge pricing while a guest is inside the estate (they have already
 
 **A scheduled job proposes prices; the proposal is clamped to commercial floors and ceilings; the clamped result is published as a versioned snapshot; every channel reads the snapshot.**
 
-```
-occupancy + daypart + weather + calendar + conversion history
-        v
-  proposal job (scheduled)
-        v
-  CLAMP to commercial floors/ceilings   <-- deterministic code, not the model
-        v
-  versioned price list snapshot  -->  web / kiosk / gate lane (last known good)
+```mermaid
+flowchart TB
+  subgraph async [Async path - AI, advisory, may fail]
+    inputs["Occupancy, daypart, weather,<br/>calendar, conversion history"]
+    job["Proposal job<br/>scheduled, never on request"]
+    clamp["CLAMP to commercial floors and ceilings<br/>deterministic code, not the model"]
+  end
+  subgraph edge [Edge snapshot - last known good, age visible]
+    snap["Versioned price list"]
+  end
+  subgraph hot [Hot path - deterministic, works offline]
+    surfaces["Web, kiosk, gate lane<br/>reads a file, calls nothing"]
+  end
+  inputs --> job
+  job --> clamp
+  clamp --> snap
+  snap --> surfaces
 ```
 
 Four rules follow.

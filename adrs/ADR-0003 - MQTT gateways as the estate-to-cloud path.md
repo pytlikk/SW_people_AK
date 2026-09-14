@@ -50,10 +50,23 @@ Not options: a proprietary always-on IoT suite with guaranteed bandwidth (the co
 
 **Every zone runs a gateway that is both a local MQTT broker and a store-and-forward bridge to cloud ingest. The gateway is the unit of islanding, and it publishes its own silence.**
 
-```
-device --MQTT--> zone gateway --(disk buffer)--> bridge --> Pub/Sub --> Dataflow --> BigQuery
-                      |                                                    |
-                      +--> local subscribers (gate lane, keeper app, edge dashboard)
+```mermaid
+flowchart LR
+  subgraph zone [In the zone - keeps working when the uplink does not]
+    device["Device<br/>publishes over MQTT"]
+    gw["Zone gateway<br/>local broker + 8 GiB disk buffer"]
+    local["Local subscribers<br/>gate lane, keeper app, edge dashboard"]
+  end
+  subgraph cloud [Cloud - may be unreachable for days]
+    ps["Pub/Sub"]
+    df["Dataflow<br/>validate, dedupe, gap detection"]
+    bq["BigQuery"]
+  end
+  device --> gw
+  gw --> local
+  gw -->|"bridge, when a link exists"| ps
+  ps --> df
+  df --> bq
 ```
 
 Four rules follow.

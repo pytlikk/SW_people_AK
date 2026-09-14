@@ -107,6 +107,6 @@ Every AI provider on earth going dark at once is the easiest of these scenarios 
 
 What is lost is advice: the congestion forecast, the price proposals, the anomaly ranking, the narrative. The estate runs the way it ran before any of it existed, and every screen says so.
 
-**The availability arithmetic behind that claim** - why the hot path carries no provider availability term at all, because it makes no call - is worked through in [fitness-functions](../../fitness-functions/README.md#2-availability).
+**The availability arithmetic behind that claim** - why the hot path carries no provider availability term at all, because it makes no call - is worked through in [fitness-functions](../../fitness-functions/README.md#1-availability).
 
 Related: [ADR-0004](../../adrs/ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md) (the interface these answers rest on), [cost-analysis](../../cost-analysis/README.md), [mlops](README.md) (promotion and the four monitors), [evals](../../evals/README.md), [3_NFRs](../../requirements/3_NFRs.md) (`NFR_14`).
