@@ -35,15 +35,15 @@ These are **working assumptions** for this workstream, in the same sense that MQ
 
 ## 3. Published - our contract with the other workstreams
 
-Surfaces only. Field-level detail is defined in the data contract once ADR-020 fixes granularity.
+Surfaces here; field-level detail in the [data contract](animal-care-data-contract.md).
 
-| We publish | Consumed by | Status |
+| We publish | Consumed by | Fields |
 |---|---|---|
-| Enclosure / colony state, with data age and gap flags | Intranet (duty-manager view, keeper views) | Fields TBD - data contract |
-| Welfare alerts with confidence, evidence, and suggested action | Intranet (alert inbox, FR#2I / FR#2J) | Fields TBD - data contract |
-| Alert decision events (keeper accept / reject / resolve) | Our own training loop; intranet audit view | Fields TBD - data contract |
-| Population estimate with error band and census reconciliation | Intranet; Countess reporting | Fields TBD - data contract |
-| Containment / escape detection signal | Intranet incident flow - **we emit, they respond** | Fields TBD; response stays deterministic per NFR_7 |
+| Subject state, with data age and freshness | Intranet (duty-manager view, keeper views) | [4.1](animal-care-data-contract.md#41-subject_state) |
+| Welfare alerts with confidence, evidence, and suggested action | Intranet (alert inbox, FR#2I) | [4.2](animal-care-data-contract.md#42-welfare_alert) |
+| Alert decision events (keeper accept / reject / resolve) | Flows back to us as the training label | [4.3](animal-care-data-contract.md#43-alert_decision) |
+| Population estimate with interval and census anchor | Intranet; Countess reporting | [4.4](animal-care-data-contract.md#44-population_estimate) |
+| Containment / escape detection signal | Intranet incident flow - **we emit, they respond** | [4.5](animal-care-data-contract.md#45-containment_signal); response stays deterministic per NFR_7 |
 
 ## 4. Out of scope - and who has it
 
@@ -75,8 +75,8 @@ Surfaces only. Field-level detail is defined in the data contract once ADR-020 f
 | [ADR-023](../adrs/ADR-023-anchor-piranha-population-on-human-census.md) - census-anchored population interval | FR#2J, interval coverage, census as ground truth | Proposed |
 | [`evals/animal-health-anomaly/`](../evals/animal-health-anomaly/) | NFR_13 validation - 6 golden cases, gaps listed | Specification, no runner |
 | [`evals/piranha-population/`](../evals/piranha-population/) | NFR_13 validation - 5 golden cases, gaps listed | Specification, no runner |
-| Data contract | Fields, semantics, freshness for section 3 | Not started |
-| `diagrams/` - legend, container view, component view, one targeted AI view per capability | Kata deliverable: a targeted view for each use of AI | Not started |
+| [`diagrams/`](../diagrams/00-legend.md) - legend, container, component, two targeted AI views, one sequence | Kata deliverable: a targeted view for each use of AI | Done, PNG fallbacks in `diagrams/png/` |
+| [Data contract](animal-care-data-contract.md) | Fields, semantics, freshness and invariants for section 3 | Done, open questions carried from ADRs |
 | Narrative section in `docs/` | Kata deliverable: overview | Not started |
 
 ## 7. Open questions

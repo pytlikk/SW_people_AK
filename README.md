@@ -37,7 +37,7 @@ The risk this architecture is being built around is **patchy connectivity on a s
 
 So we are designing **access that still works offline at 40 rides and 55 enclosures**. A visitor buys a fungible **token pool** at home and spends it at live attraction prices; the checkpoint camera scans a **signed static QR** and verifies it locally. That pair is the substrate: checkpoint events can later feed a popularity meter; leftover pool can later feed a return incentive. We have not yet designed the AI that sits on top.
 
-**Depth allocation (deliberate, not a delay):** go deep on ticketing and access first, then the popularity meter, then dynamic-pricing AI, then the return incentive / AI Guide. Animal tracking is a parallel workstream. It is specified in requirements; it is not in ADRs yet.
+**Depth allocation (deliberate, not a delay):** go deep on ticketing and access first, then the popularity meter, then dynamic-pricing AI, then the return incentive / AI Guide. **Animal care runs as a parallel workstream and is now designed** - [ADR-020 to ADR-023](./adrs/README.md), five diagrams, and eleven golden cases. Its boundaries are stated in [animal-care-scope.md](./docs/animal-care-scope.md).
 
 MQTT-capable hardware is in the brief’s budget. Broker topology, kiosks, and gateway placement are **working assumptions** until their own ADRs exist - they are not decisions in this repository.
 
@@ -67,7 +67,14 @@ Our main contributions for this objective are:
 Our main contributions for this objective are:
 
 - Keeper-facing scope in [Appendix A](./requirements/Appendix%20A_%20Core%20functionality.md) (2-4 animal care) and FRs **FR#2I**, **FR#2J** in [2_FRs.md](./requirements/2_FRs.md).
-- Human-in-the-loop rule in [Appendix B](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md): health and population alerts are advisory; keepers and vets decide. This workstream is **parallel**, not sequenced behind ticketing in the [ADR plan](./adrs/README.md), and it has **no ADR yet**.
+- Human-in-the-loop rule in [Appendix B](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md): health and population alerts are advisory; keepers and vets decide.
+- [ADR-020 - care subject as the unit of record](./adrs/ADR-020-use-care-subject-as-unit-of-record.md) *(Proposed)*: what a welfare record is *about* is a subject - individual, group, or colony - and the enclosure is a dated placement. History survives a move to quarantine, and the piranha colony stops being an exception.
+- [ADR-021 - keeper observations off the telemetry path](./adrs/ADR-021-keep-keeper-observations-off-the-telemetry-path.md) *(Proposed)*: a lost sensor reading is a gap; a lost keeper note is unrecoverable and a missing training label. Device-local append-only log, idempotent batch sync, deferred attachments.
+- [ADR-022 - per-subject baselines before any trained model](./adrs/ADR-022-detect-welfare-anomalies-against-per-subject-baselines.md) *(Proposed)*: **FR#2I**. No labelled illness events exist on day one, so the detector starts as arithmetic and earns its way up a tier ladder. The alert inbox is the labelling machine.
+- [ADR-023 - census-anchored population interval](./adrs/ADR-023-anchor-piranha-population-on-human-census.md) *(Proposed)*: **FR#2J**. The answer is an interval that widens away from its anchor, never a count - so the system asks for a census when it needs one.
+- Targeted AI views for both capabilities, a container view, a component view, and a sequence: [diagrams/00-legend.md](./diagrams/00-legend.md).
+- The [data contract](./docs/animal-care-data-contract.md): what is recorded, what it means, and ten machine-checkable invariants. This is the interface the ops intranet builds against, and what the golden cases are typed against.
+- Golden cases: [`evals/animal-health-anomaly/`](./evals/animal-health-anomaly/) (6) and [`evals/piranha-population/`](./evals/piranha-population/) (5). Specifications, not a runner.
 
 ### 4. Grow returning visitors and make the estates profitable
 
@@ -80,11 +87,13 @@ Our main contributions for this objective are:
 
 ### 5. Use AI on those three challenges - and be able to tell if it is working
 
-Our main contributions for this objective are the **specification**, not the design:
+Specification for most scenarios; design for animal care.
 
 - AI scenario table **FR#2A–FR#2L** and platform ops **FR#3** in [2_FRs.md](./requirements/2_FRs.md), expanded in [Appendix B](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md).
-- Verification intent in [3_NFRs.md](./requirements/3_NFRs.md) (NFR_13–NFR_15) and a placeholder under [evals/](./evals/TEMPLATE.md).
-- **No AI ADRs, no per-scenario diagrams, and no golden-case harness yet.** Core ticketing and gate access stay deterministic; that rule is already in the FR file.
+- Verification intent in [3_NFRs.md](./requirements/3_NFRs.md) (NFR_13–NFR_15).
+- **Designed and verifiable: FR#2I and FR#2J.** Two AI ADRs with trade-off tables, two targeted AI views, eleven golden cases, and a stated primary metric for each - recall against keeper- and vet-confirmed events, and interval coverage against census. Both answer the uncertainty question concretely: only the narrative tier touches a vendor, so a provider vanishing costs prose, not detection.
+- **Still specification only: FR#2A-FR#2H, FR#2K, FR#2L, FR#3.** No ADRs, no diagrams, no golden cases for pricing, popularity, loyalty, ride maintenance, the ops copilot, or MLOps.
+- Core ticketing and gate access stay deterministic; that rule is already in the FR file.
 
 ## Derivation chain
 
@@ -102,7 +111,7 @@ This stage is in the repo. Start at [1_0_Business goals & drivers.md](./requirem
 
 **No funnel in the repository yet** - no candidate list, no cut to a top seven, no driving top three, no downplayed-characteristic ADRs.
 
-[3_NFRs.md](./requirements/3_NFRs.md) is a requirements list, not that funnel. The two ADRs we do have name *local* evaluation criteria: ADR-001 is driven by repricing agility and SKU operability; ADR-002 by offline admission at the checkpoint and operability (commodity cameras, no wallet-cert programme). Those are not a system-wide characteristics decision.
+[3_NFRs.md](./requirements/3_NFRs.md) is a requirements list, not that funnel. Every ADR names *local* evaluation criteria instead: ADR-001 is driven by repricing agility and SKU operability; ADR-002 by offline admission and operability; ADR-020 by welfare continuity and colony support; ADR-021 by not losing a human observation and by label integrity; ADR-022 by cold start and species heterogeneity; ADR-023 by honest uncertainty and change latency. Those are six local decisions, not a system-wide characteristics decision.
 
 ### Architecture style
 
@@ -116,16 +125,24 @@ This is where the work currently is. Index and next-up plan: [adrs/README.md](./
 |---|---|---|
 | [ADR-001](./adrs/ADR-001-use-home-bought-token-pool.md) | Home-bought **token pool**, spent at live attraction prices - not per-attraction tickets from home. | Proposed |
 | [ADR-002](./adrs/ADR-002-use-signed-static-QR-for-attraction-token-presentation.md) | **Signed static QR**; checkpoint camera scans the visitor; local verify; burn-on-reveal; 40 rides + 55 enclosures; no phone→DB at the gate. | Proposed |
+| [ADR-020](./adrs/ADR-020-use-care-subject-as-unit-of-record.md) | A **care subject** - individual, group, or colony - is the unit of record; the enclosure is a dated placement. | Proposed |
+| [ADR-021](./adrs/ADR-021-keep-keeper-observations-off-the-telemetry-path.md) | Keeper observations stay **off the MQTT telemetry path**: device-local append-only log, idempotent batch sync, deferred attachments. | Proposed |
+| [ADR-022](./adrs/ADR-022-detect-welfare-anomalies-against-per-subject-baselines.md) | Score each subject against **its own baseline** before any trained model; tier ladder set by label availability. | Proposed |
+| [ADR-023](./adrs/ADR-023-anchor-piranha-population-on-human-census.md) | Publish a **census-anchored interval** for the piranha colony, never a count. | Proposed |
 
-Both records are **Proposed**, not Accepted. MQTT broker, kiosks, and gateway placement wait for their own ADRs ([plan](./adrs/README.md)).
+All records are **Proposed**, not Accepted. Numbers are allocated in blocks so parallel workstreams do not collide: 001-019 ticketing and its follow-ons, 020-029 animal care ([index](./adrs/README.md)). MQTT broker, kiosks, and gateway placement still wait for their own ADRs, and the animal-care records name that dependency as an assumption rather than designing it.
 
 ### C4 views
 
-**Not in the repository yet.** [diagrams/TEMPLATE.md](./diagrams/TEMPLATE.md) is a placeholder, not a context or container view.
+**Animal care only.** [Container view](./diagrams/c2-containers-animal-care.md) and [component view](./diagrams/c3-components-animal-care.md), with a [legend](./diagrams/00-legend.md) because shapes carry meaning. PNG exports in [`diagrams/png/`](./diagrams/png/).
+
+**No system context view, and nothing for ticketing or the intranet.** There is no C1, and the two ticketing ADRs have no diagram of any kind.
 
 ### Use cases and AI scenarios
 
-Scenarios are **named** in [Appendix B](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md) and **FR#2A–FR#2L**. Sequence diagrams, per-AI-scenario folders, and targeted AI views are **not in the repository yet**. [docs/TEMPLATE.md](./docs/TEMPLATE.md) is a placeholder for a later narrative, not an overview deliverable.
+Scenarios are **named** in [Appendix B](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md) and **FR#2A–FR#2L**. Targeted AI views exist for two of them: [animal health and feeding anomalies](./diagrams/ai-animal-health-anomaly.md) (FR#2I) and [piranha population](./diagrams/ai-piranha-population.md) (FR#2J), plus a [sequence](./diagrams/seq-offline-observation-to-label.md) tracing one keeper observation from a dead zone to a training label.
+
+**The other ten AI scenarios have no targeted view.** [docs/TEMPLATE.md](./docs/TEMPLATE.md) is still a placeholder; the only narrative in `docs/` is the animal-care [scope and boundaries](./docs/animal-care-scope.md), which is a team agreement rather than an overview deliverable.
 
 ### Deployment
 
@@ -133,7 +150,11 @@ Scenarios are **named** in [Appendix B](./requirements/Appendix%20B_%20AI%20scen
 
 ### Fitness functions
 
-**Not in the repository yet.** [evals/TEMPLATE.md](./evals/TEMPLATE.md) and [evals/golden-case-template.json](./evals/golden-case-template.json) are templates. There are no arithmetic fitness functions and no per-capability golden cases.
+**Golden cases for two capabilities, and no runner for any of them.** [`evals/animal-health-anomaly/`](./evals/animal-health-anomaly/) holds six and [`evals/piranha-population/`](./evals/piranha-population/) holds five, each stating the behaviour it defends, what must never happen, and which ADR it comes from. Both folders also list the cases we did **not** write, so the gaps are visible rather than discovered.
+
+Deterministic tiers are exactly reproducible, so most of the animal-care detector can be tested like ordinary software. The GenAI tier is not, so its case asserts constraints - names no disease, states no dose, cites only fields present on the alert - instead of an expected string.
+
+**Nothing executes them.** There is no harness, no CI job, and no golden cases for the other ten AI scenarios.
 
 ## Traceability
 
@@ -147,19 +168,23 @@ Capability → requirement → what (if anything) realises it today. In [2_FRs.m
 | Popularity, flow, and staffing evidence | FR#2D, FR#2E, FR#2F | Not yet. Intended input: ADR-002 `validated` events ([plan](./adrs/README.md)). |
 | Returning visitors / itinerary / AI Guide | FR#2G, FR#2H | Not yet. Leftover pool in ADR-001 is the hook, not the design. |
 | Yield experiments and cohort analysis | FR#2A, FR#2B, FR#2C | Not yet. |
-| Animal health, feeding, piranha population | FR#2I, FR#2J | Not yet (parallel workstream). |
-| Ride predictive maintenance | FR#2K | Not yet. |
+| Animal welfare record and keeper capture | FR#2I, FR#2J; Appendix A 2-4 | [ADR-020](./adrs/ADR-020-use-care-subject-as-unit-of-record.md) (unit of record), [ADR-021](./adrs/ADR-021-keep-keeper-observations-off-the-telemetry-path.md) (offline capture). [Boundaries](./docs/animal-care-scope.md). |
+| Animal health and feeding anomalies | FR#2I | [ADR-022](./adrs/ADR-022-detect-welfare-anomalies-against-per-subject-baselines.md), [targeted AI view](./diagrams/ai-animal-health-anomaly.md), [6 golden cases](./evals/animal-health-anomaly/). |
+| Jumping-piranha population | FR#2J | [ADR-023](./adrs/ADR-023-anchor-piranha-population-on-human-census.md), [targeted AI view](./diagrams/ai-piranha-population.md), [5 golden cases](./evals/piranha-population/). |
+| Ride predictive maintenance | FR#2K | Not yet - and **no workstream owns it**. Not an explicit requirement in the brief. |
 | Ops copilot | FR#2L | Not yet. |
-| MLOps / golden-case evaluation | FR#3 | Not yet (`evals/` is a template). |
+| MLOps / golden-case evaluation | FR#3 | Partly. Golden cases and a promotion gate are specified for FR#2I and FR#2J; nothing runs them, and there is no model registry or drift monitor. |
 
 ## Known limitations
 
 Honesty for the next iteration, not a list of regrets.
 
-- **Proposed, not Accepted.** ADR-001 and ADR-002 can still be reversed; they should not be read as locked estate policy.
-- **No C4, no style, no event storming, no characteristics funnel.** The derivation chain is incomplete after requirements.
-- **No AI ADRs yet.** Popularity meter, dynamic pricing, return incentive / AI Guide, and animal tracker are specified in requirements; only the first three of those appear as ordered next steps in [adrs/README.md](./adrs/README.md). Animal tracking is parallel and undesigned.
-- **No fitness functions, no per-AI diagrams.** `docs/`, `diagrams/`, and `evals/` hold templates. Placeholders are not architecture.
+- **Proposed, not Accepted.** All six records can still be reversed; they should not be read as locked estate policy.
+- **No style, no event storming, no characteristics funnel, no C1.** The derivation chain is still incomplete. C4 container and component views exist for animal care only.
+- **Coverage is uneven by design, and it shows.** Ticketing has two ADRs and no diagram. Animal care has four ADRs, five diagrams, and eleven golden cases. The intranet has neither. That is the cost of splitting three ways with the time available, not a claim that the halves are balanced.
+- **Eight of twelve AI scenarios are undesigned.** Popularity meter, dynamic pricing, return incentive / AI Guide, cohort analysis, itineraries, win-back, ride maintenance, and the ops copilot are specified in requirements only.
+- **Nothing executes the golden cases.** They are specifications of correct behaviour, not a harness. `docs/TEMPLATE.md` is still a placeholder.
+- **FR#2K has no owner.** Ride predictive maintenance sits in the requirements with no workstream behind it. It is not an explicit requirement in the brief either - the brief only says the rides recently passed inspection.
 - **MQTT broker, kiosks, and gateway placement** are assumptions (also stated inside ADR-001/002). Do not treat them as decided.
 - **Open product questions inside the ADRs we do have:** token expiry and refunds; pack sizes; which of the 55 displays are paid; fraud-window length between QR-reveal and cache write; kiosk paper vs screen reprint.
 - **Next decisions** are listed in [adrs/README.md](./adrs/README.md): popularity meter → dynamic pricing AI → return incentive / AI Guide.
@@ -169,10 +194,10 @@ Honesty for the next iteration, not a list of regrets.
 Existing top-level folders only:
 
 - [`requirements/`](./requirements/) - problem background: goals, challenges, FRs, NFRs, assumptions, risks, glossary, kata extract, appendices, suggested OKRs.
-- [`adrs/`](./adrs/) - ADR template, two Proposed records, and the next-ADR plan.
-- [`docs/`](./docs/TEMPLATE.md) - placeholder for a later architecture narrative.
-- [`diagrams/`](./diagrams/TEMPLATE.md) - placeholder; no architecture diagrams yet.
-- [`evals/`](./evals/TEMPLATE.md) - placeholder; no live eval harness yet.
+- [`adrs/`](./adrs/README.md) - ADR template, six Proposed records in two number blocks, and the next-ADR plan.
+- [`docs/`](./docs/) - animal-care [scope and boundaries](./docs/animal-care-scope.md) and [data contract](./docs/animal-care-data-contract.md); the architecture narrative is still a template.
+- [`diagrams/`](./diagrams/00-legend.md) - legend, C4 container and component views for animal care, two targeted AI views, one sequence, and PNG exports.
+- [`evals/`](./evals/) - golden cases for [animal health anomalies](./evals/animal-health-anomaly/) and [piranha population](./evals/piranha-population/). No runner.
 
 Requirement files (every link is a file in the repo):
 
