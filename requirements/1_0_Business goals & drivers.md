@@ -19,7 +19,6 @@
 | Business goal in 3 years | Business strategy |
 |:--|:--|
 | Grow average daily visitors from ~5,000 to ≥15,000. | Sell tickets (including family passes) at scale. Instrument the estate so capacity, queues, and offers can absorb 3× load. Use demand-aware pricing and packages without blocking access when connectivity is poor. |
-| Replace gnome-business income with a profitable estate operation (positive contribution margin from visits + ancillary spend). | Yield management (price, family-pass mix, bundles), reduce avoidable animal-care and ride-downtime cost, invest only where popularity and profit justify it. |
 | Increase returning-visitor share of daily attendance (suggested target: from unmeasured to ≥30% of visits). | Optional identity / membership after first visit, post-visit offers, personalized itineraries, experiments on what actually brings people back. |
 | Make investment and staffing decisions from measured popularity, not anecdote. | Zone / ride / enclosure telemetry, dwell and throughput, predicted congestion, staff recommendations on the ops intranet. |
 | Reduce cost and incidence of animal illness; keep animals healthy and the jumping-piranha population under control. | Track health, feeding quality, and (for piranha) population. Detect anomalies early; keepers confirm or reject AI alerts. |
@@ -29,14 +28,14 @@
 
 | Drivers | Goals | Solutions |
 |:--|:--|:--|
-| Estate Profitability | Replace gnome-business income; positive contribution margin | Ticketing & entitlements (individual + family passes). Async dynamic pricing and package experiments. Cost visibility for animal care and ride downtime. |
+| Estate Profitability | positive contribution margin | Ticketing & entitlements (individual + family passes). Async dynamic pricing and package experiments. Cost visibility for animal care and ride downtime. |
 | Visitor Growth | ≥15,000 visitors/day within 3 years | Scalable ticketing and access. Demand forecasting. Crowd/flow prediction so 3× visitation remains operable. Guest-facing itinerary / queue advice. |
 | Operational Visibility | Invest and deploy staff where it matters | MQTT occupancy + ride/enclosure popularity. Ops intranet heat map. AI staffing and investment recommendations with measured vs predicted evals. |
 | Animal Welfare Cost | Healthy animals; controlled piranha population; lower sickness cost | Animal-care records + sensors. Anomaly detection on health/feed/environment. Piranha population estimate with periodic human census as ground truth. |
 | Guest Loyalty | Returning visitors ≥30% of visits | Membership / identity loop. Next-best-visit and win-back offers. A/B tests on routes, prices, and packages; AI cohort analysis of *who* returned. |
 | Safety & Heritage Duty | Rides stay inspectable and available; hazardous collection safe for public | Ride/asset maintenance with sensor heartbeats and work orders. Predictive maintenance on popular rides. Safety closures never subject to A/B tests. |
 
-## Scale context (from the kata)
+## Scale context
 
 | Asset | Now | Pressure |
 |:--|:--|:--|

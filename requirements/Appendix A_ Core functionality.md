@@ -16,10 +16,11 @@
   - Optional: timed slots for animal talks / piranha feeding as entitlements, not as hope.
 
 - **1-3  Gate access**
-  - Redeem entitlements at estate (and later zone) gates.
-  - **Must work when cloud/Wi-Fi is down**, from a local snapshot of unspent tokens and revocation list.
-  - Offline redemptions enqueue for cloud reconciliation (no double-spend within the local gate cluster; residual risk vs other gates documented in an ADR).
-  - Clear fail states: already used, expired, wrong day, ride/estate closed.
+  - Redeem entitlements at **estate perimeter gates**. Zone gates (e.g. venomous house as a timed entitlement) are a later phase - see [Appendix C](Appendix%20C_%20Future%20scope.md).
+  - v1 scope: rides and enclosures are **counted, not gated**. A ride or display scan (where fitted) feeds popularity (FR#2D); it does not admit or charge. Admission is bought once at the perimeter, not per attraction.
+  - **Must work when cloud/Wi-Fi is down**, from a local snapshot of unspent entitlements and revocation list.
+  - Offline redemptions enqueue for cloud reconciliation (no double-spend within the local gate cluster; residual cross-gate risk documented in [ADR-0002](../adrs/ADR-0002%20-%20Signed%20QR%20entitlement%20at%20the%20perimeter%20gate.md)).
+  - Clear fail states: already used, expired, wrong day, party count exceeded, ride/estate closed.
 
 - **1-4  Optional identity / membership**
   - First visit can be anonymous (ticket only).

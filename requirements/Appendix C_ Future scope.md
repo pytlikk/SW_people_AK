@@ -14,7 +14,7 @@
 
 ## Future enhancements for core functionality
 
-- Zone-level access control (venomous house as a timed entitlement), once gates and Wi-Fi islands are proven at the perimeter.
+- Zone-level access control (venomous house as a timed entitlement), once gates and Wi-Fi islands are proven at the perimeter. v1 gates the perimeter only and counts everything inside it - see [ADR-0002](../adrs/ADR-0002%20-%20Signed%20QR%20entitlement%20at%20the%20perimeter%20gate.md).
 - Membership-first identity (today: optional after first visit).
 - Ancillary spend attached to the same party id (F&B, photos, tours) for true yield-per-visitor.
 - Partner / group sales and school bookings as first-class SKUs.

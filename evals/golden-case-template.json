@@ -1,8 +1,0 @@
-{
-  "id": "<golden-case-id>",
-  "capability": "<capability-name>",
-  "input": {},
-  "expected": {},
-  "must_not": [],
-  "notes": "<placeholder>"
-}

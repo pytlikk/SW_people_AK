@@ -23,7 +23,7 @@
 - **MQTT-capable hardware is the field bus we should assume**, not a proprietary always-on IoT suite with guaranteed bandwidth.
 - **Growth bound**: Capacity, data volume, and ops UX must be credible at 15,000 visitors/day, 40 rides, and 55 displays.
 - **Hazardous operations**: Poisonous/exotic animals and historic rides constrain experiments. We never A/B-test safety closures, welfare thresholds, evacuation copy, or accessibility of exits.
-- **AI must match the existing characteristics**: Offline story, event backbone, and identity of AI features must match ticketing and telemetry - not a separate cloud-only AI product (kata judging criterion).
-- **AI results must be verifiable**: Golden cases, metrics, drift detection, and human fallback are constraints on going live, not optional polish (kata judging criterion).
+- **AI must match the existing characteristics**: Offline story, event backbone, and identity of AI features must match ticketing and telemetry - not a separate cloud-only AI product.
+- **AI results must be verifiable**: Golden cases, metrics, drift detection, and human fallback are constraints on going live, not optional polish.
 - **Budget reality**: There is MQTT hardware budget; there is not a stated unlimited cloud/AI budget. Inference and vision cost must stay visible and killable.
 - **Core access is deterministic**: A paid, unexpired entitlement must admit the guest at the gate without a model vote.
