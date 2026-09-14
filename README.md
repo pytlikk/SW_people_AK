@@ -96,7 +96,32 @@ This stage is in the repo. Start at [1_0_Business goals & drivers.md](./requirem
 
 ### Event storming
 
-**Not in the repository yet.** There is no event-storming board, photo, or component-candidate list.
+**Current boards (this session): visit access, popularity meter, and AI Guide.** See
+[event-storming/event_storming.md](./event-storming/event_storming.md) for the index,
+component candidates, depth allocation, and open questions.
+
+- **Board V - Visit Access / Ticketing** (deep): pool purchase, QR-reveal, checkpoint verify,
+  burn-on-reveal, MQTT audit channel (`validated`/`revoked`), kiosk rescue path. Reconstructs
+  ADR-001 and ADR-002 as a domain event board. Component candidates VA-01..VA-04.
+- **Board P - Popularity Meter** (next-ADR depth): ADR-002 `validated` events + ride cycles +
+  optional zone occupancy - ranked counts + gap-flagging (silence = unknown, NOT zero).
+  Component candidates PM-01..PM-02. This board owns the popularity feed; the intranet
+  heat map (CC-06) is a consumer.
+- **Board G - Return Incentive / AI Guide** (shallow): leftover pool hook (ADR-001), opt-in
+  trail (FR#2G), win-back trigger (FR#2H). Stays shallow until PM ADR exists.
+  Component candidates AG-01..AG-03.
+
+**Ops boards (backup):** Animal Care and Intranet / Estate OS are in
+[event-storming/ops-backup/](./event-storming/ops-backup/event_storming.md).
+Those two boards are the prior session; they are not the current derivation-chain work.
+Component candidates CC-01 to CC-14 are defined there; CC-12 (Popularity Aggregator) is
+owned by PM-01 on the guest-lane board above.
+
+There was no physical sticky-note workshop; all iterations are reconstructed from the
+committed requirements documents and ADRs. Honesty note in each index file.
+
+Outbound: popularity-meter ADR (next up in [adrs/README.md](./adrs/README.md)), then
+the characteristics funnel.
 
 ### Architecture characteristics
 
@@ -157,8 +182,8 @@ Capability → requirement → what (if anything) realises it today. In [2_FRs.m
 Honesty for the next iteration, not a list of regrets.
 
 - **Proposed, not Accepted.** ADR-001 and ADR-002 can still be reversed; they should not be read as locked estate policy.
-- **No C4, no style, no event storming, no characteristics funnel.** The derivation chain is incomplete after requirements.
-- **No AI ADRs yet.** Popularity meter, dynamic pricing, return incentive / AI Guide, and animal tracker are specified in requirements; only the first three of those appear as ordered next steps in [adrs/README.md](./adrs/README.md). Animal tracking is parallel and undesigned.
+- **No C4, no style, no characteristics funnel.** Guest-lane event storming is in the repo; the chain stops before characteristics. Architecture style, C4, and fitness functions are not in the repository yet.
+- **No AI ADRs yet.** Popularity meter is the next Proposed ADR (Board P). Dynamic pricing and AI Guide are later. Animal tracker and intranet have an ops-backup storm only; no ADRs.
 - **No fitness functions, no per-AI diagrams.** `docs/`, `diagrams/`, and `evals/` hold templates. Placeholders are not architecture.
 - **MQTT broker, kiosks, and gateway placement** are assumptions (also stated inside ADR-001/002). Do not treat them as decided.
 - **Open product questions inside the ADRs we do have:** token expiry and refunds; pack sizes; which of the 55 displays are paid; fraud-window length between QR-reveal and cache write; kiosk paper vs screen reprint.
@@ -170,6 +195,7 @@ Existing top-level folders only:
 
 - [`requirements/`](./requirements/) - problem background: goals, challenges, FRs, NFRs, assumptions, risks, glossary, kata extract, appendices, suggested OKRs.
 - [`adrs/`](./adrs/) - ADR template, two Proposed records, and the next-ADR plan.
+- [`event-storming/`](./event-storming/event_storming.md) - **current** guest-lane boards (Visit Access, Popularity Meter, AI Guide); first-pass dumps, digitised SVGs, component candidates VA-01..VA-04 / PM-01..PM-02 / AG-01..AG-03. Ops boards (Animal Care, Intranet) are in the `ops-backup/` subfolder.
 - [`docs/`](./docs/TEMPLATE.md) - placeholder for a later architecture narrative.
 - [`diagrams/`](./diagrams/TEMPLATE.md) - placeholder; no architecture diagrams yet.
 - [`evals/`](./evals/TEMPLATE.md) - placeholder; no live eval harness yet.
