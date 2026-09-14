@@ -82,6 +82,18 @@ Repricing agility and SKU operability decide it. The shop sells a currency (and 
 - If the app cannot refresh the pricing table, QR-reveal may mint at a cached price. The checkpoint still admits on the signed claim (ADR-002); dispute is a kiosk problem, not a gate outage.
 - Families planning a must-do list at home have no reservation hold. Queues are managed by price and popularity later, not by a timed ticket.
 
+### Strengthened characteristics
+
+- Evolvability / Repricing agility (attraction price changes touch zero issued wallets and zero minted claims)
+- Operability (one currency; no per-attraction ticket catalogue; adding a paid checkpoint is a table row)
+- Product extensibility (membership and path products layer on the pool; checkpoint still consumes an ADR-002 claim)
+
+### Weakened characteristics
+
+- Predictability (guest cannot lock a token price at home; live cost at QR-reveal may differ if dynamic pricing is active)
+- Recoverability (if the app shows a cached price that differs from the live table at QR-reveal, dispute resolution is a kiosk problem, not a self-service flow)
+- Guest certainty (no reservation hold for must-do attractions in v1; queues managed by price later, not by a timed ticket)
+
 ## Risks & trade-offs
 
 | Risk area | Description | Mitigation |

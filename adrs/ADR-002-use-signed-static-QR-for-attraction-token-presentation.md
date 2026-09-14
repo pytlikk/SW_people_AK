@@ -82,6 +82,18 @@ Offline and operability decide it. Rotating barcodes fight patchy Wi-Fi. NFC is 
 - Failed gate read after QR-reveal leaves the app in *pending*; the visitor must reach a kiosk to correct it - no self-service path.
 - Up to 95 cameras if every ride and display is gated; outdoor mounting and maintenance at that scale must be planned before installation.
 
+### Strengthened characteristics
+
+- Reliability (gate admits offline; no cloud dependency at the checkpoint for a valid issued claim)
+- Operability (commodity cameras; no wallet-certification programme; no wristband inventory)
+- Evolvability (same payload type supports a later wristband or NFC roll-out without renegotiating the economy)
+
+### Weakened characteristics
+
+- Throughput / Performance (optical scan p99 is slower than a tap; ceiling is ~95 outdoor cameras, many subject to glare)
+- Security / Integrity (static QR can be photographed; fraud window between QR-reveal and checkpoint cache write is the primary integrity risk; window length TBD)
+- Recoverability (pending -> used failure after a failed gate read has no self-service path; kiosk is the only correction point)
+
 ## Risks & trade-offs
 
 | Risk area | Description | Mitigation |
@@ -112,6 +124,11 @@ Offline and operability decide it. Rotating barcodes fight patchy Wi-Fi. NFC is 
 - Kiosk output: screen-only or paper reprint - before installation.
 - Which of 55 displays are paid - before gate installation.
 - Fail-scan rate threshold that triggers NFC/wristband review - agreed before first weekend.
+- **Signing key architecture**: Who holds the claim-signing private key - the app client or a backend service?
+    - If **server-side**: the Claim Minter (VA-02) signs at QR-reveal, meaning that step requires connectivity. The offline criterion is preserved *at the checkpoint* but QR-reveal is online. Mitigation: pre-cache a short-lived signed token before the visitor enters the queue area.
+    - If **client-side**: the private key is in the app binary and is extractable; a compromised device can mint unlimited valid claims. Mitigation requires hardware-backed key storage (iOS Secure Enclave / Android StrongBox), which adds a device-capability dependency.
+
+  Decision needed before choosing the signing scheme and before beta. Owner: TBD.
 
 **Revisit triggers**
 

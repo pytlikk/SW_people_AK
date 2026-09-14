@@ -106,7 +106,32 @@ This stage is in the repo. Start at [1_0_Business goals & drivers.md](./requirem
 
 ### Event storming
 
-**Not in the repository yet.** There is no event-storming board, photo, or component-candidate list.
+**Current boards (this session): visit access, popularity meter, and AI Guide.** See
+[event-storming/event_storming.md](./event-storming/event_storming.md) for the index,
+component candidates, depth allocation, and open questions.
+
+- **Board V - Visit Access / Ticketing** (deep): pool purchase, QR-reveal, checkpoint verify,
+  burn-on-reveal, MQTT audit channel (`validated`/`revoked`), kiosk rescue path. Reconstructs
+  ADR-001 and ADR-002 as a domain event board. Component candidates VA-01..VA-04.
+- **Board P - Popularity Meter** (next-ADR depth): ADR-002 `validated` events + ride cycles +
+  optional zone occupancy - ranked counts + gap-flagging (silence = unknown, NOT zero).
+  Component candidates PM-01..PM-02. This board owns the popularity feed; the intranet
+  heat map (CC-06) is a consumer.
+- **Board G - Return Incentive / AI Guide** (shallow): leftover pool hook (ADR-001), opt-in
+  trail (FR#2G), win-back trigger (FR#2H). Stays shallow until PM ADR exists.
+  Component candidates AG-01..AG-03.
+
+**Ops boards (backup):** Animal Care and Intranet / Estate OS are in
+[event-storming/ops-backup/](./event-storming/ops-backup/event_storming.md).
+Those two boards are the prior session; they are not the current derivation-chain work.
+Component candidates CC-01 to CC-14 are defined there; CC-12 (Popularity Aggregator) is
+owned by PM-01 on the guest-lane board above.
+
+There was no physical sticky-note workshop; all iterations are reconstructed from the
+committed requirements documents and ADRs. Honesty note in each index file.
+
+Outbound: popularity-meter ADR (next up in [adrs/README.md](./adrs/README.md)), then
+the characteristics funnel.
 
 ### Architecture characteristics
 

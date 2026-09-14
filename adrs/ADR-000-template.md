@@ -59,6 +59,14 @@ Which named characteristics this decision moves, in both directions. A decision 
 
 - {what gets worse, harder, or more expensive - never leave this empty}
 
+### Strengthened characteristics
+
+- {characteristic name from the funnel} ({brief reason tied to the option chosen})
+
+### Weakened characteristics
+
+- {characteristic name from the funnel} ({what the decision costs in that dimension - never leave empty})
+
 ## Risks & trade-offs
 
 | Risk area | Description | Mitigation |

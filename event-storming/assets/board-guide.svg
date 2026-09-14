@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1900 592" font-family="Arial, Helvetica, sans-serif">
+
+  <!-- Background -->
+  <rect width="1900" height="592" fill="#ffffff"/>
+
+  <!-- Key strip background -->
+  <rect width="1900" height="46" fill="#f0f0f0"/>
+
+  <!-- Key label -->
+  <text x="12" y="29" font-size="11" font-weight="bold" fill="#333">Key:</text>
+
+  <!-- Actor swatch -->
+  <rect x="50" y="15" width="18" height="14" rx="2" fill="#FFD966" stroke="#B8A000" stroke-width="0.8"/>
+  <text x="74" y="27" font-size="10.5" fill="#333">Actor</text>
+
+  <!-- Command swatch -->
+  <rect x="127" y="15" width="18" height="14" rx="2" fill="#5B9BD5" stroke="#1F5C99" stroke-width="0.8"/>
+  <text x="151" y="27" font-size="10.5" fill="#333">Command</text>
+
+  <!-- Domain Event swatch -->
+  <rect x="243" y="15" width="18" height="14" rx="2" fill="#FF8C42" stroke="#C45E00" stroke-width="0.8"/>
+  <text x="267" y="27" font-size="10.5" fill="#333">Domain Event</text>
+
+  <!-- External/Policy swatch -->
+  <rect x="381" y="15" width="18" height="14" rx="2" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="0.8"/>
+  <text x="405" y="27" font-size="10.5" fill="#333">External / Policy</text>
+
+  <!-- Question/Hotspot swatch -->
+  <rect x="520" y="15" width="18" height="14" rx="2" fill="#FF6B6B" stroke="#CC0000" stroke-width="0.8"/>
+  <text x="544" y="27" font-size="10.5" fill="#333">Question / Hotspot</text>
+
+  <!-- Component Candidate swatch -->
+  <rect x="675" y="15" width="18" height="14" rx="2" fill="#88D498" stroke="#2D7A3A" stroke-width="0.8"/>
+  <text x="699" y="27" font-size="10.5" fill="#333">Component Candidate (digitised board only)</text>
+
+  <!-- Title -->
+  <text x="950" y="60" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">Board G - Return Incentive / AI Guide</text>
+  <text x="950" y="74" text-anchor="middle" font-size="9.5" fill="#666">Digitised event storming | Guest lane | Shallow board | Reconstructed from FR#2G, FR#2H, ADR-001 - not a photographed workshop | Component candidates: AG-01..AG-03</text>
+
+  <!-- Phase background bands (y=80 to 592) - 5 phases of 380px each -->
+  <rect x="0"    y="80" width="380" height="512" fill="#FFF9F2"/>
+  <rect x="380"  y="80" width="380" height="512" fill="#F2F4FF"/>
+  <rect x="760"  y="80" width="380" height="512" fill="#F2FFF4"/>
+  <rect x="1140" y="80" width="380" height="512" fill="#FFF2F8"/>
+  <rect x="1520" y="80" width="380" height="512" fill="#F5F5F5"/>
+
+  <!-- Phase separator lines -->
+  <line x1="380"  y1="80" x2="380"  y2="592" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="760"  y1="80" x2="760"  y2="592" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="1140" y1="80" x2="1140" y2="592" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="1520" y1="80" x2="1520" y2="592" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Phase headers -->
+  <text x="190"  y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Post-Visit</text>
+  <text x="570"  y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">In-Park Trail (opt-in)</text>
+  <text x="950"  y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Win-Back Trigger</text>
+  <text x="1330" y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Offer + Return</text>
+  <text x="1710" y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Component Candidates</text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 1: Post-Visit  (col_a x=15, col_b x=195)              -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: Actor -->
+  <rect x="15"  y="98" width="160" height="70" rx="4" fill="#FFD966" stroke="#B8A000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="95" y="127">Actor:</tspan>
+    <tspan x="95" dy="15">Guest</tspan>
+  </text>
+
+  <!-- Row 2 y=178: Events -->
+  <rect x="15"  y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="95" y="207">Visit Ended</tspan>
+    <tspan x="95" dy="15">(guest exits estate)</tspan>
+  </text>
+
+  <rect x="195" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="275" y="201">Leftover Pool</tspan>
+    <tspan x="275" dy="14">Persisted</tspan>
+    <tspan x="275" dy="14">(ADR-001 hook)</tspan>
+  </text>
+
+  <!-- Row 3 y=258: External + Question -->
+  <rect x="15"  y="258" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="95" y="281">Token Pool Service</tspan>
+    <tspan x="95" dy="14">VA-01</tspan>
+    <tspan x="95" dy="14">(pool balance source)</tspan>
+  </text>
+
+  <rect x="195" y="258" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="275" y="281">Q: Token expiry /</tspan>
+    <tspan x="275" dy="14">no-refund policy?</tspan>
+    <tspan x="275" dy="14">TBD (ADR-001)</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 2: In-Park Trail  (col_a x=395, col_b x=565)          -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: Actor + Command -->
+  <rect x="395" y="98" width="160" height="70" rx="4" fill="#FFD966" stroke="#B8A000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="475" y="121">Actor: Guest</tspan>
+    <tspan x="475" dy="14">(opted in to</tspan>
+    <tspan x="475" dy="14">trail)</tspan>
+  </text>
+
+  <rect x="565" y="98" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#fff">
+    <tspan x="645" y="121">Opt In to</tspan>
+    <tspan x="645" dy="14">Itinerary / Trail</tspan>
+    <tspan x="645" dy="14">(at gate or in app)</tspan>
+  </text>
+
+  <!-- Row 2 y=178: Event + Event -->
+  <rect x="395" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="475" y="207">Trail Checkpoint</tspan>
+    <tspan x="475" dy="15">Scan Recorded</tspan>
+  </text>
+
+  <rect x="565" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="645" y="201">Itinerary Generated</tspan>
+    <tspan x="645" dy="14">(AI; opt-in; uses</tspan>
+    <tspan x="645" dy="14">PM-01 wait-times)</tspan>
+  </text>
+
+  <!-- Row 3 y=258: Event + External -->
+  <rect x="395" y="258" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="475" y="281">Next-Best</tspan>
+    <tspan x="475" dy="14">Experience</tspan>
+    <tspan x="475" dy="14">Suggested</tspan>
+  </text>
+
+  <rect x="565" y="258" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="645" y="281">Popularity</tspan>
+    <tspan x="645" dy="14">Aggregator PM-01</tspan>
+    <tspan x="645" dy="14">(wait-time source)</tspan>
+  </text>
+
+  <!-- Row 4 y=338: Questions -->
+  <rect x="395" y="338" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="475" y="355">HOTSPOT: No unsafe</tspan>
+    <tspan x="475" dy="14">animal-area shortcuts</tspan>
+    <tspan x="475" dy="14">(FR#2G; mech TBD)</tspan>
+  </text>
+
+  <rect x="565" y="338" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="645" y="361">Q: Delivery channel</tspan>
+    <tspan x="645" dy="14">(push/kiosk/app)?</tspan>
+    <tspan x="645" dy="14">TBD</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 3: Win-Back Trigger  (col_a x=775, col_b x=945)       -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: Actors -->
+  <rect x="775" y="98" width="160" height="70" rx="4" fill="#FFD966" stroke="#B8A000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="855" y="121">Actor: Returning</tspan>
+    <tspan x="855" dy="14">Guest (opted in;</tspan>
+    <tspan x="855" dy="14">identity required)</tspan>
+  </text>
+
+  <rect x="945" y="98" width="160" height="70" rx="4" fill="#FFD966" stroke="#B8A000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1025" y="121">Actor: Commercial</tspan>
+    <tspan x="1025" dy="14">/ Countess</tspan>
+    <tspan x="1025" dy="14">(sets campaign)</tspan>
+  </text>
+
+  <!-- Row 2 y=178: Command + Event -->
+  <rect x="775" y="178" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#fff">
+    <tspan x="855" y="201">Configure Win-Back</tspan>
+    <tspan x="855" dy="14">Campaign</tspan>
+    <tspan x="855" dy="14">(caps + channel)</tspan>
+  </text>
+
+  <rect x="945" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1025" y="201">Win-Back Trigger</tspan>
+    <tspan x="1025" dy="14">Evaluated</tspan>
+    <tspan x="1025" dy="14">(post-visit; async)</tspan>
+  </text>
+
+  <!-- Row 3 y=258: External + Question -->
+  <rect x="775" y="258" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="855" y="281">Comms Channel</tspan>
+    <tspan x="855" dy="14">(email / push;</tspan>
+    <tspan x="855" dy="14">provider TBD)</tspan>
+  </text>
+
+  <rect x="945" y="258" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="1025" y="281">Q: Identity key:</tspan>
+    <tspan x="1025" dy="14">opt-in only;</tspan>
+    <tspan x="1025" dy="14">anon = no win-back</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 4: Offer + Return  (col_a x=1155, col_b x=1325)       -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: Events -->
+  <rect x="1155" y="98" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1235" y="127">Win-Back Offer</tspan>
+    <tspan x="1235" dy="15">Sent</tspan>
+  </text>
+
+  <rect x="1325" y="98" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1405" y="127">Win-Back Offer</tspan>
+    <tspan x="1405" dy="15">Accepted</tspan>
+  </text>
+
+  <!-- Row 2 y=178: Events -->
+  <rect x="1155" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1235" y="201">Win-Back Offer</tspan>
+    <tspan x="1235" dy="14">Declined /</tspan>
+    <tspan x="1235" dy="14">Unsubscribed</tspan>
+  </text>
+
+  <rect x="1325" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1405" y="201">90-Day Return</tspan>
+    <tspan x="1405" dy="14">Measured</tspan>
+    <tspan x="1405" dy="14">(FR#2H metric)</tspan>
+  </text>
+
+  <!-- Row 3 y=258: Questions -->
+  <rect x="1155" y="258" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="1235" y="281">Q: Frequency cap</tspan>
+    <tspan x="1235" dy="14">and opt-out</tspan>
+    <tspan x="1235" dy="14">mechanism? TBD</tspan>
+  </text>
+
+  <rect x="1325" y="258" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="1405" y="275">HOTSPOT:</tspan>
+    <tspan x="1405" dy="14">In-app games</tspan>
+    <tspan x="1405" dy="14">(shallow; not designed)</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 5: Component Candidates  (x=1535, width=280)          -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: AG-01 -->
+  <rect x="1535" y="98" width="280" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" fill="#111">
+    <tspan x="1675" y="117" font-size="11" font-weight="bold">AG-01 Itinerary / Next-Best Engine</tspan>
+    <tspan x="1675" dy="14" font-size="9.5">opt-in; uses PM-01 wait-times; advisory;</tspan>
+    <tspan x="1675" dy="13" font-size="9.5">degrades to static cards; no animal shortcuts</tspan>
+  </text>
+
+  <!-- Row 2 y=178: AG-02 -->
+  <rect x="1535" y="178" width="280" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" fill="#111">
+    <tspan x="1675" y="197" font-size="11" font-weight="bold">AG-02 Win-Back Engine</tspan>
+    <tspan x="1675" dy="14" font-size="9.5">post-visit async ML; leftover pool + history;</tspan>
+    <tspan x="1675" dy="13" font-size="9.5">caps + opt-out; measures 90-day return</tspan>
+  </text>
+
+  <!-- Row 3 y=258: AG-03 -->
+  <rect x="1535" y="258" width="280" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" fill="#111">
+    <tspan x="1675" y="277" font-size="11" font-weight="bold">AG-03 Trail Checkpoint Log</tspan>
+    <tspan x="1675" dy="14" font-size="9.5">consent-gated opt-in trail records;</tspan>
+    <tspan x="1675" dy="13" font-size="9.5">NOT VA-03 (access); not required for visit</tspan>
+  </text>
+
+</svg>
