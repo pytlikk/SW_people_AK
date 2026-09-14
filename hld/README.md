@@ -21,7 +21,9 @@ Start with the core platform. Every AI capability is an addition to it, and the 
 
 [Appendix C](../requirements/Appendix%20C_%20Future%20scope.md) names three AI themes to deep-dive rather than a dozen to mention. They map to the three things the Countess actually asked for: make the estate profitable, tell us what is popular, keep the animals healthy.
 
-Ride predictive maintenance (FR#2K) and the ops copilot are real but treated as platform features with a named authority level, not as deep-dives. That is a deliberate choice about depth over breadth.
+Ride predictive maintenance (FR#2K) and the ops copilot are real but are not deep-dives. That is a deliberate choice about depth over breadth: maintenance is architecturally the same shape as animal health - telemetry, anomaly scoring, human decision - so a fourth deep-dive would add length without adding an argument.
+
+It does get its own decision record, [ADR-0014](../adrs/ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md), because the one thing about it that *is* specific turns out to matter a great deal: a ride has a legally mandated inspection behind it, so the capability may only ever pull an inspection forward and never push one back. That single constraint makes its alert threshold forty-one times more conservative than animal health's, from the same arithmetic.
 
 ## Two architectural rules that run through everything
 

@@ -93,6 +93,8 @@ sequenceDiagram
 
 Authority is **L2 Advise, capped** ([ADR-0005](../../adrs/ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md)). The model may draft a work order. It may not close a ride, and it may not return one to service - [Appendix C](../../requirements/Appendix%20C_%20Future%20scope.md) defers automatic return-to-service and this is why.
 
+[ADR-0014](../../adrs/ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md) adds the constraint that shapes everything else about this capability: **it may only ever pull an inspection forward, never push one back.** The statutory scheme of examination is a floor that runs whether this capability exists or not, which bounds the worst model failure at a wasted inspection rather than an uninspected ride.
+
 ### The estate-specific part: yield-at-risk
 
 A generic predictive-maintenance system tells you a machine is degrading. On this estate the useful sentence is different, because the Countess's problem is *where to invest*:
@@ -109,6 +111,8 @@ These are historic rides. Taking one out of service on a hunch is expensive, vis
 
 So the eval pair is precision against missed failures, tracked from shadow onward, with the attention budget from [ADR-0005](../../adrs/ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md) applying: if the capability cannot stay inside the engineer's review budget, it retunes rather than asking for more of the engineer's day.
 
+[ADR-0014](../../adrs/ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md) puts numbers on that: a wasted inspection costs £340 and a fault the capability misses costs £1,500, a ratio of 4.4:1 that implies alerting at 22.7% confidence and a budget of **2 recommendations a day across 40 rides**. The ratio is small precisely because the statutory inspection catches what telemetry misses - which is why this capability alerts forty-one times more conservatively than animal health does on the same arithmetic.
+
 ## Staffing and tasking
 
 Roster against predicted load, task assignment, and offline crew entry. The advisory half is the [popularity and flow deep-dive](../scenarios/popularity-flow/README.md); the platform half is task records, assignment, and completion - which also produce the data that tells us whether the advice was any good (OKR 4.3).
@@ -119,4 +123,4 @@ Guest-facing incident log - lost child, medical, animal-area breach - with time,
 
 Safety flows are scripted and deterministic. AI has no role here at all: not drafting, not prioritising, not summarising. Opening a previously private poisonous collection to the public creates liability that paper logs will not defend, and a generated summary in an incident record is a liability of its own.
 
-Related: [containers](2_Containers.md), [ADR-0005](../../adrs/ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md), [data structures](../data-structure/README.md).
+Related: [containers](2_Containers.md), [ADR-0014](../../adrs/ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md), [ADR-0005](../../adrs/ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md), [evals/ride-maintenance](../../evals/ride-maintenance/README.md), [data structures](../data-structure/README.md).
