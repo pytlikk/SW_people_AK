@@ -1,0 +1,58 @@
+{
+  "id": "golden-005-vision-shadow-no-effect",
+  "capability": "piranha-population",
+  "adr": "ADR-023",
+  "asserts": "Vision running in shadow records a comparison and changes nothing that is published. Shadow mode is only meaningful if it is provably inert, and this is the case that proves it.",
+  "input": {
+    "subject": {
+      "subject_id": "SUBJ-0500",
+      "subject_type": "colony",
+      "collection": "jumping-piranha",
+      "placement": { "enclosure_id": "ENC-007", "placed_on": "2026-02-10" }
+    },
+    "published_estimate_before": {
+      "point": 408,
+      "interval_low": 397,
+      "interval_high": 419,
+      "nominal_coverage": 0.9,
+      "basis": "census_anchor_plus_feed_signal",
+      "days_since_anchor": 34
+    },
+    "vision_estimator": {
+      "mode": "shadow",
+      "funded": "TBD - vision funding and cost ceiling are open questions in ADR-023",
+      "frame_selection": "surface_feeding_frames_only",
+      "frames_analysed": 214,
+      "estimate": 380,
+      "estimator_confidence": "low",
+      "note": "Well below the published point estimate. Consistent with the occlusion undercount ADR-023 expects from any optical method."
+    }
+  },
+  "expected": {
+    "published_estimate_after": {
+      "point": 408,
+      "interval_low": 397,
+      "interval_high": 419
+    },
+    "published_estimate_unchanged": true,
+    "shadow_comparison_recorded": true,
+    "comparison_record_must_include": [
+      "vision_estimate",
+      "published_estimate_at_time",
+      "days_since_anchor",
+      "frames_analysed"
+    ],
+    "counts_toward_promotion_evidence": true,
+    "promotion_gate": "must beat feed-derived accuracy against census anchors at acceptable cost, per ADR-022 promotion pattern",
+    "deterministic": true,
+    "notes_on_expectation": "The comparison accumulates the evidence that would one day justify promotion. Until then it is inert by construction, not by policy."
+  },
+  "must_not": [
+    "alter the published point estimate or interval",
+    "widen the interval because the shadow estimator disagreed",
+    "raise a population-change flag from the shadow estimator",
+    "promote the estimator on a single favourable comparison",
+    "surface the shadow figure to keepers as though it were an estimate of the colony"
+  ],
+  "notes": "The 28-fish gap is the point of the case rather than an accident of the fixture. An optical estimator is expected to undercount a dense school, and the undercount scales with density, which is the quantity being measured. A shadow period exists to measure that bias against census anchors before anyone is asked to trust it."
+}

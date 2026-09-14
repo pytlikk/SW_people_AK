@@ -1,0 +1,51 @@
+{
+  "id": "golden-004-consumption-confound",
+  "capability": "piranha-population",
+  "adr": "ADR-023",
+  "asserts": "A consumption change alone never raises a population-change flag. Intake moves with water temperature, season, and breeding condition, and mistaking any of those for a population loss would send keepers to net a healthy colony.",
+  "input": {
+    "subject": {
+      "subject_id": "SUBJ-0500",
+      "subject_type": "colony",
+      "collection": "jumping-piranha",
+      "placement": { "enclosure_id": "ENC-007", "placed_on": "2026-02-10" }
+    },
+    "anchor": {
+      "source": "human_census",
+      "counted": 412,
+      "census_at": "2026-07-15"
+    },
+    "feed_series": [
+      { "week_of": "2026-08-24", "offered_g": 4200, "leftover_g": 180, "consumed_g": 4020 },
+      { "week_of": "2026-08-31", "offered_g": 4200, "leftover_g": 310, "consumed_g": 3890 },
+      { "week_of": "2026-09-07", "offered_g": 4200, "leftover_g": 740, "consumed_g": 3460 }
+    ],
+    "environment_series": [
+      { "week_of": "2026-08-24", "mean_water_temp_c": 26.5, "within_stable_band": true },
+      { "week_of": "2026-08-31", "mean_water_temp_c": 24.3, "within_stable_band": false },
+      { "week_of": "2026-09-07", "mean_water_temp_c": 22.1, "within_stable_band": false }
+    ],
+    "keeper_events_in_window": {
+      "carcasses_recovered": 0,
+      "fry_observed": false,
+      "injuries_noted": 0
+    }
+  },
+  "expected": {
+    "population_change_flag_raised": false,
+    "interval_widened": true,
+    "reason_for_widening": "feed_signal_confounded_by_temperature",
+    "temperature_excursion_surfaced_to_keeper": true,
+    "point_estimate_moved_by_consumption_alone": false,
+    "deterministic": true,
+    "notes_on_expectation": "Consumption fell 14 percent while water temperature fell 4.4 degrees out of the stable band. The correct response is to trust the feed signal less, not to conclude that fish are missing. The temperature excursion is itself worth a keeper's attention, and is surfaced as an environment concern rather than a population one."
+  },
+  "must_not": [
+    "flag a population loss from the consumption trend",
+    "move the point estimate downward on consumption evidence alone",
+    "narrow the interval while a confounder is active",
+    "suppress the temperature excursion because it explained away the population signal",
+    "attribute the change to breeding or cannibalism without keeper-confirmed evidence"
+  ],
+  "notes": "This is the case that stops ADR-023 collapsing into Option D, the feed-derived-only estimator it rejects. Feed consumption is licensed to widen uncertainty and to prompt attention; it is not licensed to assert that the colony has changed size."
+}
