@@ -79,6 +79,24 @@ No-lost-observation and label integrity decide it. Option D fails both: browser 
 - **A photo never delays an alert.** Deferring attachments separates evidence-gathering from welfare signalling.
 - **The keeper's original account is preserved.** Amendments layer, they do not overwrite - which matters both for training labels and for a newly public poisonous collection where paper logs will not defend a claim.
 
+## Architecture characteristics
+
+| Characteristic | Effect | Why |
+|---|---|---|
+| Availability | **Improved (driving)** | Recording works with zero connectivity. The estate's hardest constraint is met at the point of data entry, not worked around downstream. |
+| Reliability | **Improved (driving)** | An observation is durable the moment it is acknowledged to the keeper, not the moment a server hears about it. |
+| Data integrity | **Improved** | Client-generated idempotent ids plus dedupe on ingest turn at-least-once delivery into exactly-one training labels. |
+| Auditability | **Improved** | Amendments layer over the original, so what the keeper first said remains attributable. |
+| Evolvability | **Improved** | Capture does not depend on the unowned broker decision, so this workstream is not blocked by an ADR nobody is writing. |
+| Recoverability | **Weakened** | The device is a system of record. Lose it before sync and the unsynced work is gone. No mitigation closes that window. |
+| Consistency | **Weakened** | Ordering holds within a device only. Cross-keeper ordering under clock skew is unresolved. |
+| Simplicity | **Weakened** | Two paths to build and operate - observation sync and MQTT telemetry - plus a device fleet as an operational concern. |
+| Interoperability | **Weakened** | At-least-once imposes idempotency on every downstream consumer, including other workstreams' code. |
+
+**Deliberately downplayed: recoverability of a single device.** The alternative that would protect it is a synchronous cloud write, which fails availability outright in an animal house with no signal. Availability at the point of entry is the driving characteristic, and device loss is the price.
+
+**Fit with the existing architecture.** This is the same trade ADR-002 makes at the checkpoint - do the work locally, reconcile later, never block a human on a network round-trip. The difference is what is being protected: ADR-002 protects admission, this protects a record that cannot be recreated.
+
 ## Consequences
 
 ### Positive

@@ -73,6 +73,22 @@ The colony is the case that proves the model. A colony is not a degenerate enclo
 - **Baselines follow the animal, not the room.** "Eating less than usual" stays meaningful after a move, which is the only reason FR#2I can work at all.
 - **Environment stays context.** Water and temperature readings are joined evidence on an alert, never a welfare claim on their own.
 
+## Architecture characteristics
+
+| Characteristic | Effect | Why |
+|---|---|---|
+| Data integrity | **Improved (driving)** | Welfare history cannot be severed by a re-housing. Placement is append-only, so what was true at a point in time stays recoverable. |
+| Modifiability | **Improved** | New collections, new subject types, and re-housing are data. Nothing hard-codes the 55 displays (NFR_10). |
+| Auditability | **Improved** | A record spanning an animal's life is expressible, which NFR_9 requires and an enclosure-keyed model cannot provide. |
+| Interoperability | **Improved** | One record shape for the whole collection means one contract to the intranet. Option D would have published two. |
+| Simplicity | **Weakened** | Three concepts - subject, placement, observation - where the naive case needs one. |
+| Performance | **Weakened** | Every feature computation resolves placement-at-time. The enclosure model needs no join at all. |
+| Usability | **Weakened** | Keepers must identify a subject, not only a room, wherever an enclosure holds more than one. |
+
+**Deliberately downplayed: simplicity and read performance.** Both are cheap to lose here because animal care is not a hot path in the ADR-002 sense - no guest waits at a barrier while this join resolves. Spending latency to keep a welfare history intact is the right trade in this domain and would be the wrong one at a gate.
+
+**Fit with the existing architecture.** Append-only field writes and cloud-side reconciliation are the rule already set in [Appendix A](../requirements/Appendix%20A_%20Core%20functionality.md) 2-6, and the offline-first posture matches ADR-001 and ADR-002 rather than introducing a second philosophy.
+
 ## Consequences
 
 ### Positive

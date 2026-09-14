@@ -82,6 +82,24 @@ Honest uncertainty and change latency decide it. Option A buys truth at the pric
 - **Confirmed facts outrank estimates.** A carcass decrements deterministically; no model gets to smooth it away.
 - **Vision is scoped to the moment the domain makes it easy,** if it is funded at all, and it starts in shadow under the same promotion pattern as ADR-022 tier 2.
 
+## Architecture characteristics
+
+| Characteristic | Effect | Why |
+|---|---|---|
+| Data integrity | **Improved (driving)** | The output states what it does not know. Uncertainty is calibrated and carried, rather than implied and lost. |
+| Testability | **Improved (driving)** | Interval coverage is a property that can fail a check. A bare "417 fish" cannot be wrong in any measurable way. |
+| Safety | **Improved** | Netting a tank of piranha is spent only when uncertainty demands it, which protects both the colony and the keepers. |
+| Cost efficiency | **Improved** | Vision is optional and bounded rather than the default counting method (NFR_12). |
+| Observability | **Improved** | The capability reports its own confidence decay and requests ground truth instead of waiting to be asked. |
+| Usability | **Weakened** | An interval is harder to act on and harder to report upward than a number. The Countess will ask how many there are. |
+| Availability | **Weakened (deliberate)** | Past the maximum anchor age the capability refuses to answer at all, rather than degrading into a confident-looking guess. |
+| Accuracy | **Weakened** | Between anchors the point estimate can drift systematically. The interval says uncertain, not in which direction. |
+| Operability | **Weakened** | Imposes a fixed-offer feeding protocol on keepers and makes census scheduling reactive rather than routine. |
+
+**Deliberately downplayed: usability of the headline number.** Every option that produces a confident single figure does so by hiding an occlusion bias or an unanchored drift. A number that is easy to read and wrong is worse here than an interval that is awkward and honest, because the decision it feeds is whether to intervene in a colony.
+
+**Fit with the existing architecture.** The same rule the rest of the estate follows: a gap shows as unknown and never as zero ([Appendix B](../requirements/Appendix%20B_%20AI%20scenarios%20explained.md)). ADR-002 refuses to admit on a guess, ADR-022 publishes a stale baseline as unknown, and this record refuses to publish a population past its anchor. Confirmed facts outranking model output is the same posture as a deterministic gate claim outranking a price estimate.
+
 ## Consequences
 
 ### Positive

@@ -77,7 +77,7 @@ Surfaces here; field-level detail in the [data contract](animal-care-data-contra
 | [`evals/piranha-population/`](../evals/piranha-population/) | NFR_13 validation - 5 golden cases, gaps listed | Specification, no runner |
 | [`diagrams/`](../diagrams/00-legend.md) - legend, container, component, two targeted AI views, one sequence | Kata deliverable: a targeted view for each use of AI | Done, PNG fallbacks in `diagrams/png/` |
 | [Data contract](animal-care-data-contract.md) | Fields, semantics, freshness and invariants for section 3 | Done, open questions carried from ADRs |
-| Narrative section in `docs/` | Kata deliverable: overview | Not started |
+| [Narrative](animal-care-narrative.md) | Kata deliverable 1: how we used AI on the animal problem | Done for this workstream; no combined overview |
 
 ## 7. Open questions
 

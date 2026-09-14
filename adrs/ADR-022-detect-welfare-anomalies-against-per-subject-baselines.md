@@ -79,6 +79,25 @@ Cold start and species heterogeneity decide it. Option B cannot start. Option A 
 - **Recall is traded for rank, not for precision.** The detector stays sensitive; keeper attention is protected by a ranked, budgeted inbox rather than by raising the threshold until the system goes quiet.
 - **Tiers 0 and 1 are arithmetic,** so they are exactly reproducible in CI - a golden case either passes or the code is wrong.
 
+## Architecture characteristics
+
+| Characteristic | Effect | Why |
+|---|---|---|
+| Testability | **Improved (driving)** | Tiers 0 and 1 are arithmetic and exactly reproducible, so most of the detector is testable like ordinary software. This is what NFR_13 and the judges' verification criterion ask for. |
+| Portability | **Improved (driving)** | The model provider is confined to the narrative tier. Losing it costs prose, not detection (NFR_14). |
+| Fault tolerance | **Improved** | Each tier falls back to the one below, and tier 0 evaluates at the edge during a partition. |
+| Cost efficiency | **Improved** | Arithmetic over a few hundred records a day instead of continuous inference across 55 displays (NFR_12). |
+| Safety | **Improved** | No model stands between a hard threshold and a human (NFR_7). |
+| Transparency | **Improved** | Tier 1 evidence is human-legible, which is what makes a keeper's accept or reject a valid label. |
+| Sensitivity | **Weakened (deliberate)** | A per-subject baseline is blunter than a well-trained model would be. No such model can exist on day one, so this trades power we do not have. |
+| Responsiveness | **Weakened** | For a species fed fortnightly, a deviation takes weeks to establish against its own history. |
+| Simplicity | **Weakened** | Four tiers with a promotion gate is more machinery than one detector. |
+| Operability | **Weakened** | Expected-state declarations and alert-budget tuning are ongoing human work, not a one-time configuration. |
+
+**Deliberately downplayed: sensitivity.** Reaching for the most capable available technique would trade testability and vendor independence for accuracy that cannot be verified, on a capability where being wrong is expensive and rare. Starting blunt and provably correct, then earning sensitivity from accumulated labels, keeps the two characteristics the kata actually scores.
+
+**Fit with the existing architecture.** The AI here is not a cloud-only sidecar. Tier 0 runs at the edge like the ADR-002 checkpoint, the label loop rides the ADR-021 offline capture path, and the whole capability degrades in tiers the way gate access degrades to a local cache. Delete every model and the architecture still functions, which is the same property ADR-001 and ADR-002 have with respect to pricing.
+
 ## Consequences
 
 ### Positive

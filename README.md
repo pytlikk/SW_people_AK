@@ -73,6 +73,7 @@ Our main contributions for this objective are:
 - [ADR-022 - per-subject baselines before any trained model](./adrs/ADR-022-detect-welfare-anomalies-against-per-subject-baselines.md) *(Proposed)*: **FR#2I**. No labelled illness events exist on day one, so the detector starts as arithmetic and earns its way up a tier ladder. The alert inbox is the labelling machine.
 - [ADR-023 - census-anchored population interval](./adrs/ADR-023-anchor-piranha-population-on-human-census.md) *(Proposed)*: **FR#2J**. The answer is an interval that widens away from its anchor, never a count - so the system asks for a census when it needs one.
 - Targeted AI views for both capabilities, a container view, a component view, and a sequence: [diagrams/00-legend.md](./diagrams/00-legend.md).
+- The [narrative](./docs/animal-care-narrative.md): how AI is used on this problem, in one readable pass. **Start here if you are reading the animal workstream for the first time.**
 - The [data contract](./docs/animal-care-data-contract.md): what is recorded, what it means, and ten machine-checkable invariants. This is the interface the ops intranet builds against, and what the golden cases are typed against.
 - Golden cases: [`evals/animal-health-anomaly/`](./evals/animal-health-anomaly/) (6) and [`evals/piranha-population/`](./evals/piranha-population/) (5). Specifications, not a runner.
 
@@ -109,9 +110,17 @@ This stage is in the repo. Start at [1_0_Business goals & drivers.md](./requirem
 
 ### Architecture characteristics
 
-**No funnel in the repository yet** - no candidate list, no cut to a top seven, no driving top three, no downplayed-characteristic ADRs.
+**No system-wide funnel yet** - no candidate list, no cut to a top seven, no driving top three for the estate as a whole. [3_NFRs.md](./requirements/3_NFRs.md) is a requirements list, not that funnel.
 
-[3_NFRs.md](./requirements/3_NFRs.md) is a requirements list, not that funnel. Every ADR names *local* evaluation criteria instead: ADR-001 is driven by repricing agility and SKU operability; ADR-002 by offline admission and operability; ADR-020 by welfare continuity and colony support; ADR-021 by not losing a human observation and by label integrity; ADR-022 by cold start and species heterogeneity; ADR-023 by honest uncertainty and change latency. Those are six local decisions, not a system-wide characteristics decision.
+**Per-decision, the animal-care records do carry it.** ADR-020 to ADR-023 each have an `Architecture characteristics` section naming what the decision improves, what it **weakens**, what it deliberately downplays and why, and how it fits the architecture already in the repository (the judges' fifth criterion). Read together they describe one profile:
+
+| Driving across the workstream | Deliberately downplayed |
+|---|---|
+| Data integrity, testability, availability under partition, vendor portability, safety | Simplicity, read performance, sensitivity at launch, usability of a headline number, recoverability of a single device |
+
+The pattern is consistent: this workstream spends latency, simplicity, and convenience to buy records that cannot be lost and outputs that can be proved wrong. That is the right trade off the hot path and would be the wrong one at a gate, which is why ADR-002 makes the opposite call on throughput.
+
+**ADR-001 and ADR-002 do not have this section.** They name local criteria - repricing agility and SKU operability, offline admission and operability - but do not say which characteristics they weaken.
 
 ### Architecture style
 
@@ -142,7 +151,7 @@ All records are **Proposed**, not Accepted. Numbers are allocated in blocks so p
 
 Scenarios are **named** in [Appendix B](./requirements/Appendix%20B_%20AI%20scenarios%20explained.md) and **FR#2A–FR#2L**. Targeted AI views exist for two of them: [animal health and feeding anomalies](./diagrams/ai-animal-health-anomaly.md) (FR#2I) and [piranha population](./diagrams/ai-piranha-population.md) (FR#2J), plus a [sequence](./diagrams/seq-offline-observation-to-label.md) tracing one keeper observation from a dead zone to a training label.
 
-**The other ten AI scenarios have no targeted view.** [docs/TEMPLATE.md](./docs/TEMPLATE.md) is still a placeholder; the only narrative in `docs/` is the animal-care [scope and boundaries](./docs/animal-care-scope.md), which is a team agreement rather than an overview deliverable.
+**The other ten AI scenarios have no targeted view.** The kata's overview deliverable exists for animal care only - [how we used AI on the animal collection](./docs/animal-care-narrative.md) - and there is no combined narrative covering all three workstreams. [docs/TEMPLATE.md](./docs/TEMPLATE.md) is still a placeholder.
 
 ### Deployment
 
@@ -195,7 +204,7 @@ Existing top-level folders only:
 
 - [`requirements/`](./requirements/) - problem background: goals, challenges, FRs, NFRs, assumptions, risks, glossary, kata extract, appendices, suggested OKRs.
 - [`adrs/`](./adrs/README.md) - ADR template, six Proposed records in two number blocks, and the next-ADR plan.
-- [`docs/`](./docs/) - animal-care [scope and boundaries](./docs/animal-care-scope.md) and [data contract](./docs/animal-care-data-contract.md); the architecture narrative is still a template.
+- [`docs/`](./docs/) - animal-care [narrative](./docs/animal-care-narrative.md), [scope and boundaries](./docs/animal-care-scope.md), and [data contract](./docs/animal-care-data-contract.md). No combined overview across workstreams.
 - [`diagrams/`](./diagrams/00-legend.md) - legend, C4 container and component views for animal care, two targeted AI views, one sequence, and PNG exports.
 - [`evals/`](./evals/) - golden cases for [animal health anomalies](./evals/animal-health-anomaly/) and [piranha population](./evals/piranha-population/). No runner.
 
