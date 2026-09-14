@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1900 592" font-family="Arial, Helvetica, sans-serif">
+
+  <!-- Background -->
+  <rect width="1900" height="592" fill="#ffffff"/>
+
+  <!-- Key strip background -->
+  <rect width="1900" height="46" fill="#f0f0f0"/>
+
+  <!-- Key label -->
+  <text x="12" y="29" font-size="11" font-weight="bold" fill="#333">Key:</text>
+
+  <!-- Actor swatch -->
+  <rect x="50" y="15" width="18" height="14" rx="2" fill="#FFD966" stroke="#B8A000" stroke-width="0.8"/>
+  <text x="74" y="27" font-size="10.5" fill="#333">Actor</text>
+
+  <!-- Command swatch -->
+  <rect x="127" y="15" width="18" height="14" rx="2" fill="#5B9BD5" stroke="#1F5C99" stroke-width="0.8"/>
+  <text x="151" y="27" font-size="10.5" fill="#333">Command</text>
+
+  <!-- Domain Event swatch -->
+  <rect x="243" y="15" width="18" height="14" rx="2" fill="#FF8C42" stroke="#C45E00" stroke-width="0.8"/>
+  <text x="267" y="27" font-size="10.5" fill="#333">Domain Event</text>
+
+  <!-- External/Policy swatch -->
+  <rect x="381" y="15" width="18" height="14" rx="2" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="0.8"/>
+  <text x="405" y="27" font-size="10.5" fill="#333">External / Policy</text>
+
+  <!-- Question/Hotspot swatch -->
+  <rect x="520" y="15" width="18" height="14" rx="2" fill="#FF6B6B" stroke="#CC0000" stroke-width="0.8"/>
+  <text x="544" y="27" font-size="10.5" fill="#333">Question / Hotspot</text>
+
+  <!-- Component Candidate swatch -->
+  <rect x="675" y="15" width="18" height="14" rx="2" fill="#88D498" stroke="#2D7A3A" stroke-width="0.8"/>
+  <text x="699" y="27" font-size="10.5" fill="#333">Component Candidate (digitised board only)</text>
+
+  <!-- Title -->
+  <text x="950" y="60" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">Board A - Animal Care (Keepers)</text>
+  <text x="950" y="74" text-anchor="middle" font-size="9.5" fill="#666">Digitised event storming | Ops domain only | Reconstructed from requirements/ - not a photographed workshop | Ticketing = external upstream (ADR-001, ADR-002)</text>
+
+  <!-- Phase background bands (y=80 to 585) -->
+  <rect x="0"    y="80" width="385"  height="505" fill="#FFF9F2"/>
+  <rect x="385"  y="80" width="340"  height="505" fill="#F2F4FF"/>
+  <rect x="725"  y="80" width="340"  height="505" fill="#F2FFF4"/>
+  <rect x="1065" y="80" width="340"  height="505" fill="#FFF2F8"/>
+  <rect x="1405" y="80" width="495"  height="505" fill="#F5F5F5"/>
+
+  <!-- Phase separator lines -->
+  <line x1="385"  y1="80" x2="385"  y2="585" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="725"  y1="80" x2="725"  y2="585" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="1065" y1="80" x2="1065" y2="585" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="1405" y1="80" x2="1405" y2="585" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Phase headers -->
+  <text x="192"  y="90" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Observation &amp; Sensing</text>
+  <text x="555"  y="90" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Domain Events</text>
+  <text x="895"  y="90" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">AI / ML Processing</text>
+  <text x="1235" y="90" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Alert &amp; Decision</text>
+  <text x="1647" y="90" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Component Candidates</text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 1: Observation & Sensing  (col_a x=15, col_b x=185)   -->
+  <!-- w=160, h=70                                                   -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: Actors -->
+  <rect x="15"  y="98" width="160" height="70" rx="4" fill="#FFD966" stroke="#B8A000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="95" y="127">Staff (animals)</tspan>
+    <tspan x="95" dy="15">/ Keeper</tspan>
+  </text>
+
+  <rect x="185" y="98" width="160" height="70" rx="4" fill="#FFD966" stroke="#B8A000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="265" y="121">Countess</tspan>
+    <tspan x="265" dy="15">(view /</tspan>
+    <tspan x="265" dy="14">invest decisions)</tspan>
+  </text>
+
+  <!-- Row 2 y=178: Commands -->
+  <rect x="15"  y="178" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#fff">
+    <tspan x="95" y="207">Record Health</tspan>
+    <tspan x="95" dy="15">Observation</tspan>
+  </text>
+
+  <rect x="185" y="178" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#fff">
+    <tspan x="265" y="207">Record Feeding</tspan>
+    <tspan x="265" dy="15">Observation</tspan>
+  </text>
+
+  <!-- Row 3 y=258: Commands -->
+  <rect x="15"  y="258" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text x="95" y="293" text-anchor="middle" font-size="10.5" fill="#fff">Add Keeper Note</text>
+
+  <rect x="185" y="258" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#fff">
+    <tspan x="265" y="287">Conduct Piranha</tspan>
+    <tspan x="265" dy="15">Census (manual)</tspan>
+  </text>
+
+  <!-- Row 4 y=338: Event + Command -->
+  <rect x="15"  y="338" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="95" y="367">MQTT Feeder</tspan>
+    <tspan x="95" dy="15">Event Received</tspan>
+  </text>
+
+  <rect x="185" y="338" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#fff">
+    <tspan x="265" y="367">Read Enclosure</tspan>
+    <tspan x="265" dy="15">Environment</tspan>
+  </text>
+
+  <!-- Row 5 y=418: Externals -->
+  <rect x="15"  y="418" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="95" y="447">MQTT Hardware</tspan>
+    <tspan x="95" dy="15">(placement TBD</tspan>
+    <tspan x="95" dy="14">per ADR)</tspan>
+  </text>
+
+  <rect x="185" y="418" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="265" y="441">Ticketing / Token</tspan>
+    <tspan x="265" dy="14">System (ADR-001</tspan>
+    <tspan x="265" dy="14">/ ADR-002)</tspan>
+  </text>
+
+  <!-- Row 6 y=498: Questions -->
+  <rect x="15"  y="498" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="95" y="518">Which of 55 displays</tspan>
+    <tspan x="95" dy="14">have MQTT sensors?</tspan>
+    <tspan x="95" dy="14">(TBD - ADR needed)</tspan>
+  </text>
+
+  <rect x="185" y="498" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="265" y="518">Animal ID level?</tspan>
+    <tspan x="265" dy="14">(enclosure assumed</tspan>
+    <tspan x="265" dy="14">per Assumptions)</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 2: Domain Events  (col_a x=395, col_b x=565)          -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98 -->
+  <rect x="395" y="98"  width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="475" y="127">Health Observation</tspan>
+    <tspan x="475" dy="15">Recorded</tspan>
+  </text>
+
+  <rect x="565" y="98"  width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="645" y="127">Feeding Observation</tspan>
+    <tspan x="645" dy="15">Recorded</tspan>
+  </text>
+
+  <!-- Row 2 y=178 -->
+  <rect x="395" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text x="475" y="213" text-anchor="middle" font-size="10.5" fill="#111">Keeper Note Added</text>
+
+  <rect x="565" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="645" y="207">Piranha Population</tspan>
+    <tspan x="645" dy="15">Counted (census)</tspan>
+  </text>
+
+  <!-- Row 3 y=258 -->
+  <rect x="395" y="258" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="475" y="287">Feeder Event</tspan>
+    <tspan x="475" dy="15">Received (MQTT)</tspan>
+  </text>
+
+  <rect x="565" y="258" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="645" y="287">Enclosure</tspan>
+    <tspan x="645" dy="15">Environment Read</tspan>
+  </text>
+
+  <!-- Row 4 y=338: Enclosure scan (popularity only) -->
+  <rect x="395" y="338" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#111">
+    <tspan x="475" y="358">Enclosure Scan Received</tspan>
+    <tspan x="475" dy="14">(token; popularity only;</tspan>
+    <tspan x="475" dy="14">not health - ADR-002)</tspan>
+  </text>
+
+  <!-- Row 5 y=418: Question -->
+  <rect x="395" y="418" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="475" y="441">Offline keeper entry?</tspan>
+    <tspan x="475" dy="14">(NFR_4 store-and-</tspan>
+    <tspan x="475" dy="14">forward applies)</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 3: AI / ML Processing  (col_a x=735, col_b x=900)     -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98 -->
+  <rect x="735" y="98"  width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="815" y="121">Animal Health</tspan>
+    <tspan x="815" dy="15">Anomaly Detected</tspan>
+    <tspan x="815" dy="14">(FR#2I)</tspan>
+  </text>
+
+  <rect x="900" y="98"  width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="980" y="121">Piranha Pop. Estimate</tspan>
+    <tspan x="980" dy="15">Generated</tspan>
+    <tspan x="980" dy="14">(FR#2J)</tspan>
+  </text>
+
+  <!-- Row 2 y=178 -->
+  <rect x="735" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="815" y="207">Feed Refusal</tspan>
+    <tspan x="815" dy="15">Spike Detected</tspan>
+  </text>
+
+  <rect x="900" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="980" y="207">Population Trend</tspan>
+    <tspan x="980" dy="15">Flagged (FR#2J)</tspan>
+  </text>
+
+  <!-- Row 3 y=258 -->
+  <rect x="735" y="258" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="815" y="287">Copilot Query</tspan>
+    <tspan x="815" dy="15">Answered (FR#2L)</tspan>
+  </text>
+
+  <rect x="900" y="258" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="980" y="278">Anomaly threshold</tspan>
+    <tspan x="980" dy="14">not in brief;</tspan>
+    <tspan x="980" dy="14">ADR needed</tspan>
+  </text>
+
+  <!-- Row 4 y=338 -->
+  <rect x="735" y="338" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#111">
+    <tspan x="815" y="358">Vet authority</tspan>
+    <tspan x="815" dy="14">(inferred; NFR_15</tspan>
+    <tspan x="815" dy="14">/ Assumptions)</tspan>
+  </text>
+
+  <rect x="900" y="338" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="980" y="358">Piranha camera /</tspan>
+    <tspan x="980" dy="14">sonar: placement</tspan>
+    <tspan x="980" dy="14">TBD per ADR</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 4: Alert & Decision  (col_a x=1075, col_b x=1245)     -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98 -->
+  <rect x="1075" y="98"  width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1155" y="121">Alert Raised</tspan>
+    <tspan x="1155" dy="15">(confidence +</tspan>
+    <tspan x="1155" dy="14">evidence)</tspan>
+  </text>
+
+  <rect x="1245" y="98"  width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text x="1325" y="133" text-anchor="middle" font-size="10.5" fill="#111">Alert Inbox Updated</text>
+
+  <!-- Row 2 y=178 -->
+  <rect x="1075" y="178" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text x="1155" y="213" text-anchor="middle" font-size="10.5" fill="#fff">Accept Alert</text>
+
+  <rect x="1245" y="178" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text x="1325" y="213" text-anchor="middle" font-size="10.5" fill="#fff">Reject Alert</text>
+
+  <!-- Row 3 y=258 -->
+  <rect x="1075" y="258" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1155" y="281">Alert Accepted</tspan>
+    <tspan x="1155" dy="15">(training signal)</tspan>
+  </text>
+
+  <rect x="1245" y="258" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1325" y="281">Alert Rejected</tspan>
+    <tspan x="1325" dy="15">(training signal)</tspan>
+  </text>
+
+  <!-- Row 4 y=338 -->
+  <rect x="1075" y="338" width="160" height="70" rx="4" fill="#5B9BD5" stroke="#1F5C99" stroke-width="1"/>
+  <text x="1155" y="373" text-anchor="middle" font-size="10.5" fill="#fff">Query Keeper Copilot</text>
+
+  <rect x="1245" y="338" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1325" y="361">Health Trend</tspan>
+    <tspan x="1325" dy="15">Visible to Countess</tspan>
+  </text>
+
+  <!-- Row 5 y=418: External -->
+  <rect x="1075" y="418" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#111">
+    <tspan x="1155" y="438">Welfare authority</tspan>
+    <tspan x="1155" dy="14">confirms (inferred;</tspan>
+    <tspan x="1155" dy="14">NFR_15)</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 5: Component Candidates  (col_a x=1415, col_b x=1625) -->
+  <!-- w=200                                                         -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98 -->
+  <rect x="1415" y="98"  width="200" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#111">
+    <tspan x="1515" y="116">Animal Care Record Service</tspan>
+    <tspan x="1515" dy="14">(candidate SoR: health,</tspan>
+    <tspan x="1515" dy="14">feeding, environment)</tspan>
+  </text>
+
+  <rect x="1625" y="98"  width="200" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#111">
+    <tspan x="1725" y="120">Alert Inbox</tspan>
+    <tspan x="1725" dy="14">(AI suggestions +</tspan>
+    <tspan x="1725" dy="14">keeper accept / reject)</tspan>
+  </text>
+
+  <!-- Row 2 y=178 -->
+  <rect x="1415" y="178" width="200" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#111">
+    <tspan x="1515" y="200">Anomaly Detection Engine</tspan>
+    <tspan x="1515" dy="14">(FR#2I; ML;</tspan>
+    <tspan x="1515" dy="14">optional Vision)</tspan>
+  </text>
+
+  <rect x="1625" y="178" width="200" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#111">
+    <tspan x="1725" y="200">Piranha Population</tspan>
+    <tspan x="1725" dy="14">Estimator (FR#2J;</tspan>
+    <tspan x="1725" dy="14">Vision / ML)</tspan>
+  </text>
+
+  <!-- Row 3 y=258 -->
+  <rect x="1415" y="258" width="200" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1515" y="287">Keeper Copilot / RAG</tspan>
+    <tspan x="1515" dy="15">(FR#2L)</tspan>
+  </text>
+
+  <rect x="1625" y="258" width="200" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="1725" y="278">Copilot vet-dose</tspan>
+    <tspan x="1725" dy="14">guardrail? (FR#2L -</tspan>
+    <tspan x="1725" dy="14">fail closed; ADR needed)</tspan>
+  </text>
+
+</svg>

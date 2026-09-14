@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1900 592" font-family="Arial, Helvetica, sans-serif">
+
+  <!-- Background -->
+  <rect width="1900" height="592" fill="#ffffff"/>
+
+  <!-- Key strip background -->
+  <rect width="1900" height="46" fill="#f0f0f0"/>
+
+  <!-- Key label -->
+  <text x="12" y="29" font-size="11" font-weight="bold" fill="#333">Key:</text>
+
+  <!-- Actor swatch -->
+  <rect x="50" y="15" width="18" height="14" rx="2" fill="#FFD966" stroke="#B8A000" stroke-width="0.8"/>
+  <text x="74" y="27" font-size="10.5" fill="#333">Actor</text>
+
+  <!-- Command swatch -->
+  <rect x="127" y="15" width="18" height="14" rx="2" fill="#5B9BD5" stroke="#1F5C99" stroke-width="0.8"/>
+  <text x="151" y="27" font-size="10.5" fill="#333">Command</text>
+
+  <!-- Domain Event swatch -->
+  <rect x="243" y="15" width="18" height="14" rx="2" fill="#FF8C42" stroke="#C45E00" stroke-width="0.8"/>
+  <text x="267" y="27" font-size="10.5" fill="#333">Domain Event</text>
+
+  <!-- External/Policy swatch -->
+  <rect x="381" y="15" width="18" height="14" rx="2" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="0.8"/>
+  <text x="405" y="27" font-size="10.5" fill="#333">External / Policy</text>
+
+  <!-- Question/Hotspot swatch -->
+  <rect x="520" y="15" width="18" height="14" rx="2" fill="#FF6B6B" stroke="#CC0000" stroke-width="0.8"/>
+  <text x="544" y="27" font-size="10.5" fill="#333">Question / Hotspot</text>
+
+  <!-- Component Candidate swatch -->
+  <rect x="675" y="15" width="18" height="14" rx="2" fill="#88D498" stroke="#2D7A3A" stroke-width="0.8"/>
+  <text x="699" y="27" font-size="10.5" fill="#333">Component Candidate (digitised board only)</text>
+
+  <!-- Title -->
+  <text x="950" y="60" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">Board P - Popularity Meter</text>
+  <text x="950" y="74" text-anchor="middle" font-size="9.5" fill="#666">Digitised event storming | Guest lane | Reconstructed from ADR-002, FR#2D, Appendix B - not a photographed workshop | Component candidates: PM-01..PM-02</text>
+
+  <!-- Phase background bands (y=80 to 592) - 5 phases of 380px each -->
+  <rect x="0"    y="80" width="380" height="512" fill="#FFF9F2"/>
+  <rect x="380"  y="80" width="380" height="512" fill="#F2F4FF"/>
+  <rect x="760"  y="80" width="380" height="512" fill="#F2FFF4"/>
+  <rect x="1140" y="80" width="380" height="512" fill="#FFF2F8"/>
+  <rect x="1520" y="80" width="380" height="512" fill="#F5F5F5"/>
+
+  <!-- Phase separator lines -->
+  <line x1="380"  y1="80" x2="380"  y2="592" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="760"  y1="80" x2="760"  y2="592" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="1140" y1="80" x2="1140" y2="592" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="1520" y1="80" x2="1520" y2="592" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Phase headers -->
+  <text x="190"  y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Event Sources</text>
+  <text x="570"  y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Gap Detection</text>
+  <text x="950"  y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Aggregation</text>
+  <text x="1330" y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Publication</text>
+  <text x="1710" y="93" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#555">Component Candidates</text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 1: Event Sources  (col_a x=15, col_b x=195)           -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: Events -->
+  <rect x="15"  y="98" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="95" y="121">`validated` MQTT</tspan>
+    <tspan x="95" dy="14">Event Received</tspan>
+    <tspan x="95" dy="14">(from VA-03)</tspan>
+  </text>
+
+  <rect x="195" y="98" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="275" y="121">Ride Cycle Event</tspan>
+    <tspan x="275" dy="14">Received</tspan>
+    <tspan x="275" dy="14">(MQTT hardware)</tspan>
+  </text>
+
+  <!-- Row 2 y=178: Event + External -->
+  <rect x="15"  y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="95" y="201">Zone Occupancy</tspan>
+    <tspan x="95" dy="14">Reading Received</tspan>
+    <tspan x="95" dy="14">(optional MQTT)</tspan>
+  </text>
+
+  <rect x="195" y="178" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="275" y="201">Checkpoint</tspan>
+    <tspan x="275" dy="14">Verifier VA-03</tspan>
+    <tspan x="275" dy="14">(source of events)</tspan>
+  </text>
+
+  <!-- Row 3 y=258: Externals -->
+  <rect x="15"  y="258" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="95" y="281">MQTT Hardware</tspan>
+    <tspan x="95" dy="14">(ride cycles +</tspan>
+    <tspan x="95" dy="14">zone; TBD)</tspan>
+  </text>
+
+  <rect x="195" y="258" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="275" y="281">MQTT Broker</tspan>
+    <tspan x="275" dy="14">(topology TBD;</tspan>
+    <tspan x="275" dy="14">shared assumption)</tspan>
+  </text>
+
+  <!-- Row 4 y=338: Question -->
+  <rect x="15"  y="338" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="95" y="361">Q: Zone occupancy</tspan>
+    <tspan x="95" dy="14">device placement?</tspan>
+    <tspan x="95" dy="14">TBD</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 2: Gap Detection  (col_a x=395, col_b x=565)          -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: Events -->
+  <rect x="395" y="98" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="475" y="121">MQTT Gap</tspan>
+    <tspan x="475" dy="14">Detected</tspan>
+    <tspan x="475" dy="14">(device silent)</tspan>
+  </text>
+
+  <rect x="565" y="98" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="645" y="121">Attraction Count</tspan>
+    <tspan x="645" dy="14">Flagged as UNKNOWN</tspan>
+    <tspan x="645" dy="14">(NOT zero; FR#2D)</tspan>
+  </text>
+
+  <!-- Row 2 y=178: Questions -->
+  <rect x="395" y="178" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="475" y="201">Q: Gap threshold</tspan>
+    <tspan x="475" dy="14">duration before</tspan>
+    <tspan x="475" dy="14">"unknown"? TBD</tspan>
+  </text>
+
+  <rect x="565" y="178" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="645" y="201">Q: Gap detection</tspan>
+    <tspan x="645" dy="14">in aggregator or</tspan>
+    <tspan x="645" dy="14">separate monitor?</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 3: Aggregation  (col_a x=775, col_b x=945)            -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: Events -->
+  <rect x="775" y="98" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="855" y="127">Attraction Count</tspan>
+    <tspan x="855" dy="15">Incremented</tspan>
+  </text>
+
+  <rect x="945" y="98" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1025" y="127">Ride Cycle</tspan>
+    <tspan x="1025" dy="15">Counted</tspan>
+  </text>
+
+  <!-- Row 2 y=178: Events -->
+  <rect x="775" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="855" y="207">Dwell Estimate</tspan>
+    <tspan x="855" dy="15">Updated</tspan>
+  </text>
+
+  <rect x="945" y="178" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1025" y="201">Popularity Rank</tspan>
+    <tspan x="1025" dy="14">Recalculated</tspan>
+    <tspan x="1025" dy="14">(periodic / event)</tspan>
+  </text>
+
+  <!-- Row 3 y=258: Question -->
+  <rect x="775" y="258" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="855" y="281">Q: Dwell estimation</tspan>
+    <tspan x="855" dy="14">method (entry+exit,</tspan>
+    <tspan x="855" dy="14">zone, rate)? TBD</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 4: Publication  (col_a x=1155, col_b x=1325)          -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: Event + External -->
+  <rect x="1155" y="98" width="160" height="70" rx="4" fill="#FF8C42" stroke="#C45E00" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1235" y="121">Popularity Snapshot</tspan>
+    <tspan x="1235" dy="14">Published</tspan>
+    <tspan x="1235" dy="14">(feed to consumers)</tspan>
+  </text>
+
+  <rect x="1325" y="98" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1405" y="121">Estate Heatmap</tspan>
+    <tspan x="1405" dy="14">CC-06 (Intranet)</tspan>
+    <tspan x="1405" dy="14">(consumer)</tspan>
+  </text>
+
+  <!-- Row 2 y=178: Externals -->
+  <rect x="1155" y="178" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1235" y="201">Dynamic Pricing</tspan>
+    <tspan x="1235" dy="14">(later ADR;</tspan>
+    <tspan x="1235" dy="14">table writer)</tspan>
+  </text>
+
+  <rect x="1325" y="178" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10.5" fill="#111">
+    <tspan x="1405" y="201">Congestion</tspan>
+    <tspan x="1405" dy="14">Forecaster CC-11</tspan>
+    <tspan x="1405" dy="14">(consumer)</tspan>
+  </text>
+
+  <!-- Row 3 y=258: Policy + Question -->
+  <rect x="1155" y="258" width="160" height="70" rx="4" fill="#DA8FCA" stroke="#8B3A8B" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#111">
+    <tspan x="1235" y="281">POLICY: Anon counts</tspan>
+    <tspan x="1235" dy="14">only; no individual</tspan>
+    <tspan x="1235" dy="14">tracking (NFR_8)</tspan>
+  </text>
+
+  <rect x="1325" y="258" width="160" height="70" rx="4" fill="#FF6B6B" stroke="#CC0000" stroke-width="1"/>
+  <text text-anchor="middle" font-size="10" fill="#fff">
+    <tspan x="1405" y="281">Q: Snapshot</tspan>
+    <tspan x="1405" dy="14">frequency</tspan>
+    <tspan x="1405" dy="14">(real-time/batch)? TBD</tspan>
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 5: Component Candidates  (x=1535, width=280)          -->
+  <!-- ============================================================ -->
+
+  <!-- Row 1 y=98: PM-01 -->
+  <rect x="1535" y="98" width="280" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" fill="#111">
+    <tspan x="1675" y="117" font-size="11" font-weight="bold">PM-01 Popularity Aggregator</tspan>
+    <tspan x="1675" dy="14" font-size="9.5">fuses validated events + ride cycles + zone occupancy;</tspan>
+    <tspan x="1675" dy="13" font-size="9.5">gaps = unknown; owns the popularity feed (= CC-12)</tspan>
+  </text>
+
+  <!-- Row 2 y=178: PM-02 -->
+  <rect x="1535" y="178" width="280" height="70" rx="4" fill="#88D498" stroke="#2D7A3A" stroke-width="1"/>
+  <text text-anchor="middle" fill="#111">
+    <tspan x="1675" y="197" font-size="11" font-weight="bold">PM-02 Gap Monitor</tspan>
+    <tspan x="1675" dy="14" font-size="9.5">detects device silence; flags bucket as unknown</tspan>
+    <tspan x="1675" dy="13" font-size="9.5">NOT zero; may be module in PM-01</tspan>
+  </text>
+
+</svg>
