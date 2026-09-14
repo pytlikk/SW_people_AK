@@ -1,0 +1,44 @@
+{
+  "id": "golden-003-stale-anchor-unusable",
+  "capability": "piranha-population",
+  "adr": "ADR-023",
+  "asserts": "Past the maximum anchor age the estimate publishes as unusable, not as a number with a very wide band. A wide interval still reads as an answer; unusable reads as a request for a census.",
+  "input": {
+    "subject": {
+      "subject_id": "SUBJ-0500",
+      "subject_type": "colony",
+      "collection": "jumping-piranha",
+      "placement": { "enclosure_id": "ENC-007", "placed_on": "2026-02-10" }
+    },
+    "anchor": {
+      "source": "human_census",
+      "counted": 431,
+      "census_at": "2026-02-01"
+    },
+    "evaluated_at": "2026-09-14",
+    "days_since_anchor": 225,
+    "max_anchor_age_days": "TBD - open question in ADR-023; illustrative value 120 used here",
+    "feed_signal_quality": "good",
+    "census_requests_outstanding": [
+      { "requested_at": "2026-06-01", "status": "not_actioned" },
+      { "requested_at": "2026-07-15", "status": "not_actioned" }
+    ]
+  },
+  "expected": {
+    "status": "unusable",
+    "point_estimate_published": false,
+    "reason_published": "anchor_age_exceeded",
+    "days_since_anchor_published": 225,
+    "census_request_escalated": true,
+    "last_census_still_retrievable": true,
+    "deterministic": true,
+    "notes_on_expectation": "The last census remains available as a historical fact with its date attached. What is withheld is a present-tense claim about the colony, because there is no longer any basis for one."
+  },
+  "must_not": [
+    "publish a point estimate with a very wide interval instead of an unusable status",
+    "publish the stale census figure as though it were current",
+    "silently continue tracking from an anchor that is no longer trusted",
+    "let the estimate degrade gradually into meaninglessness without a status change"
+  ],
+  "notes": "Two census requests went unactioned, which is the realistic failure: netting a tank of piranha is disruptive and hazardous, so it gets deferred. The design response is not to guess harder but to stop answering, in the same spirit as the Appendix B rule that a gap shows as unknown and not as zero."
+}
