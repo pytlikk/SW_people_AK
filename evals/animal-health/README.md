@@ -57,10 +57,16 @@ Keeper rounds remain the primary safeguard. This capability shortens time-to-det
 
 ## Open thresholds
 
-- Attention budget per keeper per shift (keepers, before shadow ends) - the number this whole capability depends on.
-- Starter thresholds per subject type (keepers and vet, before opening).
-- Minimum shadow duration and label count for promotion.
-- Reject reason taxonomy (keepers) - "rejected: other" teaches nothing.
-- Overnight escalation path for high-risk subjects (Countess, before the collection opens).
+Four of these are now derived in [ADR-0022](../../adrs/ADR-0022%20-%20Shadow%20before%20promote%20for%20animal%20health%20anomaly%20detection.md#the-cost-asymmetry-and-the-attention-budget-it-sets) from a £900 miss against a £4.94 false alarm, and remain open only for confirmation with keepers rather than for invention:
+
+- **Attention budget: 4 alerts per shift estate-wide**, hard cap 6. Not the 18 that available keeper time would allow - the binding constraint is that illness is rare, not that keepers are busy.
+- **Minimum shadow duration: 6 months and 30 labelled events** per subject type, from a base rate of 6 genuine events per subject per year.
+- **Overnight escalation above 67% confidence**, because an out-of-hours call-out costs £600 against a £900 miss.
+- **Starter thresholds** are constrained to an aggregate under 4 a shift, allocated by risk rather than evenly. The per-subject values are still a keeper-and-vet exercise.
+
+Genuinely still open:
+
+- Reject reason taxonomy (keepers) - "rejected: other" teaches nothing. The minimum set is whatever lets precision be computed per subject type.
+- **The attention curve** relating alert volume to the probability a keeper acts. It is the softest input in the budget above and it is calibrated during shadow, by measuring accept rate against delivered volume.
 
 Related: [hld/scenarios/animal-care](../../hld/scenarios/animal-care/README.md), [ADR-0022](../../adrs/ADR-0022%20-%20Shadow%20before%20promote%20for%20animal%20health%20anomaly%20detection.md), [ADR-0021](../../adrs/ADR-0021%20-%20Keeper%20field%20events%20are%20append-only%20and%20offline-first.md).

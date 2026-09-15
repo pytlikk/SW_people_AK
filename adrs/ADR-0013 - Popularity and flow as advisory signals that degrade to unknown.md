@@ -52,16 +52,29 @@ Not options: full computer-vision people tracking across 55 exhibits (deferred i
 
 **Every popularity and occupancy figure is published with the coverage that produced it. Gaps are unknown. The forecast is suppressed when coverage falls below a threshold, and falls back to a recency baseline.**
 
-```
-gate scans + ride cycles + zone counters (each with gap flags, ADR-0003)
-        v
-  fusion: value + coverage%  ---- coverage below threshold ----> UNKNOWN
-        v
-  popularity rank, dwell, throughput vs capacity
-        v
-  flow forecast (30-90 min)  ---- coverage below threshold ----> SUPPRESSED, baseline shown
-        v
-  staffing advice (L2, capped volume) --> duty manager accepts or rejects
+```mermaid
+flowchart TB
+  subgraph sources [Sources - each carries gap flags, ADR-0003]
+    scans["Gate scans"]
+    cycles["Ride cycles"]
+    counters["Zone counters"]
+  end
+  fusion["Fusion<br/>emits a value <b>and</b> a coverage percentage"]
+  unknown["UNKNOWN<br/>rendered as unknown, never as a low number"]
+  rank["Popularity rank, dwell,<br/>throughput against capacity"]
+  forecast["Flow forecast, 30-90 min"]
+  base["SUPPRESSED<br/>last week's same-slot baseline, labelled as such"]
+  advice["Staffing advice<br/>L2 Advise, capped volume"]
+  dm["Duty manager<br/>accepts or rejects"]
+  scans --> fusion
+  cycles --> fusion
+  counters --> fusion
+  fusion -.->|"coverage below threshold"| unknown
+  fusion --> rank
+  rank --> forecast
+  forecast -.->|"coverage below threshold"| base
+  forecast --> advice
+  advice --> dm
 ```
 
 Four rules follow.

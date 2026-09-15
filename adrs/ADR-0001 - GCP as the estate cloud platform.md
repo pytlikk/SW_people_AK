@@ -17,7 +17,7 @@ That condition inverts the usual cloud decision. The estate's hot paths - gate a
 What the cloud is actually being bought for:
 
 - **Ingest** of MQTT telemetry from ~500-1000 devices across 40 rides and 55 displays, including multi-hour backfill spikes after a Wi-Fi island reconnects (NFR_1).
-- **Three async AI workloads**: overnight pricing proposals, 30-90 minute flow forecasts, animal health anomaly scoring. None of them sit on a request path.
+- **Seven async AI capabilities** ([ADR-0004](ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md) holds the canonical inventory): pricing proposals, cohort analysis, flow forecasts, animal health anomaly scoring, the piranha population estimate, ride maintenance, and an optional ops copilot. **Not one of them sits on a request path**, which is why the count does not change this record: the platform is being bought to train and score in batch, so a seventh capability is another set of scheduled queries rather than another platform. Six train in BigQuery ML on our own warehouse; only the copilot needs an always-available foundation model, and it is the one capability the estate can switch off.
 - **Warehouse and reporting**: popularity, yield per visitor, 90-day return, inspection compliance.
 - **Eval and drift infrastructure** to satisfy NFR_13.
 
@@ -143,12 +143,12 @@ Burst ingest and operability decided it. AWS IoT Core is the better device-manag
 
 - Region and eventual jurisdiction - before any guest PII is stored beyond a ticket.
 - Whether the ticketing store is Cloud SQL or Firestore - before ticketing implementation; both satisfy this record.
-- Per-pipeline budget ceilings, especially the inference line - before the first AI capability leaves shadow.
+- ~~Per-pipeline budget ceilings, especially the inference line - before the first AI capability leaves shadow.~~ **Resolved** in [cost-analysis](../cost-analysis/README.md#8-per-pipeline-budget-ceilings): five labelled pipelines totalling $72.40/month modelled, $242 alert, $680 ceiling. The inference line is $14.47.
 
 **Revisit triggers**
 
 - Device count grows past a few thousand, or device management (firmware, rotation, provisioning at scale) becomes the dominant operational cost - re-evaluate AWS IoT Core.
-- BigQuery or Pub/Sub cost exceeds the ticketing line - revisit tiering before revisiting the provider.
+- BigQuery or Pub/Sub cost exceeds the ticketing line - revisit tiering before revisiting the provider. Modelled, warehouse is $10.10 against ticketing's $24.55, so this trigger fires at roughly 2.5x today's sensor and dashboard load ([cost-analysis](../cost-analysis/README.md#8-per-pipeline-budget-ceilings)). It is a live trigger, not a theoretical one, and the first mitigation is materialised views rather than anything to do with the provider.
 - A jurisdiction ADR lands that GCP cannot satisfy in-region.
 
 ## Conclusion

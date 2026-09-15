@@ -12,7 +12,7 @@ Proposed
 
 The judges named this one directly: *dealing with uncertainty in the world of AI technology*. NFR_14 turns it into a requirement - assume today's best model may be worse, more expensive, or gone, and be able to swap a provider for a given capability in **under two weeks** without changing ticketing or MQTT contracts.
 
-The estate has five AI capabilities worth building (FR#2, [Appendix B](../requirements/Appendix%20B_%20AI%20scenarios%20explained.md)): price proposals, cohort analysis, flow forecasting, animal health anomalies, and the piranha population estimate - plus an optional ops copilot. Their technical profiles differ enormously. A flow forecast is a small time-series model on our own telemetry. A copilot is a third-party foundation model we will never own. Treating them identically would either over-engineer the forecast or under-protect the copilot.
+The estate has **seven** AI capabilities worth building (FR#2, [Appendix B](../requirements/Appendix%20B_%20AI%20scenarios%20explained.md)); the [canonical inventory](#the-canonical-inventory) is in the decision below. Their technical profiles differ enormously. A flow forecast is a small time-series model on our own telemetry. A copilot is a third-party foundation model we will never own. Treating them identically would either over-engineer the forecast or under-protect the copilot.
 
 The real exposure is not "which model is best today". It is that a capability grows tendrils: a Vertex-specific response shape leaks into the intranet, a prompt ends up in a service, and two years later the swap is a rewrite. Last year's winning repo leaned on a vendor control plane for this; a managed SaaS control plane is itself a vendor dependency, and adding one to solve vendor risk is circular for a three-person team.
 
@@ -50,13 +50,27 @@ Not options: a model gateway product bought before a single capability is in pro
 
 A capability that cannot name its fallback is not ready to ship.
 
-```
-intranet / pricing job / keeper alert inbox
-        |  (estate-owned contract: typed request, typed response, confidence, evidence, freshness)
-        v
-capability interface  --> Vertex adapter (default)
-                      --> alternative provider adapter (swap target)
-                      --> fallback implementation (rules / baseline / human queue)
+```mermaid
+flowchart LR
+  subgraph consumers [Consumers - never see a provider]
+    intranet["Ops intranet"]
+    pricing["Pricing job"]
+    inbox["Keeper alert inbox"]
+  end
+  subgraph ours [Estate-owned - the boundary where metering, budgets and the kill switch live]
+    iface["Capability interface<br/>typed request and response<br/>confidence, evidence, freshness mandatory"]
+  end
+  subgraph impls [Implementations - interchangeable]
+    vertex["Vertex adapter<br/>default, version pinned"]
+    alt["Alternative provider adapter<br/>swap target, kept compilable"]
+    fb["Fallback<br/>rules / baseline / human queue"]
+  end
+  intranet --> iface
+  pricing --> iface
+  inbox --> iface
+  iface --> vertex
+  iface -.->|"during a swap drill, or after one"| alt
+  iface -.->|"drift alarm, budget cap, or provider down"| fb
 ```
 
 Four rules follow.
@@ -72,7 +86,35 @@ Four rules follow.
 | Flow forecast ([ADR-0013](ADR-0013%20-%20Popularity%20and%20flow%20as%20advisory%20signals%20that%20degrade%20to%20unknown.md)) | Time-series model | Same daypart last week, same weather class |
 | Animal health anomaly ([ADR-0022](ADR-0022%20-%20Shadow%20before%20promote%20for%20animal%20health%20anomaly%20detection.md)) | Anomaly scoring | Deterministic threshold rules keepers already trust |
 | Piranha population ([ADR-0023](ADR-0023%20-%20Anchor%20aquatic%20population%20on%20human%20census.md)) | Feed-derived estimate | Last census anchor, published as unusable past maximum age |
+| Ride maintenance ([ADR-0014](ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md)) | Anomaly on vibration and usage | The statutory inspection schedule, which runs regardless |
 | Ops copilot (optional) | Grounded RAG | Search over the same documents, no generation |
+
+### The canonical inventory
+
+Seven capabilities. **This table is the authority**; anything counted differently elsewhere is a defect in that document, not a real disagreement.
+
+| # | Capability | ADR | Model class | Authority ceiling | Budget |
+|--:|:--|:--|:--|:--|--:|
+| 1 | Price proposal | [ADR-0010](ADR-0010%20-%20Publish%20prices%20asynchronously%20inside%20approved%20bands.md) | BigQuery ML | L3 in band | $15 |
+| 2 | Cohort analysis | [ADR-0012](ADR-0012%20-%20Cohort%20analysis%20on%20declared%20attributes%20only.md) | BigQuery ML clustering **+ a GenAI prose layer** | L1 | $10 |
+| 3 | Flow forecast | [ADR-0013](ADR-0013%20-%20Popularity%20and%20flow%20as%20advisory%20signals%20that%20degrade%20to%20unknown.md) | BigQuery ML ARIMA | L1 | $20 |
+| 4 | Animal health anomaly | [ADR-0022](ADR-0022%20-%20Shadow%20before%20promote%20for%20animal%20health%20anomaly%20detection.md) | BigQuery ML | L2 max | $50 |
+| 5 | Piranha population | [ADR-0023](ADR-0023%20-%20Anchor%20aquatic%20population%20on%20human%20census.md) | BigQuery ML | L1 max | $10 |
+| 6 | Ride maintenance | [ADR-0014](ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md) | BigQuery ML | L2 max | $75 |
+| 7 | Ops copilot | *none, deliberately* | Foundation model, retrieval | L1 | $30 |
+
+Six of the seven are classical models trained in BigQuery ML on estate-owned tables. **Only two paths send text to a language model**: the prose layer on capability 2, and capability 7. That is the fact [uncertainty](../hld/mlops/uncertainty.md) and [llm-security](../hld/mlops/llm-security.md) both turn on, and the reason the copilot is the only capability without an ADR - it is optional, display-only, and adds no architectural constraint the others do not already carry.
+
+[ADR-0005](ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md) governs eleven rows rather than seven, and the extra four are not missing capabilities:
+
+| Row in ADR-0005 | What it actually is |
+|:--|:--|
+| Staffing recommendation | A surface of capability 3 |
+| Guest itinerary suggestion | A surface of capability 3 |
+| Win-back offer | A surface of capability 2 |
+| Experiment assignment | **Not AI.** A hash and a denylist, both deterministic code ([ADR-0011](ADR-0011%20-%20Sticky%20offline%20experiment%20assignment.md)) |
+
+A surface consumes a capability's output; it does not have its own model, budget, or eval set. Governing it in ADR-0005 anyway is deliberate - **the thing a human sees is what needs an authority level**, and an itinerary card is a place a forecast can do harm even though it is not itself a capability.
 
 **Versions are pinned, and safety-adjacent capabilities never auto-upgrade.** Animal health and anything touching ride status are pinned explicitly; a version change is a promotion event with evals, not a provider release note. Model version is recorded on every output so any decision can be traced to the thing that produced it.
 
@@ -129,7 +171,7 @@ The swap target and the fallback requirement decided it. Direct SDK calls (A) fa
 | Silent model change | Provider updates behaviour under us | Pinned versions; version recorded per output; drift alarms on golden cases (NFR_13) |
 | Cost shock | Repricing or a runaway job | Per-capability budget and kill switch to fallback; alerting before the ceiling |
 | Over-abstraction | The layer costs more than the lock-in it prevents | Interface is per capability, not a framework; no routing, caching, or policy engine until a second provider actually exists |
-| Provider shutdown | The default adapter disappears | Two-week swap drill per year on a designated capability; at least one alternative adapter kept compilable |
+| Provider shutdown | The default adapter disappears | Two-week swap drill per year on a designated capability; at least one alternative adapter kept compilable. Named: **Anthropic Claude via Vertex AI Model Garden** if the model goes, **Mistral Small self-hosted on Cloud Run with an L4 GPU** if the provider goes. Six of seven capabilities are BigQuery ML and survive either without change. See [uncertainty](../hld/mlops/uncertainty.md#what-might-happen-if-the-provider-you-used-suddenly-shut-down). |
 | Uniformity pressure | Forcing a copilot and a time-series forecast into one shape | Contract is per capability; only confidence, evidence, and freshness are universal |
 
 ## Verification
@@ -158,8 +200,8 @@ The swap target and the fallback requirement decided it. Direct SDK calls (A) fa
 **Open questions**
 
 - Which capability is the designated swap-drill subject - before the first capability leaves shadow. The flow forecast is the natural candidate, being ours and least safety-adjacent.
-- Per-capability inference budgets - with commercial, before go-live.
-- Whether the ops copilot is funded at all, given it is the only capability whose cost scales with staff curiosity rather than with estate size.
+- ~~Per-capability inference budgets - with commercial, before go-live.~~ **Resolved** in [cost-analysis](../cost-analysis/README.md#7-per-capability-inference-budgets): seven budgets with an alert threshold at ~3x modelled spend and a hard cap at ~10x, each cap naming the fallback the capability serves instead. Total modelled inference is $17.08/month against a $210 combined cap.
+- ~~Whether the ops copilot is funded at all, given it is the only capability whose cost scales with staff curiosity rather than with estate size.~~ **Resolved: yes, with a $30 cap.** At the modelled 1,800 queries/month it costs $2.61, which is 3.6% of the cloud bill. The cap drops it to non-generative SOP retrieval rather than switching it off, because the risk is the usage multiplier and not the rate - at 100x the assumed usage it would cost more than the rest of the platform combined. Arithmetic in [cost-analysis](../cost-analysis/README.md#is-the-ops-copilot-funded).
 - How fallback mode is signalled in the intranet UI - with the intranet workstream, before the first promotion.
 
 **Revisit triggers**

@@ -76,6 +76,8 @@ Assignment:
 | Win-back offer | L3 Act-in-band | Commercial | L3 inside frequency caps and opt-out |
 | Ops copilot (optional) | L1 Inform | Staff remain accountable | L1; display only, citations required |
 
+**This table has more rows than the estate has capabilities, and that is on purpose.** Seven capabilities exist ([ADR-0004](ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md#the-canonical-inventory) holds the inventory). Staffing recommendation and guest itinerary are surfaces of the flow forecast; win-back is a surface of cohort analysis; experiment assignment is not AI at all, being a hash and a denylist in ordinary code ([ADR-0011](ADR-0011%20-%20Sticky%20offline%20experiment%20assignment.md)). They are governed here anyway because **an authority level attaches to the thing a human sees, not to the thing that computed it** - a forecast can do harm through an itinerary card without the forecast changing at all, and a row for the model but not the card would leave that gap ungoverned.
+
 Four rules follow.
 
 **Pricing reaches L3 and animal health never does - and the reason is the cost of being wrong.** A bad price inside an approved band costs margin on some tickets and is reversible by republishing. A missed sick animal is an animal suffering, and an over-trusted health alarm that auto-resolves is a keeper not visiting. Confidence cannot buy authority here, because the failure is not probabilistic in cost.

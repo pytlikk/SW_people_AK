@@ -11,6 +11,7 @@ These are specifications written in a form that can fail. They are deliberately 
 | Flow forecast | [flow-forecast/](flow-forecast/README.md) | Error vs recency baseline; correct suppression | [ADR-0013](../adrs/ADR-0013%20-%20Popularity%20and%20flow%20as%20advisory%20signals%20that%20degrade%20to%20unknown.md) |
 | Animal health | [animal-health/](animal-health/README.md) | Recall vs keeper labels; volume within budget | [ADR-0022](../adrs/ADR-0022%20-%20Shadow%20before%20promote%20for%20animal%20health%20anomaly%20detection.md) |
 | Piranha population | [piranha-population/](piranha-population/README.md) | Interval coverage; absolute error vs census | [ADR-0023](../adrs/ADR-0023%20-%20Anchor%20aquatic%20population%20on%20human%20census.md) |
+| Ride maintenance | [ride-maintenance/](ride-maintenance/README.md) | Lead time gained; no inspect-by date later than statutory | [ADR-0014](../adrs/ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md) |
 
 ## Two kinds of case, and the second is the important one
 
@@ -29,6 +30,15 @@ Refusal cases are what make this architecture verifiable. An accuracy number is 
 
 ## Status
 
-These are specifications at kata stage: the cases and thresholds are defined, the harness is not built. Several thresholds are deliberately open questions in the ADRs (attention budgets, coverage thresholds, maximum anchor age) because they need keeper, duty-manager, and commercial agreement rather than an architect's guess.
+These are specifications at kata stage: the cases and thresholds are defined, the harness is not built. Several thresholds remain open questions in the ADRs (coverage thresholds, maximum anchor age) because they need keeper, duty-manager, and commercial agreement rather than an architect's guess.
+
+The two attention budgets are no longer among them. Both are now derived from the cost of being wrong rather than left to negotiation, and both arrive at numbers that are smaller than intuition suggests:
+
+| Capability | Miss : false alarm | Implied threshold | Budget | Derived in |
+|:--|--:|--:|:--|:--|
+| Animal health | 182 : 1 | 0.55%, capped by attention at 4 alerts/shift | 4/shift estate-wide | [ADR-0022](../adrs/ADR-0022%20-%20Shadow%20before%20promote%20for%20animal%20health%20anomaly%20detection.md#the-cost-asymmetry-and-the-attention-budget-it-sets) |
+| Ride maintenance | 4.4 : 1 | 22.7% | 2/day across 40 rides | [ADR-0014](../adrs/ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md#the-cost-asymmetry-and-why-it-points-the-opposite-way-to-animal-health) |
+
+Two capabilities that look identical on a container diagram - telemetry, anomaly scoring, human decision - end up forty-one times apart on how eagerly they alert. The difference is that a ride has a legally mandated inspection behind it and a sick animal does not.
 
 Related: [hld/mlops](../hld/mlops/README.md), [Appendix B verification section](../requirements/Appendix%20B_%20AI%20scenarios%20explained.md).

@@ -156,7 +156,7 @@ Offline admit and throughput decided it. Rotating barcodes (B) fail the driving 
 
 **Open questions**
 
-- Lane count and physical queue layout for 15,000/day - before the growth phase, and it is a site-design question as much as a technical one.
+- ~~Lane count and physical queue layout for 15,000/day - before the growth phase, and it is a site-design question as much as a technical one.~~ **Resolved** in [hld/sizing](../hld/sizing.md#3-gate-lane-count): **three lanes now, civil works for seven.** Derived from a 40% first-two-hours arrival share, a 3.2 average party size, a 10-second presentation cycle and 70% target utilisation, plus one spare lane. Physical queue layout remains a site-design question; the count no longer is.
 - Validity window length and day-boundary tolerance - before launch.
 - Fail-scan rate threshold that triggers an NFC or wristband review - agreed with ops before the first weekend.
 - Signing key rotation and how a rotated public key reaches offline gates - before launch.

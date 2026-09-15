@@ -2,6 +2,8 @@
 
 The judges ask for "validation and verification of AI results" and for "dealing with uncertainty in the world of AI technology". This folder is the answer to both, and it is deliberately unglamorous.
 
+The briefing's three uncertainty questions - what if the best model today is not the best tomorrow, what if the provider changes prices, what if the provider shuts down - are answered directly in **[uncertainty.md](uncertainty.md)**. The two capabilities that put text rather than numbers through a model are assessed against the OWASP LLM Top 10 in **[llm-security.md](llm-security.md)**. This page covers the rest: how a capability earns the right to be believed in the first place.
+
 The bar from NFR_13: every production AI capability has golden cases in [`evals/`](../../evals/), a documented metric, shadow mode before it can act, and a fallback. *We can show the AI is working and detect when it starts misbehaving.*
 
 ## The promotion pipeline
@@ -81,7 +83,7 @@ Golden review subsets are re-scored when a version changes, and injected golden 
 
 ## Cold start, stated plainly
 
-Four of six capabilities launch with **no history at all**. No conversion data, no occupancy history, no animal health labels, no fish counts.
+Four of the [seven capabilities](../../adrs/ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md#the-canonical-inventory) launch with **no history at all**. No conversion data, no occupancy history, no animal health labels, no fish counts. A fifth, ride maintenance, launches with sensors but no labelled failures ([ADR-0014](../../adrs/ADR-0014%20-%20Predictive%20ride%20maintenance%20in%20shadow%20behind%20the%20inspection%20schedule.md)); only the copilot has its corpus on day one.
 
 | Capability | Day-one implementation | What the model waits for |
 |:--|:--|:--|
@@ -92,4 +94,4 @@ Four of six capabilities launch with **no history at all**. No conversion data, 
 
 The pattern is the same each time: **ship the pipeline with a human or a rule in the model's place.** The estate is useful and measurable in phase 1, and phase 1 manufactures the training data phase 2 needs. Anything else means either waiting a year to launch or promoting a model trained on nothing.
 
-Related: [ADR-0004](../../adrs/ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md), [ADR-0005](../../adrs/ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md), [`evals/`](../../evals/), [Appendix B](../../requirements/Appendix%20B_%20AI%20scenarios%20explained.md).
+Related: [uncertainty](uncertainty.md), [llm-security](llm-security.md), [ADR-0004](../../adrs/ADR-0004%20-%20Vertex%20AI%20behind%20a%20capability%20interface.md), [ADR-0005](../../adrs/ADR-0005%20-%20Human-in-the-loop%20authority%20for%20estate%20AI.md), [`evals/`](../../evals/), [Appendix B](../../requirements/Appendix%20B_%20AI%20scenarios%20explained.md).
